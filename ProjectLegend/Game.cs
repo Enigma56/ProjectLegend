@@ -7,6 +7,7 @@ namespace ProjectLegend
         static void Main(string[] args)
         {
             Console.WriteLine("This is the main gameloop!");
+            Console.WriteLine("Spaghetti!");
         }
     }
 }
