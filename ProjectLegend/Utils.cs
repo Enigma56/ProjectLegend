@@ -18,23 +18,5 @@ namespace ProjectLegend
             Console.WriteLine(stringArray);
         }
 
-       public void ParseCommand(string cmd)
-       {
-           
-           switch(cmd)
-
-           {
-               case "attack":
-                   Console.WriteLine("attacked!");
-                   break;
-               case "exit":
-                   Console.WriteLine("exiting!");
-                   break;
-               default:
-                   Console.WriteLine(cmd);
-                   break;
-           }
-       }
-       
     }
 }

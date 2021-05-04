@@ -1,63 +1,62 @@
 ﻿using System;
 //using System.Data;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 
 
 namespace ProjectLegend
 {
     internal class Game
     {
-        private static readonly Utils U = new Utils();
+        private readonly Utils _u = new Utils();
+        private readonly GameFuncs _game = new GameFuncs();
         private static void Main(string[] args)
         {
             Console.WriteLine("This is the main gameloop!");
             var game1 = new Game();
-            U.ArrayToString(args);
-            game1.Run(args[1]);
+            game1.Run(args[0]);
         }
 
         public void Run(string option)
         {
             if (option.Equals("game"))
             {
-                ChooseCharacter();
-                FightEnemy();
-                GameLoop();
+                Player p = _game.ChooseCharacter();
+                //FightEnemy();
+                GameLoop(p);
             }
         }
 
-        public void GameLoop()
+        public void GameLoop(Player p) //URGENT: Find way to take inputs once
         {
-            //Initial Inputs
-            Console.WriteLine("Please provide inputs!");
-            string input = Console.ReadLine();
-            string[] args = input.Split(" ");
-            args = (from str in args
-                select str.ToLower()).ToArray();
             Console.WriteLine("Entering main loop!");
             
+            // Example Enemy
+            Enemy e = new Enemy();
+            string input;
+            string[] args;
+            bool playing = true;
             //Entering GameLoop
-            while (!args[0].Equals("exit"))
+            while (playing)
             {
-                    
-                Console.WriteLine($"You entered {args[0]}");
+                // retrieves and converts args
                 input = Console.ReadLine();
                 args = input.Split(" ");
-                U.ParseCommand(args[0]);
+                args = (from str in args
+                    select str.ToLower()).ToArray();
+                Console.WriteLine($"You entered {args[0]}");
+                
+                
+                _game.ParseCommand(args[0],p, e);
+                
+                
+                //exit sequence
+                if (args[0].Equals("exit"))
+                {
+                    playing = false;
+                }
 
             }
-        }
-
-        public void ChooseCharacter()
-        {
-            Player p = new Player(100, 10);
-            Console.WriteLine(p.ToString());
-        }
-
-        public void FightEnemy()
-        {
-            Enemy e = new Enemy();
-            Console.WriteLine(e.ToString());
         }
     }
 }
