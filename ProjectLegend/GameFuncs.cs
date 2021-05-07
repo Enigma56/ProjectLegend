@@ -1,4 +1,6 @@
 ﻿using System;
+using ProjectLegend.PlayerClasses;
+
 
 namespace ProjectLegend
 {
@@ -32,9 +34,12 @@ namespace ProjectLegend
          /// <returns>chosen player</returns>
          public Player ChooseCharacter()
          {
-             Player p = new Player(100, 10);
+             // Eventually have an array of choices
+             
+             var blood = new Bloodhound();
+             
              //Console.WriteLine(p.ToString());
-             return p;
+             return blood;
          }
          
          /**
@@ -42,6 +47,7 @@ namespace ProjectLegend
           */
          public void FightEnemy() //Fight an enemy and spawn another when alive one dies
          {
+             
              Enemy e = new Enemy();
              Console.WriteLine(e.ToString());
          }

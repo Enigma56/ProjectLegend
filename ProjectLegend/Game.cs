@@ -1,7 +1,7 @@
 ﻿using System;
-//using System.Data;
+using ProjectLegend.PlayerClasses;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
+
 
 
 namespace ProjectLegend
@@ -32,7 +32,7 @@ namespace ProjectLegend
             Console.WriteLine("Entering main loop!");
             
             // Example Enemy
-            Enemy e = new Enemy();
+            var e = new Enemy();
             string input;
             string[] args;
             bool playing = true;
