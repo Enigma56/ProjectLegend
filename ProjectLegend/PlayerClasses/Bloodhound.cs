@@ -8,7 +8,7 @@ namespace ProjectLegend.PlayerClasses
         public Bloodhound()
         {
             Health = 100;
-            Attack = 20;
+            Attack = 15;
         }
         
     }

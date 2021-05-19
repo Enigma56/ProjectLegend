@@ -1,59 +1,60 @@
 ﻿using System;
 using ProjectLegend.PlayerClasses;
-using System.Linq;
+
 
 
 
 namespace ProjectLegend
 {
-    internal class Game
+    public class Game
     {
-        private readonly Utils _u = new Utils();
         private readonly GameFuncs _game = new GameFuncs();
+        private Player _player;
         private static void Main(string[] args)
         {
-            Console.WriteLine("This is the main gameloop!");
             var game1 = new Game();
-            game1.Run(args[0]);
+            game1.Run(args[1]); // 0; for debugging and running in IDE. 1; for running in CLI
         }
 
         public void Run(string option)
         {
-            if (option.Equals("game"))
+            if(option.Equals("game"))
             {
-                Player p = _game.ChooseCharacter();
+                //Let the player choose their character(future version)
+                _player = _game.ChooseCharacter();
+                
                 //FightEnemy();
-                GameLoop(p);
+                GameLoop(_player);
             }
         }
 
-        public void GameLoop(Player p) //URGENT: Find way to take inputs once
+        public void GameLoop(Player p) 
         {
-            Console.WriteLine("Entering main loop!");
+            _game.Separator();
+            Console.WriteLine("Welcome to ProjectLegend!");
+            _game.Separator();
+            Console.Write("Your current options are (casing does not matter): "); //try to read this from an array//
+            _game.PrintCommands();
+            Console.WriteLine("Format for commands is: command arg1 arg2 ... ; each input separated by a space");
+            _game.Separator();
             
-            // Example Enemy
-            var e = new Enemy();
-            string input;
-            string[] args;
             bool playing = true;
             //Entering GameLoop
             while (playing)
             {
                 // retrieves and converts args
-                input = Console.ReadLine();
-                args = input.Split(" ");
-                args = (from str in args
-                    select str.ToLower()).ToArray();
-                Console.WriteLine($"You entered {args[0]}");
-                
-                
-                _game.ParseCommand(args[0],p, e);
-                
-                
+                string[] args = Utils.ReadInput();
+
                 //exit sequence
                 if (args[0].Equals("exit"))
                 {
+                    Console.WriteLine("Exiting game now!");
                     playing = false;
+                }
+                else
+                {
+                    _game.ParseGeneralCommand(this, args, p);
+                    
                 }
 
             }
