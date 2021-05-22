@@ -102,6 +102,7 @@ namespace ProjectLegend
                  {
                      if (e.Health <= 0)
                      {
+                         DroppedExp(p, e);
                          Console.WriteLine("You killed the enemy!");
                          fighting = false;
                          goto Fight; //Immediately checks expression
@@ -137,6 +138,16 @@ namespace ProjectLegend
          {
              var e = new Enemy();
              return e;
+         }
+
+         private void DroppedExp(Player p, Enemy e)
+         {
+             p.Exp += e.ExpDrop;
+             if (p.Exp >= p.ExpThresh)
+             {
+                 p.AddLevel();
+                 Console.WriteLine($"You Leveled Up!\nCurrent level: {p.Level}");
+             }
          }
          
          public void PrintCommands()

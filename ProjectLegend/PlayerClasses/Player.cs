@@ -22,14 +22,11 @@ namespace ProjectLegend.PlayerClasses
 
         public void AddLevel()
         {
-            if (Exp >= ExpThresh)
-            {
-                int xp = Exp;
-                Exp = 0;
-                Exp += (xp % ExpThresh);
-                ExpThresh *=  3 / 2;
-                Level++;
-            }
+            int xp = Exp;
+            Exp = 0;
+            Exp += (xp % ExpThresh);
+            ExpThresh *=  3 / 2;
+            Level++;
         }
         
         public override string ToString()

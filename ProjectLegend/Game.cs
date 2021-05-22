@@ -13,7 +13,7 @@ namespace ProjectLegend
         private static void Main(string[] args)
         {
             var game1 = new Game();
-            game1.Run(args[1]); // 0; for debugging and running in IDE. 1; for running in CLI
+            game1.Run(args[0]); // 0; for debugging and running in IDE. 1; for running in CLI
         }
 
         public void Run(string option)
