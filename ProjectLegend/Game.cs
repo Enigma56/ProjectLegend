@@ -54,9 +54,7 @@ namespace ProjectLegend
                 else
                 {
                     _game.ParseGeneralCommand(this, args, p);
-                    
                 }
-
             }
         }
     }

@@ -9,6 +9,8 @@ namespace ProjectLegend.PlayerClasses
         {
             Health = 100;
             Attack = 15;
+            Exp = 0;
+            ExpThresh = 30;
         }
         
     }
