@@ -13,7 +13,6 @@ namespace ProjectLegend
     {
         private readonly string[] _genCommands = {"fight", "help", "exit"};
         private readonly Dictionary<string, string> _commandInfo = new ();
-        private const string _separator = "--------------------------";
 
         public GameFuncs()
         {
@@ -21,7 +20,7 @@ namespace ProjectLegend
             _commandInfo.Add("help", "Prints a list of all available commands");
             _commandInfo.Add("exit", "Exits the game");
         }
-        public void ParseGeneralCommand(Game g, string[] commands, Player p)
+        public void ParseGeneralCommand(string[] commands, Player p)
          {
              string cmd = commands[0];
                    
@@ -34,17 +33,24 @@ namespace ProjectLegend
                            Console.Write("Available commands are: ");
                            _genCommands.ArrayToString();
                            Console.WriteLine("Type a command after help to see more info on it!");
-                           Separator();
+                           Utils.Separator();
+                           
+                           // if clause ?(then) ... :(else) ...
+                           try
+                           {
+                               Console.WriteLine(_genCommands.Contains(commands[1])
+                                   ? $"Command: {commands[1]}" + Environment.NewLine +$"Info: {_commandInfo[commands[1]]}"
+                                   : "Command not in list!");
+                           }
+                           catch (IndexOutOfRangeException)
+                           {
+                               Console.WriteLine("No command was found! Please provide a command after \'help\'");
+                           }
 
-                           if (_genCommands.Contains(commands[1]))
-                           {
-                               // retrieve command
-                               Console.WriteLine($"Command: {commands[1]}\nInfo: {_commandInfo[commands[1]]}");
-                           }
-                           else
-                           {
-                               Console.WriteLine("Command not in list!");
-                           }
+                           break;
+                       case "exit":
+                           //Exit out of the game
+                           Utils.ExitSequence(p);
                            break;
                        default:
                            Console.WriteLine("Command not found!");
@@ -60,11 +66,16 @@ namespace ProjectLegend
                  case "attack":
                      p.Health -= e.Attack;
                      e.Health -= p.Attack;
-                     Separator();
+                     Utils.Separator();
                      Console.WriteLine("Remaining Stats:");
-                     Console.WriteLine($"Your Health: {p.Health}\n" +
+                     Console.WriteLine($"Your Health: {p.Health}" + Environment.NewLine +
                                        $"Enemy Health: {e.Health}");
-                     Separator();
+                     if (p.Health <= 0)
+                     {
+                         Console.WriteLine("You have passed away D:");
+                         Utils.ExitSequence(p);
+                     }
+                     Utils.Separator();
                      break;
                  default:
                      Console.WriteLine("Not a valid command!");
@@ -80,22 +91,34 @@ namespace ProjectLegend
          /// <returns>chosen player</returns>
          public Player ChooseCharacter()
          {
-             // Eventually have an array of choices
-             
-             var blood = new Bloodhound();
-             return blood;
+             Console.WriteLine("Choose your character! Type out full name to select");
+             Console.WriteLine("Options: Bloodhound, Wraith");
+             string chosenCharacter = Utils.ReadInput()[0];
+             Player player = null;
+             switch (chosenCharacter)
+             {
+                 case "bloodhound":
+                     player = new Bloodhound();
+                     break;
+                 case "wraith":
+                     player = new Wraith();
+                     break;
+                 default:
+                     Console.WriteLine("Not a valid character!");
+                     break;
+             }
+             return player;
          }
 
          private void FightEnemy(Player p)
          {
              var e = new Enemy();
-             Separator();
+             Utils.Separator();
              Console.WriteLine("Starting Stats:");
-             Console.WriteLine($"Your Health: {p.Health}\tYour Attack: {p.Attack}\n" +
+             Console.WriteLine($"Your Health: {p.Health}\tYour Attack: {p.Attack}" + Environment.NewLine +
                                $"Enemy Health: {e.Health}\tEnemy Attack: {e.Attack}");
-             Separator();
+             Utils.Separator();
              
-             Console.WriteLine("Your options are: attack");
              bool fighting = true;
              Fight:
                  while (fighting)
@@ -103,28 +126,30 @@ namespace ProjectLegend
                      if (e.Health <= 0)
                      {
                          DroppedExp(p, e);
+                         p.DisplayXpInfo();
+                         Utils.Separator();
                          Console.WriteLine("You killed the enemy!");
                          fighting = false;
                          goto Fight; //Immediately checks expression
                      }
-
+                     Console.WriteLine("Your options are: attack");
                      string[] commands = Utils.ReadInput();
 
                      ParseFightCommand(commands, p, e);
                  }
              
              Console.WriteLine("Would you like to fight another enemy? Enter yes or no");
-             Separator();
+             Utils.Separator();
              string response = Utils.ReadInput()[0];
              if (response.Equals("yes"))
              {
                  e = RespawnEnemy();
                  fighting = true;
-                 Separator();
+                 Utils.Separator();
                  Console.WriteLine("Re-Starting Stats:");
-                 Console.WriteLine($"Your Health: {p.Health}\tYour Attack: {p.Attack}\n" +
+                 Console.WriteLine($"Your Health: {p.Health}\tYour Attack: {p.Attack}" + Environment.NewLine +//Does not display format properly
                                    $"Enemy Health: {e.Health}\tEnemy Attack: {e.Attack}");
-                 Separator();
+                 Utils.Separator();
                  goto Fight;
              }
              else{Console.WriteLine("Exiting back to main loop!");}
@@ -146,18 +171,12 @@ namespace ProjectLegend
              if (p.Exp >= p.ExpThresh)
              {
                  p.AddLevel();
-                 Console.WriteLine($"You Leveled Up!\nCurrent level: {p.Level}");
              }
          }
          
          public void PrintCommands()
          {
              _genCommands.ArrayToString();
-         }
-
-         public void Separator()
-         {
-             Console.WriteLine(_separator);
          }
 
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Emit;
 using ProjectLegend.PlayerClasses;
 
 
@@ -13,7 +14,7 @@ namespace ProjectLegend
         private static void Main(string[] args)
         {
             var game1 = new Game();
-            game1.Run(args[0]); // 0; for debugging and running in IDE. 1; for running in CLI
+            game1.Run(args[1]); // 0; for debugging and running in IDE. 1; for running in CLI
         }
 
         public void Run(string option)
@@ -27,34 +28,22 @@ namespace ProjectLegend
                 GameLoop(_player);
             }
         }
-
+        
         public void GameLoop(Player p) 
         {
-            _game.Separator();
+            Utils.Separator();
             Console.WriteLine("Welcome to ProjectLegend!");
-            _game.Separator();
-            Console.Write("Your current options are (casing does not matter): "); //try to read this from an array//
-            _game.PrintCommands();
-            Console.WriteLine("Format for commands is: command arg1 arg2 ... ; each input separated by a space");
-            _game.Separator();
-            
-            bool playing = true;
-            //Entering GameLoop
-            while (playing)
+            Utils.Separator();
+            Console.WriteLine("When typing commands, format for commands is: command arg1 arg2 ..." +
+                              "\nSeparate each command by a space");
+            Utils.Separator();
+            while (p.Health > 0)
             {
+                Console.Write("Your current options are (casing does not matter): "); //try to read this from an array//
+                _game.PrintCommands();
                 // retrieves and converts args
                 string[] args = Utils.ReadInput();
-
-                //exit sequence
-                if (args[0].Equals("exit"))
-                {
-                    Console.WriteLine("Exiting game now!");
-                    playing = false;
-                }
-                else
-                {
-                    _game.ParseGeneralCommand(this, args, p);
-                }
+                _game.ParseGeneralCommand(args, p);
             }
         }
     }

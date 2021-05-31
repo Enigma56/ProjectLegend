@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Transactions;
+﻿
 
 namespace ProjectLegend.PlayerClasses
 {
@@ -7,11 +6,18 @@ namespace ProjectLegend.PlayerClasses
     {
         public Bloodhound()
         {
-            Health = 100;
+            Health = 75;
             Attack = 15;
             Exp = 0;
-            ExpThresh = 30;
+            ExpThresh = 10;
+            Level = 1;
         }
         
+        // Passive ability
+        
+        //Active ability
+        
+        //Ultimate
+
     }
 }

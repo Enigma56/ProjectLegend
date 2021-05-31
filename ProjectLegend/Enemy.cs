@@ -6,10 +6,10 @@ namespace ProjectLegend
     {
         public Enemy()
         {
-            Random rand = new Random();
+            var rand = new Random();
             Health = rand.Next(20, 50);
             Attack = rand.Next(5, 10);
-            ExpDrop = 10;
+            ExpDrop = 5;
         }
 
         public int Health { get; set; }
@@ -18,10 +18,12 @@ namespace ProjectLegend
         
         public int ExpDrop { get; set; }
 
-        public void IncreaseExpDrop()
+        public void IncreaseExpDrop() //NOT IN USE
         {
             ExpDrop *= 3 / 2;
         }
+        
+        
         
         public override string ToString()
         {

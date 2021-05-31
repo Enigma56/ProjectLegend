@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
-using System.Xml.XPath;
+using ProjectLegend.PlayerClasses;
 
 namespace ProjectLegend
 {
     public static class Utils
     {
-       public static void ArrayToString<T>(this T[] arr)
+        public static void ArrayToString<T>(this T[] arr)
         {
             string stringArray = "[";
             for (int i = 0; i < arr.Length - 1; i++)
@@ -26,6 +26,19 @@ namespace ProjectLegend
            return args;
        }
 
+       public static void ExitSequence(Player p)
+       {
+           Console.WriteLine($"You finished at level {p.Level}");
+           Environment.Exit(0);
+       }
+       
+       public static void Separator()
+       {
+           string separator = "--------------------------";
+           Console.WriteLine(separator);
+       }
+        
+       //NOT IN USE
        public static string GetItem(this string[] source, string target)
        {
            foreach (string item in source)
