@@ -27,7 +27,7 @@ namespace ProjectLegend
         
         public override string ToString()
         {
-            return $"Enemy Stats\nHealth = {Health}, Attack = {Attack}";
+            return $"Enemy Stats" + Environment.NewLine + $"Health = {Health}, Attack = {Attack}";
         }
     }
     

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Globalization;
 using System.Linq;
-using System.Net;
 using ProjectLegend.PlayerClasses;
 
 
@@ -68,8 +65,7 @@ namespace ProjectLegend
                      e.Health -= p.Attack;
                      Utils.Separator();
                      Console.WriteLine("Remaining Stats:");
-                     Console.WriteLine($"Your Health: {p.Health}" + Environment.NewLine +
-                                       $"Enemy Health: {e.Health}");
+                     ViewHealth(p, e);
                      if (p.Health <= 0)
                      {
                          Console.WriteLine("You have passed away D:");
@@ -113,10 +109,10 @@ namespace ProjectLegend
          private void FightEnemy(Player p)
          {
              var e = new Enemy();
+             
              Utils.Separator();
              Console.WriteLine("Starting Stats:");
-             Console.WriteLine($"Your Health: {p.Health}\tYour Attack: {p.Attack}" + Environment.NewLine +
-                               $"Enemy Health: {e.Health}\tEnemy Attack: {e.Attack}");
+             ViewStats(p, e);
              Utils.Separator();
              
              bool fighting = true;
@@ -147,8 +143,7 @@ namespace ProjectLegend
                  fighting = true;
                  Utils.Separator();
                  Console.WriteLine("Re-Starting Stats:");
-                 Console.WriteLine($"Your Health: {p.Health}\tYour Attack: {p.Attack}" + Environment.NewLine +//Does not display format properly
-                                   $"Enemy Health: {e.Health}\tEnemy Attack: {e.Attack}");
+                 ViewStats(p, e);
                  Utils.Separator();
                  goto Fight;
              }
@@ -177,6 +172,20 @@ namespace ProjectLegend
          public void PrintCommands()
          {
              _genCommands.ArrayToString();
+         }
+
+         private void ViewStats(Player p, Enemy e)
+         {
+             Console.WriteLine($"Your  Health: {p.Health}\tYour  Attack: {p.Attack}" + 
+                               Environment.NewLine +
+                               $"Enemy Health: {e.Health}\tEnemy Attack: {e.Attack}");
+         }
+
+         private void ViewHealth(Player p, Enemy e)
+         {
+             Console.WriteLine($"Your Health: {p.Health}" + 
+                               Environment.NewLine +
+                               $"Enemy Health: {e.Health}");
          }
 
     }

@@ -22,7 +22,7 @@ namespace ProjectLegend.PlayerClasses
             Exp += (xp % ExpThresh);
             ExpThresh = ExpThresh * 3 / 2;
             Level++;
-            Console.WriteLine($"You Leveled Up!\nCurrent level: {Level}");
+            Console.WriteLine($"You Leveled Up!" + Environment.NewLine + $"Current level: {Level}");
             Console.WriteLine($"XP Threshold: {ExpThresh}");
         }
 

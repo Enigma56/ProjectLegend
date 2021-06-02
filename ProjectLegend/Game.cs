@@ -35,7 +35,7 @@ namespace ProjectLegend
             Console.WriteLine("Welcome to ProjectLegend!");
             Utils.Separator();
             Console.WriteLine("When typing commands, format for commands is: command arg1 arg2 ..." +
-                              "\nSeparate each command by a space");
+                              Environment.NewLine + "Separate each command by a space");
             Utils.Separator();
             while (p.Health > 0)
             {
