@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Reflection.Emit;
 using ProjectLegend.PlayerClasses;
-
-
-
 
 namespace ProjectLegend
 {
     public class Game
     {
-        private readonly GameFuncs _game = default;
+        private readonly GameFuncs _game = new GameFuncs();
         private Player _player;
         private static void Main(string[] args)
         {

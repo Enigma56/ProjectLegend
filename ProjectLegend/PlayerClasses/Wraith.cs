@@ -8,6 +8,12 @@ namespace ProjectLegend.PlayerClasses
         {
             Health = 50;
             Attack = 20;
+            
+            Accuracy = 1;
+            Vitality = 0;
+            Strength = 0;
+            Evasion = 0.0;
+
             Exp = 0;
             ExpThresh = 10;
             Level = 1;

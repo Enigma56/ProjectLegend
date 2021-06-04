@@ -6,6 +6,7 @@ namespace ProjectLegend
 {
     public static class Utils
     {
+        private static int GenSeed = 12345;
         public static void ArrayToString<T>(this T[] arr)
         {
             string stringArray = "[";
@@ -25,6 +26,23 @@ namespace ProjectLegend
            args = (from str in args select str.ToLower()).ToArray();
            return args;
        }
+       public static bool AttackChance(Player player)
+       {
+           var rand = new Random();
+           double playerRoll = Math.Round(rand.NextDouble(), 2);
+           Console.WriteLine($"player roll: {playerRoll}");
+           if (playerRoll < player.Accuracy) return true;
+           else { return false; }
+       }
+
+       public static bool DefenseChance(Enemy enemy)
+       {
+           var rand = new Random();
+           double enemyRoll = Math.Round(rand.NextDouble(), 2);
+           Console.WriteLine($"enemy roll: {enemyRoll}");
+           if (enemyRoll < enemy.Accuracy) return true;
+           else { return false; }
+       }
 
        public static void ExitSequence(Player p)
        {
@@ -37,7 +55,7 @@ namespace ProjectLegend
            string separator = "--------------------------";
            Console.WriteLine(separator);
        }
-        
+
        //NOT IN USE
        public static string GetItem(this string[] source, string target)
        {

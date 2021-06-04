@@ -4,16 +4,16 @@ namespace ProjectLegend.PlayerClasses
 {
     public abstract class Player
     {
-        private int vit;
         //Character Stats
         public int Health { get; set; }
         public int Attack { get; init; }
         
+        public double Accuracy { get; set; }
         public int Vitality { get; set; }
         
+        public int Strength { get; set; }
         public double Evasion { get; set; }
         
-        public int Accuracy { get; set; }
         public int Exp { get; set; }
 
         public int ExpThresh { get; set; }

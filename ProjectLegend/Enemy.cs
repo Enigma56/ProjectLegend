@@ -9,12 +9,16 @@ namespace ProjectLegend
             var rand = new Random();
             Health = rand.Next(20, 50);
             Attack = rand.Next(5, 10);
+            Accuracy = 1;
+            
             ExpDrop = 5;
         }
 
         public int Health { get; set; }
 
-        public int Attack { get; set; }
+        public int Attack { get; }
+        
+        public int Accuracy { get; set; }
         
         public int ExpDrop { get; set; }
 

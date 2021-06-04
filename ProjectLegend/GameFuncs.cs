@@ -17,6 +17,37 @@ namespace ProjectLegend
             _commandInfo.Add("help", "Prints a list of all available commands");
             _commandInfo.Add("exit", "Exits the game");
         }
+        
+        /// <summary>
+        /// Choose your character from a predetermined List(Future implementation)
+        /// !!!CURRENTLY IN TESTING!!!
+        /// </summary>
+        /// <returns>chosen player</returns>
+        public Player ChooseCharacter()
+        {
+            Console.WriteLine("Choose your character! Type out full name to select");
+            Console.WriteLine("Options: Bangalore, Wraith");
+            string chosenCharacter = Utils.ReadInput()[0];
+            Player player = null;
+            switch (chosenCharacter)
+            {
+                //Offensive
+                case "bangalore":
+                    player = new Bangalore();
+                    break;
+                case "wraith":
+                    player = new Wraith();
+                    break;
+                //Defensive
+                //Suport
+                //Recon
+                default:
+                    Console.WriteLine("Not a valid character!");
+                    break;
+            }
+            return player;
+        }
+        
         public void ParseGeneralCommand(string[] commands, Player player)
          {
              string cmd = commands[0];
@@ -61,8 +92,8 @@ namespace ProjectLegend
              switch (cmd)
              {
                  case "attack":
-                     player.Health -= enemy.Attack;
-                     enemy.Health -= player.Attack;
+                     //Check if attack lands
+                     BattlePhase(player, enemy);
                      Utils.Separator();
                      Console.WriteLine("Remaining Stats:");
                      ViewHealth(player, enemy);
@@ -78,36 +109,6 @@ namespace ProjectLegend
                      break;
                      
              }
-         }
-         
-         /// <summary>
-         /// Choose your character from a predetermined List(Future implementation)
-         /// !!!CURRENTLY IN TESTING!!!
-         /// </summary>
-         /// <returns>chosen player</returns>
-         public Player ChooseCharacter()
-         {
-             Console.WriteLine("Choose your character! Type out full name to select");
-             Console.WriteLine("Options: Bloodhound, Wraith");
-             string chosenCharacter = Utils.ReadInput()[0];
-             Player player = default;
-             switch (chosenCharacter)
-             {
-                 //Offensive
-                 case "bangalore":
-                     player = new Bangalore();
-                     break;
-                 case "wraith":
-                     player = new Wraith();
-                     break;
-                 //Defensive
-                 //Suport
-                 //Recon
-                 default:
-                     Console.WriteLine("Not a valid character!");
-                     break;
-             }
-             return player;
          }
 
          private void FightEnemy(Player player)
@@ -152,9 +153,40 @@ namespace ProjectLegend
                  goto Fight;
              }
              else{Console.WriteLine("Exiting back to main loop!");}
-             
          }
-         
+
+         private void BattlePhase(Player player, Enemy enemy) //Processes attack and defense
+         {
+             void AttackPhase() //Player attack
+             {
+                 bool attackEnemy = Utils.AttackChance(player);
+                 if (attackEnemy is true)
+                 {
+                     enemy.Health -= player.Attack;
+                 }
+                 else
+                 {
+                     Console.WriteLine("Your attack missed the enemy!");
+                 }
+             }
+
+             void DefensePhase() //Player defense (enemy attack)
+             {
+                 bool attackPlayer = Utils.DefenseChance(enemy);
+                 if (attackPlayer is true)
+                 {
+                     player.Health -= enemy.Attack;
+                 }
+                 else
+                 {
+                     Console.WriteLine("The enemy missed their attack!");
+                 }
+             }
+             
+             AttackPhase();
+             DefensePhase();
+         }
+
          /**
           * Respawns an enemy
           */
