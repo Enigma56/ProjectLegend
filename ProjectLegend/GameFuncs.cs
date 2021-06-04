@@ -17,14 +17,14 @@ namespace ProjectLegend
             _commandInfo.Add("help", "Prints a list of all available commands");
             _commandInfo.Add("exit", "Exits the game");
         }
-        public void ParseGeneralCommand(string[] commands, Player p)
+        public void ParseGeneralCommand(string[] commands, Player player)
          {
              string cmd = commands[0];
                    
                    switch(cmd)
                    {
                        case "fight":
-                           FightEnemy(p);
+                           FightEnemy(player);
                            break;
                        case "help":
                            Console.Write("Available commands are: ");
@@ -47,7 +47,7 @@ namespace ProjectLegend
                            break;
                        case "exit":
                            //Exit out of the game
-                           Utils.ExitSequence(p);
+                           Utils.ExitSequence(player);
                            break;
                        default:
                            Console.WriteLine("Command not found!");
@@ -55,21 +55,21 @@ namespace ProjectLegend
                    }
                }
 
-         private void ParseFightCommand(string[] commands, Player p, Enemy e)
+         private void ParseFightCommand(string[] commands, Player player, Enemy enemy)
          {
              string cmd = commands[0];
              switch (cmd)
              {
                  case "attack":
-                     p.Health -= e.Attack;
-                     e.Health -= p.Attack;
+                     player.Health -= enemy.Attack;
+                     enemy.Health -= player.Attack;
                      Utils.Separator();
                      Console.WriteLine("Remaining Stats:");
-                     ViewHealth(p, e);
-                     if (p.Health <= 0)
+                     ViewHealth(player, enemy);
+                     if (player.Health <= 0)
                      {
                          Console.WriteLine("You have passed away D:");
-                         Utils.ExitSequence(p);
+                         Utils.ExitSequence(player);
                      }
                      Utils.Separator();
                      break;
@@ -90,15 +90,19 @@ namespace ProjectLegend
              Console.WriteLine("Choose your character! Type out full name to select");
              Console.WriteLine("Options: Bloodhound, Wraith");
              string chosenCharacter = Utils.ReadInput()[0];
-             Player player = null;
+             Player player = default;
              switch (chosenCharacter)
              {
-                 case "bloodhound":
-                     player = new Bloodhound();
+                 //Offensive
+                 case "bangalore":
+                     player = new Bangalore();
                      break;
                  case "wraith":
                      player = new Wraith();
                      break;
+                 //Defensive
+                 //Suport
+                 //Recon
                  default:
                      Console.WriteLine("Not a valid character!");
                      break;
@@ -106,23 +110,23 @@ namespace ProjectLegend
              return player;
          }
 
-         private void FightEnemy(Player p)
+         private void FightEnemy(Player player)
          {
-             var e = new Enemy();
+             var enemy = new Enemy();
              
              Utils.Separator();
              Console.WriteLine("Starting Stats:");
-             ViewStats(p, e);
+             ViewStats(player, enemy);
              Utils.Separator();
              
              bool fighting = true;
              Fight:
                  while (fighting)
                  {
-                     if (e.Health <= 0)
+                     if (enemy.Health <= 0)
                      {
-                         DroppedExp(p, e);
-                         p.DisplayXpInfo();
+                         DropedExp(player, enemy);
+                         player.DisplayXpInfo();
                          Utils.Separator();
                          Console.WriteLine("You killed the enemy!");
                          fighting = false;
@@ -131,7 +135,7 @@ namespace ProjectLegend
                      Console.WriteLine("Your options are: attack");
                      string[] commands = Utils.ReadInput();
 
-                     ParseFightCommand(commands, p, e);
+                     ParseFightCommand(commands, player, enemy);
                  }
              
              Console.WriteLine("Would you like to fight another enemy? Enter yes or no");
@@ -139,11 +143,11 @@ namespace ProjectLegend
              string response = Utils.ReadInput()[0];
              if (response.Equals("yes"))
              {
-                 e = RespawnEnemy();
+                 enemy = RespawnEnemy();
                  fighting = true;
                  Utils.Separator();
                  Console.WriteLine("Re-Starting Stats:");
-                 ViewStats(p, e);
+                 ViewStats(player, enemy);
                  Utils.Separator();
                  goto Fight;
              }
@@ -160,12 +164,12 @@ namespace ProjectLegend
              return e;
          }
 
-         private void DroppedExp(Player p, Enemy e)
+         private void DropedExp(Player player, Enemy enemy)
          {
-             p.Exp += e.ExpDrop;
-             if (p.Exp >= p.ExpThresh)
+             player.Exp += enemy.ExpDrop;
+             if (player.Exp >= player.ExpThresh)
              {
-                 p.AddLevel();
+                 player.AddLevel();
              }
          }
          
@@ -174,18 +178,18 @@ namespace ProjectLegend
              _genCommands.ArrayToString();
          }
 
-         private void ViewStats(Player p, Enemy e)
+         private void ViewStats(Player player, Enemy enemy)
          {
-             Console.WriteLine($"Your  Health: {p.Health}\tYour  Attack: {p.Attack}" + 
+             Console.WriteLine($"Your  Health: {player.Health}\tYour  Attack: {player.Attack}" + 
                                Environment.NewLine +
-                               $"Enemy Health: {e.Health}\tEnemy Attack: {e.Attack}");
+                               $"Enemy Health: {enemy.Health}\tEnemy Attack: {enemy.Attack}");
          }
 
-         private void ViewHealth(Player p, Enemy e)
+         private void ViewHealth(Player player, Enemy enemy)
          {
-             Console.WriteLine($"Your Health: {p.Health}" + 
+             Console.WriteLine($"Your Health: {player.Health}" + 
                                Environment.NewLine +
-                               $"Enemy Health: {e.Health}");
+                               $"Enemy Health: {enemy.Health}");
          }
 
     }

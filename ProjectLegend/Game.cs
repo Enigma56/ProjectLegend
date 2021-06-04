@@ -9,7 +9,7 @@ namespace ProjectLegend
 {
     public class Game
     {
-        private readonly GameFuncs _game = new GameFuncs();
+        private readonly GameFuncs _game = default;
         private Player _player;
         private static void Main(string[] args)
         {
