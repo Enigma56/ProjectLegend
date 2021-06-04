@@ -11,7 +11,7 @@ namespace ProjectLegend
             Attack = rand.Next(5, 10);
             Accuracy = 1;
             
-            ExpDrop = 5;
+            ExpDrop = 10;
         }
 
         public int Health { get; set; }
