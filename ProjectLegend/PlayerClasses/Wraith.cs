@@ -6,17 +6,11 @@ namespace ProjectLegend.PlayerClasses
     {
         public Wraith()
         {
-            Health = 50;
-            Attack = 20;
+            MaxHealthVal = 50;
+            MaxAttackValue = 20;
             
-            Accuracy = 1;
-            Vitality = 0;
-            Strength = 0;
-            Evasion = 0.0;
-
-            Exp = 0;
-            ExpThresh = 10;
-            Level = 1;
+            CurrentHealthVal = MaxHealthVal;
+            CurrentAttackVal = MaxAttackValue;
         }
         
         // Passive ability - always active

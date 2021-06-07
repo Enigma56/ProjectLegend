@@ -6,7 +6,6 @@ namespace ProjectLegend
 {
     public static class Utils
     {
-        private static int GenSeed = 12345;
         public static void ArrayToString<T>(this T[] arr)
         {
             string stringArray = "[";
@@ -30,18 +29,32 @@ namespace ProjectLegend
        {
            var rand = new Random();
            double playerRoll = Math.Round(rand.NextDouble(), 2);
-           Console.WriteLine($"player roll: {playerRoll}");
-           if (playerRoll < player.Accuracy) return true;
-           else { return false; }
+           //Console.WriteLine($"player roll: {playerRoll}");
+           if (playerRoll <= player.Accuracy) return true;
+           else
+           {
+               Console.WriteLine("Your attack missed the enemy!");
+               return false;
+           }
        }
 
-       public static bool DefenseChance(Enemy enemy)
+       public static bool DefenseChance(Player player, Enemy enemy)
        {
            var rand = new Random();
+           double evade = Math.Round(rand.NextDouble(), 2);
            double enemyRoll = Math.Round(rand.NextDouble(), 2);
-           Console.WriteLine($"enemy roll: {enemyRoll}");
-           if (enemyRoll < enemy.Accuracy) return true;
-           else { return false; }
+           //Console.WriteLine($"enemy roll: {enemyRoll}");
+           if (evade <= player.Evasion)
+           {
+               Console.WriteLine("You evaded the enemies attack!"); 
+               return false;
+           }
+           else if (enemyRoll <= enemy.Accuracy) return true;
+           else
+           {
+               Console.WriteLine("The enemy missed their attack!"); 
+               return false;
+           }
        }
 
        public static void ExitSequence(Player p)

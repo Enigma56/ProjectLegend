@@ -97,7 +97,7 @@ namespace ProjectLegend
                      Utils.Separator();
                      Console.WriteLine("Remaining Stats:");
                      ViewHealth(player, enemy);
-                     if (player.Health <= 0)
+                     if (player.CurrentHealthVal <= 0)
                      {
                          Console.WriteLine("You have passed away D:");
                          Utils.ExitSequence(player);
@@ -126,7 +126,7 @@ namespace ProjectLegend
                  {
                      if (enemy.Health <= 0)
                      {
-                         DropedExp(player, enemy);
+                         DroppedExp(player, enemy);
                          player.DisplayXpInfo();
                          Utils.Separator();
                          Console.WriteLine("You killed the enemy!");
@@ -162,24 +162,16 @@ namespace ProjectLegend
                  bool attackEnemy = Utils.AttackChance(player);
                  if (attackEnemy is true)
                  {
-                     enemy.Health -= player.Attack;
-                 }
-                 else
-                 {
-                     Console.WriteLine("Your attack missed the enemy!");
+                     enemy.Health -= player.CurrentAttackVal;
                  }
              }
 
              void DefensePhase() //Player defense (enemy attack)
              {
-                 bool attackPlayer = Utils.DefenseChance(enemy);
+                 bool attackPlayer = Utils.DefenseChance(player, enemy);
                  if (attackPlayer is true)
                  {
-                     player.Health -= enemy.Attack;
-                 }
-                 else
-                 {
-                     Console.WriteLine("The enemy missed their attack!");
+                     player.CurrentHealthVal -= enemy.Attack;
                  }
              }
              
@@ -196,7 +188,7 @@ namespace ProjectLegend
              return e;
          }
 
-         private void DropedExp(Player player, Enemy enemy)
+         private void DroppedExp(Player player, Enemy enemy)
          {
              player.Exp += enemy.ExpDrop;
              if (player.Exp >= player.ExpThresh)
@@ -212,14 +204,16 @@ namespace ProjectLegend
 
          private void ViewStats(Player player, Enemy enemy)
          {
-             Console.WriteLine($"Your  Health: {player.Health}\tYour  Attack: {player.Attack}" + 
+             string playerStats = $"Your  Health: {player.CurrentHealthVal,-6}Your  Attack: {player.CurrentAttackVal}";
+             string enemyStats = $"Enemy Health: {enemy.Health,-6}Enemy Attack: {enemy.Attack}";
+             Console.WriteLine(playerStats + 
                                Environment.NewLine +
-                               $"Enemy Health: {enemy.Health}\tEnemy Attack: {enemy.Attack}");
+                               enemyStats);
          }
 
          private void ViewHealth(Player player, Enemy enemy)
          {
-             Console.WriteLine($"Your Health: {player.Health}" + 
+             Console.WriteLine($"Your Health: {player.CurrentHealthVal}" + 
                                Environment.NewLine +
                                $"Enemy Health: {enemy.Health}");
          }

@@ -6,17 +6,11 @@ namespace ProjectLegend.PlayerClasses
     {
         public Bangalore()
         {
-            Health = 70;
-            Attack = 15;
+            MaxHealthVal = 70;
+            MaxAttackValue = 15;
+            CurrentHealthVal = MaxHealthVal;
+            CurrentAttackVal = MaxAttackValue;
             
-            Accuracy = 1;
-            Vitality = 0;
-            Strength = 0;
-            Evasion = 0.0;
-
-            Exp = 0;
-            ExpThresh = 10;
-            Level = 1;
         }
         
         public override void Passive()
