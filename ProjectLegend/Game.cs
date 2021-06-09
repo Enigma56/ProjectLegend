@@ -33,12 +33,10 @@ namespace ProjectLegend
             Console.WriteLine("When typing commands, format for commands is: command arg1 arg2 ..." +
                               Environment.NewLine + "Separate each command by a space");
             Utils.Separator();
-            while (p.CurrentHealthVal > 0)
+            while (p.CurrentHealth > 0)
             {
-                Console.Write("Your current options are (casing does not matter): "); //try to read this from an array//
-                _game.PrintCommands();
                 // retrieves and converts args
-                string[] args = Utils.ReadInput();
+                string[] args = Utils.ReadInput(_game.GenCommands());
                 _game.ParseGeneralCommand(args, p);
             }
         }

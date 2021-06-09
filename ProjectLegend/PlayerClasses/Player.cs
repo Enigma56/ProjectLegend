@@ -6,6 +6,10 @@ namespace ProjectLegend.PlayerClasses
     {
         protected Player()
         {
+            MaxEnergy = 1000;
+            CurrentEnergy = 0;
+            EnergyPerTurn = 50;
+            
             Accuracy = 1;
             Vitality = 0; 
             Strength = 0; 
@@ -17,19 +21,25 @@ namespace ProjectLegend.PlayerClasses
             ExpThresh = 10;
             Level = 1;
         }
+        
+        public int MaxEnergy { get; set; }
+        
+        public int CurrentEnergy { get; set; }
+        
+        public int EnergyPerTurn { get; set; }
         //Character Stats
-        public int MaxHealthVal { get; set; }
-        public int CurrentHealthVal { get; set; }
+        protected int MaxHealth { get; set; }
+        public int CurrentHealth { get; set; }
 
-        public int MaxAttackValue { get; set; }
-        public int CurrentAttackVal { get; set; }
+        protected int MaxAttack { get; set; }
+        public int CurrentAttack { get; protected set; }
         
         public double Accuracy { get; set; }
         public int Vitality { get; set; }
         
         public int Strength { get; set; }
         public double Evasion { get; set; }
-        public double EvasionCap { get; init; }
+        protected double EvasionCap { get; init; }
         
         public int Exp { get; set; }
 
@@ -70,25 +80,25 @@ namespace ProjectLegend.PlayerClasses
                 Vitality += 1;
                 */
 
-                int oldHealthVal = CurrentHealthVal;
+                int oldHealthVal = CurrentHealth;
                 int healthIncrease = (int) Math.Ceiling(Math.Pow(Level, 2) / 5);
-                MaxHealthVal += healthIncrease;
-                CurrentHealthVal = MaxHealthVal; //Fully heal on every level up
+                MaxHealth += healthIncrease;
+                CurrentHealth = MaxHealth; //Fully heal on every level up
                 
-                int oldAttackVal = CurrentAttackVal;
+                int oldAttackVal = CurrentAttack;
                 int attackIncrease = (int) Math.Ceiling(Math.Pow(Level, 2) / 20);
-                
-                CurrentAttackVal = CurrentAttackVal + attackIncrease;
+                MaxAttack += attackIncrease;
+                CurrentAttack = MaxAttack;
                 
                 double oldEvasionVal = Evasion;
                 if(Evasion < EvasionCap) Evasion += .005;
 
-                Console.WriteLine(Environment.NewLine + $"Health Up! {oldHealthVal} --> {CurrentHealthVal}"
-                                                      + Environment.NewLine + $"Attack Up! {oldAttackVal} --> {CurrentAttackVal}");
+                Console.WriteLine(Environment.NewLine + $"Health Up! {oldHealthVal} --> {CurrentHealth}"
+                                                      + Environment.NewLine + $"Attack Up! {oldAttackVal} --> {CurrentAttack}");
                 
                 Console.WriteLine(//$"Strength Up! {oldStrengthVal} --> {Strength}"  + Environment.NewLine +
                                   //$"Vitality Up! {oldVitalityVal} --> {Vitality}"   + Environment.NewLine + 
-                                  $"Evasion Up! {oldEvasionVal * 100}% --> {Evasion * 100}%" + Environment.NewLine);
+                                  $"Evasion Up! {oldEvasionVal * 100:##.##}% --> {Evasion * 100:##.##}%" + Environment.NewLine); // 0 represents always-appearing digit; # is optional
             }
             
             LevelUpdate();
@@ -103,11 +113,12 @@ namespace ProjectLegend.PlayerClasses
         public override string ToString()
         {
             return "Stats: " + Environment.NewLine + 
-                   $"Health = {CurrentHealthVal}" + Environment.NewLine + 
-                   $"Attack = {CurrentAttackVal}" + Environment.NewLine +
+                   $"Health = {CurrentHealth}" + Environment.NewLine + 
+                   $"Attack = {CurrentAttack}" + Environment.NewLine +
+                   $"Current Energy = {CurrentEnergy} && Max Energy = {MaxEnergy}" + Environment.NewLine +
                    $"Vitality = {Vitality}" + Environment.NewLine +
                    $"Strength = {Strength}" + Environment.NewLine +
-                   $"Evasion = {Evasion * 100}%";
+                   $"Evasion = {Evasion * 100:##.##}%";
                     
         }
     }

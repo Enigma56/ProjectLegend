@@ -6,24 +6,20 @@ namespace ProjectLegend
 {
     public static class Utils
     {
-        public static void ArrayToString<T>(this T[] arr)
+
+        public static string[] ReadInput(string[] options)
         {
-            string stringArray = "[";
-            for (int i = 0; i < arr.Length - 1; i++)
+            string input;
+            string[] args;
+            do
             {
-                stringArray += $"{arr[i]}, "; // creates string representation of array
-            }
-
-            stringArray += $"{arr[^1]}]";
-            Console.WriteLine(stringArray);
-        }
-
-       public static string[] ReadInput()
-       {
-           string input = Console.ReadLine();
-           string[] args = input.Split();
-           args = (from str in args select str.ToLower()).ToArray();
-           return args;
+                Console.WriteLine("Your current options are: " + ToString(options));
+                input = Console.ReadLine();
+                args = input.Split();
+            } while (Equals(input, ""));
+            
+            args = (from str in args select str.ToLower()).ToArray();
+            return args;
        }
        public static bool AttackChance(Player player)
        {
@@ -59,7 +55,9 @@ namespace ProjectLegend
 
        public static void ExitSequence(Player p)
        {
+           Separator();
            Console.WriteLine($"You finished at level {p.Level}");
+           Separator();
            Environment.Exit(0);
        }
        
@@ -67,6 +65,17 @@ namespace ProjectLegend
        {
            string separator = "--------------------------";
            Console.WriteLine(separator);
+       }
+       public static string ToString<T>(T[] arr)
+       {
+           string stringArray = "[";
+           for (int i = 0; i < arr.Length - 1; i++)
+           {
+               stringArray += $"{arr[i]}, "; // creates string representation of array
+           }
+
+           stringArray += $"{arr[^1]}]";
+           return stringArray;
        }
 
        //NOT IN USE

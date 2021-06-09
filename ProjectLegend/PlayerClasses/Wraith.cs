@@ -1,36 +1,48 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 
 namespace ProjectLegend.PlayerClasses
 {
-    public class Wraith : Player
+    public sealed class Wraith : Player
     {
+        private double _passiveEvasionBonus = .05;
+        private double _passiveAttackMultiplier = .05; //in percent
+
+        private double _activeEvasionBonus = .3;
         public Wraith()
         {
-            MaxHealthVal = 50;
-            MaxAttackValue = 20;
+            MaxHealth = 50;
+            MaxAttack = 20;
+
+            Passive();
             
-            CurrentHealthVal = MaxHealthVal;
-            CurrentAttackVal = MaxAttackValue;
+            CurrentHealth = MaxHealth;
+            CurrentAttack = MaxAttack;
+
+            Console.WriteLine(ToString());
         }
         
         // Passive ability - always active
         public override void Passive() //Increased evasion and attack
         {
-            throw new System.NotImplementedException();
+            Evasion += _passiveEvasionBonus;
+            MaxAttack += (int) (MaxAttack * _passiveAttackMultiplier);
         }
-        
         
         //Active ability - activated by player
-        public override void Active() //Raise evasion from X to 50%
+        public override void Active() //Raise evasion by 40% for 1 turn
         {
-            throw new System.NotImplementedException();
+            int energyConsumption = 300;
+            
+            Evasion += _activeEvasionBonus;
+            
         }
-        
         
         //Ultimate - activated by player
         public override void Ultimate() //Go invulnerable for one attack stage and raise attack by 25%
         {
-            throw new System.NotImplementedException();
+            double difference = 1 - Evasion;
+            Evasion += difference;
         }
 
 

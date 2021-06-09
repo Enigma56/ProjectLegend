@@ -2,15 +2,16 @@
 
 namespace ProjectLegend.PlayerClasses
 {
-    public class Bangalore : Player
+    public sealed class Bangalore : Player
     {
         public Bangalore()
         {
-            MaxHealthVal = 70;
-            MaxAttackValue = 15;
-            CurrentHealthVal = MaxHealthVal;
-            CurrentAttackVal = MaxAttackValue;
+            MaxHealth = 70;
+            MaxAttack = 15;
             
+            CurrentHealth = MaxHealth;
+            CurrentAttack = MaxAttack;
+
         }
         
         public override void Passive()

@@ -12,6 +12,7 @@ namespace ProjectLegend
             Accuracy = 1;
             
             ExpDrop = 10;
+            Dead = false;
         }
 
         public int Health { get; set; }
@@ -21,6 +22,8 @@ namespace ProjectLegend
         public int Accuracy { get; set; }
         
         public int ExpDrop { get; set; }
+
+        public bool Dead { get; set; }
 
         public void IncreaseExpDrop() //NOT IN USE
         {
