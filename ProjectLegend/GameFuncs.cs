@@ -10,6 +10,8 @@ namespace ProjectLegend
     {
         private readonly string[] _genCommands = {"fight", "help", "exit"};
         private readonly string[] _combatCommands = {"attack", "stats"};
+        private readonly string[] _flags = { "-a", "-u" };
+        
         private readonly string[] _playerLegends = {"Bangalore", "Wraith"};
         private readonly string[] _yesNo = {"yes", "no"};
         private readonly Dictionary<string, string> _commandInfo = new ();
@@ -92,6 +94,16 @@ namespace ProjectLegend
              switch (cmd)
              {
                  case "attack":
+                     if (commands.Length > 1 && _flags.Contains(commands[1]))
+                     {
+                         switch (commands[1])
+                         {
+                             case "-a":
+                                 break;
+                             case "-u":
+                                 break;
+                         }
+                     }
                      //Check if attack lands
                      BattlePhase(player, enemy);
                      Utils.Separator();

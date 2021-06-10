@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using ProjectLegend.PlayerClasses;
 
@@ -40,7 +41,7 @@ namespace ProjectLegend
            double evade = Math.Round(rand.NextDouble(), 2);
            double enemyRoll = Math.Round(rand.NextDouble(), 2);
            //Console.WriteLine($"enemy roll: {enemyRoll}");
-           if (evade <= player.Evasion)
+           if (evade <= player.TotalEvasion)
            {
                Console.WriteLine("You evaded the enemies attack!"); 
                return false;
@@ -50,6 +51,17 @@ namespace ProjectLegend
            {
                Console.WriteLine("The enemy missed their attack!"); 
                return false;
+           }
+       }
+
+       public static void CheckBuffsExpiration(Player player)
+       {
+           foreach (Buff buff in player.Buffs)
+           {
+               if (buff.TurnsRemaining == 0)
+               {
+                   
+               }
            }
        }
 
@@ -71,11 +83,30 @@ namespace ProjectLegend
            string stringArray = "[";
            for (int i = 0; i < arr.Length - 1; i++)
            {
-               stringArray += $"{arr[i]}, "; // creates string representation of array
+               stringArray += $"{arr[i].ToString()}, "; // creates string representation of array
            }
 
            stringArray += $"{arr[^1]}]";
            return stringArray;
+       }
+
+       public static string ToString(ArrayList arr)
+       {
+           if (arr.Count > 0)
+           {
+               string stringArray = "[";
+               for (int i = 0; i < arr.Count - 1; i++)
+               {
+                   stringArray += $"{arr[i].ToString()}, "; // creates string representation of array
+               }
+
+               stringArray += $"{arr[^1]}]";
+               return stringArray;
+           }
+           else
+           {
+               return "You do not have any active buffs!";
+           }
        }
 
        //NOT IN USE
