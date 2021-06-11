@@ -94,13 +94,16 @@ namespace ProjectLegend
              switch (cmd)
              {
                  case "attack":
+                     //activate abilities
                      if (commands.Length > 1 && _flags.Contains(commands[1]))
                      {
                          switch (commands[1])
                          {
                              case "-a":
+                                 Console.WriteLine("entered -a");
                                  break;
                              case "-u":
+                                 Console.WriteLine("entered -u");
                                  break;
                          }
                      }
@@ -113,6 +116,9 @@ namespace ProjectLegend
                      break;
                  case "stats":
                      Console.WriteLine(player.ToString());
+                     break;
+                 case "buffs":
+                     player.DisplayBuffs();
                      break;
                  default:
                      Console.WriteLine("Not a valid command!");
@@ -167,7 +173,7 @@ namespace ProjectLegend
          {
              void AttackPhase() //Player attack
              {
-                 bool attackEnemy = Utils.AttackChance(player);
+                 bool attackEnemy = player.AttackChance();
                  if (attackEnemy is true)
                  {
                      enemy.Health -= player.CurrentAttack;
@@ -183,7 +189,7 @@ namespace ProjectLegend
 
              void DefensePhase() //Player defense (enemy attack)
              {
-                 bool attackPlayer = Utils.DefenseChance(player, enemy);
+                 bool attackPlayer = player.DefenseChance(enemy);
                  if (attackPlayer is true)
                  {
                      player.CurrentHealth -= enemy.Attack;
@@ -198,6 +204,7 @@ namespace ProjectLegend
 
              void EndPhase() //end of combat phase
              {
+                 player.ProcessBuffs();
                  if(player.CurrentEnergy < player.MaxEnergy) 
                      player.CurrentEnergy += player.EnergyPerTurn;
                  else

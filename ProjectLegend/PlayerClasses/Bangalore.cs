@@ -18,13 +18,13 @@ namespace ProjectLegend.PlayerClasses
         {
             throw new System.NotImplementedException();
         }
-        
+
         //Active ability - activated by player
         public override void Active()
         {
             throw new System.NotImplementedException();
         }
-        
+
         //Ultimate - activated by player
         public override void Ultimate()
         {

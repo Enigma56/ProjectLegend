@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using ProjectLegend.PlayerClasses;
 
@@ -22,50 +23,8 @@ namespace ProjectLegend
             args = (from str in args select str.ToLower()).ToArray();
             return args;
        }
-       public static bool AttackChance(Player player)
-       {
-           var rand = new Random();
-           double playerRoll = Math.Round(rand.NextDouble(), 2);
-           //Console.WriteLine($"player roll: {playerRoll}");
-           if (playerRoll <= player.Accuracy) return true;
-           else
-           {
-               Console.WriteLine("Your attack missed the enemy!");
-               return false;
-           }
-       }
 
-       public static bool DefenseChance(Player player, Enemy enemy)
-       {
-           var rand = new Random();
-           double evade = Math.Round(rand.NextDouble(), 2);
-           double enemyRoll = Math.Round(rand.NextDouble(), 2);
-           //Console.WriteLine($"enemy roll: {enemyRoll}");
-           if (evade <= player.TotalEvasion)
-           {
-               Console.WriteLine("You evaded the enemies attack!"); 
-               return false;
-           }
-           else if (enemyRoll <= enemy.Accuracy) return true;
-           else
-           {
-               Console.WriteLine("The enemy missed their attack!"); 
-               return false;
-           }
-       }
-
-       public static void CheckBuffsExpiration(Player player)
-       {
-           foreach (Buff buff in player.Buffs)
-           {
-               if (buff.TurnsRemaining == 0)
-               {
-                   
-               }
-           }
-       }
-
-       public static void ExitSequence(Player p)
+        public static void ExitSequence(Player p)
        {
            Separator();
            Console.WriteLine($"You finished at level {p.Level}");
@@ -90,7 +49,7 @@ namespace ProjectLegend
            return stringArray;
        }
 
-       public static string ToString(ArrayList arr)
+       public static string ToString(List<Buff> arr)
        {
            if (arr.Count > 0)
            {

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace ProjectLegend.PlayerClasses
 {
@@ -52,9 +54,130 @@ namespace ProjectLegend.PlayerClasses
             LevelUpdate();
             StatUpdate();
         }
+        public static void ProcessBuffs(this Player player)
+        {
+            if (player.Buffs.Count > 0)
+            {
+                Buff[] currentBuffs = player.Buffs.ToArray();
+                foreach (var buff in currentBuffs)
+                {
+                    buff.MinusOneTurn();
+                    
+                    if (buff.TurnsRemaining == 0)
+                    {
+                        buff.Remove(player); //needs to be able to remove any buff, not just actives
+                        buff.Applied = false;
+                        Utils.Separator();
+                        Console.WriteLine($"{buff.Name} has expired!");
+                    }
+                }
+            }
+        }
+        public static void CheckBuffApplication(this Player player, Buff buff, int energyConsumption)
+        {
+            if (player.CurrentEnergy >= energyConsumption)
+            {
+                player.CurrentEnergy -= energyConsumption;
+                if (player.HasBuff(buff))
+                {
+                    buff.RefreshBuff();
+                    Console.WriteLine($"{buff} has been refreshed!");
+                }
+                else
+                {
+                    buff.Apply(player);
+                    Console.WriteLine($"{buff} has been applied!");
+                    buff.Applied = true;
+                }
+            }
+            else
+            {
+                Console.WriteLine("You do not have enough energy!");
+            }
+        }
+        
+        public static void CheckBuffApplication(this Player player, Buff[] buffs, int energyConsumption)
+        {
+            if (player.CurrentEnergy >= energyConsumption)
+            {
+                player.CurrentEnergy -= energyConsumption;
+                foreach (var buff in buffs)
+                {
+                    if (player.HasBuff(buff))
+                    {
+                        buff.RefreshBuff();
+                        Console.WriteLine($"{buff} has been refreshed!");
+                    }
+                    else
+                    {
+                        buff.Apply(player);
+                        Console.WriteLine($"{buff} has been applied!");
+                        buff.Applied = true;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("You do not have enough energy!");
+            }
+        }
+
         public static void DisplayBuffs(this Player player)
         {
-            Console.WriteLine(Utils.ToString(player.Buffs));
+            string buffs = "";
+            foreach (var buff in player.Buffs)
+            {
+                buffs += $"{buff}: Turns Remaining {buff.TurnsRemaining}" + Environment.NewLine;
+            }
+
+            Console.Write(buffs);
+        }
+
+        private static bool HasBuff(this Player player, Buff buff)
+        {
+            if (player.Buffs.Contains(buff) && buff.Applied)
+                return true;
+            
+            else
+                return false;
+        }
+
+        public static bool AttackChance(this Player player)
+        {
+            var rand = new Random();
+            double playerRoll = Math.Round(rand.NextDouble(), 2);
+            //Console.WriteLine($"player roll: {playerRoll}");
+            if (playerRoll <= player.Accuracy) return true;
+            else
+            {
+                Console.WriteLine("Your attack missed the enemy!");
+                return false;
+            }
+        }
+
+        public static bool DefenseChance(this Player player, Enemy enemy)
+        {
+            var rand = new Random();
+            double evade = Math.Round(rand.NextDouble(), 2);
+            double enemyRoll = Math.Round(rand.NextDouble(), 2);
+            //Console.WriteLine($"enemy roll: {enemyRoll}");
+            if (evade <= player.TotalEvasion)
+            {
+                Console.WriteLine("You evaded the enemies attack!"); 
+                return false;
+            }
+            else if (enemyRoll <= enemy.Accuracy) return true;
+            else
+            {
+                Console.WriteLine("The enemy missed their attack!"); 
+                return false;
+            }
+        }
+        
+        
+        public static void DisplayXpInfo(this Player player)
+        {
+            Console.WriteLine($"XP remaining: {player.Exp}/{player.ExpThresh}");
         }
     }
 }
