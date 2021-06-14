@@ -5,12 +5,12 @@ namespace ProjectLegend.CharacterClasses
 {
     public sealed class Wraith : Player
     {
-        private int _abilityEnergyConsumption;
         private double _passiveEvasionBonus = .05;
         private double _passiveAttackMultiplier = .05; //in percent
         private double _ultimateAttackMultiplier = .25;
         
         private Buff _evasive = new Buff("Evasive", 1);
+        
         private Buff _invulnerability = new Buff("Spectral Movement", 1);
         private Buff _raiseAttack = new Buff("Sharpened Mind", 1);
         
@@ -50,19 +50,17 @@ namespace ProjectLegend.CharacterClasses
             {
                 TotalEvasion -= _activeEvasionBonus;
             }
-            _abilityEnergyConsumption = 300;
-            
+
             _evasive.ApplyEffect = AddEvasive;
             _evasive.RemoveEffect = RemoveEvasive;
 
-            _evasive.Apply(this, _abilityEnergyConsumption);
+            _evasive.Apply(this, 300);
         }
 
         //Ultimate - activated by player
         public override void Ultimate(Enemy enemy) //Go invulnerable for one attack stage and raise attack by 25%
         {
-            _abilityEnergyConsumption = 500;
-            
+
             void Invulnerability(Character player)
             {
                 EvasionDifference = 1 - TotalEvasion;
@@ -88,9 +86,10 @@ namespace ProjectLegend.CharacterClasses
             _invulnerability.RemoveEffect = RemoveInvulnerability;
             _raiseAttack.ApplyEffect = RaiseAttack;
             _raiseAttack.RemoveEffect = RemoveAttack;
-            
-            _invulnerability.Apply(this, _abilityEnergyConsumption/2);
-            _raiseAttack.Apply(this, _abilityEnergyConsumption/2);
+
+            Buff[] buffs = { _invulnerability, _raiseAttack };
+
+            this.ApplyMultipleBuffs(buffs, 500);
         }
     }
 }

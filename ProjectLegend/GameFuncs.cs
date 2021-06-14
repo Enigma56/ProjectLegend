@@ -204,7 +204,7 @@ namespace ProjectLegend
 
              void EndPhase() //end of combat phase
              {
-                 player.ProcessBuffs();
+                 CharacterUtilities.ProcessBuffs(player, enemy);
                  if(player.CurrentEnergy < player.MaxEnergy) 
                      player.CurrentEnergy += player.EnergyPerTurn;
                  else

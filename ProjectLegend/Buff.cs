@@ -63,7 +63,7 @@ namespace ProjectLegend
                 Console.WriteLine($"Please set an application effect for {Name}!");
             }
         }
-        
+
         public void Remove(Character character)
         {  
             character.Buffs.Remove(this);
@@ -77,7 +77,7 @@ namespace ProjectLegend
             }
         }
 
-        private bool HasBuff(Character player)
+        public bool HasBuff(Character player)
         {
             if (player.Buffs.Contains(this) && Applied)
                 return true;

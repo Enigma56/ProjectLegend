@@ -24,7 +24,22 @@ namespace ProjectLegend.CharacterClasses
         //Active ability - activated by player
         public override void Active(Enemy enemy)
         {
+            void ReduceAccuracy(Character character)
+            {
+                enemy.Accuracy -= .33;
+            }
+
+            void RecoverAccuracy(Character character)
+            {
+                enemy.Accuracy += .33;
+            }
+
+            var smoked = new Debuff("Smoke Bomb", 2);
+            smoked.ApplyEffect = ReduceAccuracy;
+            smoked.RemoveEffect = RecoverAccuracy;
             
+            smoked.Apply(enemy, 250);
+
         }
 
         //Ultimate - activated by player
@@ -39,7 +54,7 @@ namespace ProjectLegend.CharacterClasses
             {
                 enemy.Stunned = false;
             }
-            Debuff stunned = new Debuff("Rolling Thunder", 1);
+            var stunned = new Debuff("Rolling Thunder", 1);
             stunned.ApplyEffect = ApplyStun;
             stunned.RemoveEffect = RemoveStun;
 

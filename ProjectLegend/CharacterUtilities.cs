@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ProjectLegend
 {
-    public static class PlayerUtilities
+    public static class CharacterUtilities
     {
         public static void AddLevel(this Player player)
         {
@@ -54,12 +54,13 @@ namespace ProjectLegend
             LevelUpdate();
             StatUpdate();
         }
-        public static void ProcessBuffs(this Character player)
+        public static void ProcessBuffs(Player player, Enemy enemy)
         {
+            //Process player buffs
             if (player.Buffs.Count > 0)
             {
-                Buff[] currentBuffs = player.Buffs.ToArray();
-                foreach (var buff in currentBuffs)
+                Buff[] currentPlayerBuffs = player.Buffs.ToArray();
+                foreach (var buff in currentPlayerBuffs)
                 {
                     buff.MinusOneTurn();
                     
@@ -72,9 +73,38 @@ namespace ProjectLegend
                     }
                 }
             }
+
+            if (enemy.Buffs.Count > 0)
+            {
+                Buff[] currentEnemyBuffs = enemy.Buffs.ToArray();
+                foreach (var buff in currentEnemyBuffs)
+                {
+                    buff.MinusOneTurn();
+                    
+                    if (buff.TurnsRemaining == 0)
+                    {
+                        buff.Remove(enemy); //needs to be able to remove any buff, not just actives
+                        buff.Applied = false;
+                        Utils.Separator();
+                        Console.WriteLine($"{buff.Name} has expired!");
+                    }
+                }
+            }
         }
 
-        public static void DisplayBuffs(this Player player)
+        public static void ApplyMultipleBuffs(this Character character, Buff[] buffs, int totalEnergyCost = 0)
+        {
+            int costPerBuff = totalEnergyCost / buffs.Length;
+            if (buffs.Length > 0)
+            {
+                foreach (var buff in buffs)
+                {
+                    buff.Apply(character, costPerBuff);
+                }
+            }
+        }
+
+        public static void DisplayBuffs(this Character player)
         {
             string buffs = "";
             foreach (var buff in player.Buffs)
