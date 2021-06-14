@@ -11,26 +11,39 @@ namespace ProjectLegend.PlayerClasses
             
             CurrentHealth = MaxHealth;
             CurrentAttack = MaxAttack;
+            
+            Passive();
 
         }
         
         public override void Passive()
         {
-            throw new System.NotImplementedException();
+            TotalEvasion += .1;
         }
 
         //Active ability - activated by player
-        public override void Active()
+        public override void Active(Enemy enemy)
         {
-            throw new System.NotImplementedException();
+            
         }
 
         //Ultimate - activated by player
-        public override void Ultimate()
+        public override void Ultimate(Enemy enemy)
         {
-            throw new System.NotImplementedException();
-        }
+            void ApplyStun(Character character)
+            {
+                enemy.Stunned = true;
+            }
 
-        
+            void RemoveStun(Character character)
+            {
+                enemy.Stunned = false;
+            }
+            Debuff stunned = new Debuff("Rolling Thunder", 1);
+            stunned.ApplyEffect = ApplyStun;
+            stunned.RemoveEffect = RemoveStun;
+
+            stunned.Apply(enemy);
+        }
     }
 }

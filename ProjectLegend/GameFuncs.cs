@@ -176,13 +176,13 @@ namespace ProjectLegend
                  bool attackEnemy = player.AttackChance();
                  if (attackEnemy is true)
                  {
-                     enemy.Health -= player.CurrentAttack;
+                     enemy.CurrentHealth -= player.CurrentAttack;
                  }
              }
 
              bool CheckEnemyDeath()
              {
-                 bool enemyIsDead = enemy.Health <= 0;
+                 bool enemyIsDead = enemy.CurrentHealth <= 0;
                  if (enemyIsDead) enemy.Dead = true;
                  return enemyIsDead;
              }
@@ -192,7 +192,7 @@ namespace ProjectLegend
                  bool attackPlayer = player.DefenseChance(enemy);
                  if (attackPlayer is true)
                  {
-                     player.CurrentHealth -= enemy.Attack;
+                     player.CurrentHealth -= enemy.CurrentAttack;
                  }
              }
 
@@ -264,7 +264,7 @@ namespace ProjectLegend
          private void ViewStats(Player player, Enemy enemy)
          {
              string playerStats = $"Your  Health: {player.CurrentHealth,-6}Your  Attack: {player.CurrentAttack}";
-             string enemyStats = $"Enemy Health: {enemy.Health,-6}Enemy Attack: {enemy.Attack}";
+             string enemyStats = $"Enemy Health: {enemy.CurrentHealth,-6}Enemy Attack: {enemy.CurrentAttack}";
              Console.WriteLine(playerStats + 
                                Environment.NewLine +
                                enemyStats);
@@ -274,7 +274,7 @@ namespace ProjectLegend
          {
              Console.WriteLine($"Your  Health: {player.CurrentHealth}" + 
                                Environment.NewLine +
-                               $"Enemy Health: {enemy.Health}");
+                               $"Enemy Health: {enemy.CurrentHealth}");
          }
 
          public string[] GenCommands()

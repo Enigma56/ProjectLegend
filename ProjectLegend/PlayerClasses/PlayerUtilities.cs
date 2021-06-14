@@ -54,7 +54,7 @@ namespace ProjectLegend.PlayerClasses
             LevelUpdate();
             StatUpdate();
         }
-        public static void ProcessBuffs(this Player player)
+        public static void ProcessBuffs(this Character player)
         {
             if (player.Buffs.Count > 0)
             {
@@ -73,54 +73,6 @@ namespace ProjectLegend.PlayerClasses
                 }
             }
         }
-        public static void CheckBuffApplication(this Player player, Buff buff, int energyConsumption)
-        {
-            if (player.CurrentEnergy >= energyConsumption)
-            {
-                player.CurrentEnergy -= energyConsumption;
-                if (player.HasBuff(buff))
-                {
-                    buff.RefreshBuff();
-                    Console.WriteLine($"{buff} has been refreshed!");
-                }
-                else
-                {
-                    buff.Apply(player);
-                    Console.WriteLine($"{buff} has been applied!");
-                    buff.Applied = true;
-                }
-            }
-            else
-            {
-                Console.WriteLine("You do not have enough energy!");
-            }
-        }
-        
-        public static void CheckBuffApplication(this Player player, Buff[] buffs, int energyConsumption)
-        {
-            if (player.CurrentEnergy >= energyConsumption)
-            {
-                player.CurrentEnergy -= energyConsumption;
-                foreach (var buff in buffs)
-                {
-                    if (player.HasBuff(buff))
-                    {
-                        buff.RefreshBuff();
-                        Console.WriteLine($"{buff} has been refreshed!");
-                    }
-                    else
-                    {
-                        buff.Apply(player);
-                        Console.WriteLine($"{buff} has been applied!");
-                        buff.Applied = true;
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("You do not have enough energy!");
-            }
-        }
 
         public static void DisplayBuffs(this Player player)
         {
@@ -131,15 +83,6 @@ namespace ProjectLegend.PlayerClasses
             }
 
             Console.Write(buffs);
-        }
-
-        private static bool HasBuff(this Player player, Buff buff)
-        {
-            if (player.Buffs.Contains(buff) && buff.Applied)
-                return true;
-            
-            else
-                return false;
         }
 
         public static bool AttackChance(this Player player)

@@ -25,8 +25,7 @@ namespace ProjectLegend.PlayerClasses
             CurrentEnergy = 1000;
 
             Passive();
-            Active();
-            
+
             CurrentHealth = MaxHealth;
             CurrentAttack = MaxAttack;
 
@@ -41,13 +40,13 @@ namespace ProjectLegend.PlayerClasses
         }
         
         //Active ability - activated by player
-        public override void Active() //Raise evasion by 40% for 1 turn
+        public override void Active(Enemy enemy) //Raise evasion by 40% for 1 turn
         {
-            void AddEvasive(Player player)
+            void AddEvasive(Character player)
             {
             TotalEvasion += _activeEvasionBonus;
             }
-            void RemoveEvasive(Player player)
+            void RemoveEvasive(Character player)
             {
                 TotalEvasion -= _activeEvasionBonus;
             }
@@ -56,30 +55,30 @@ namespace ProjectLegend.PlayerClasses
             _evasive.ApplyEffect = AddEvasive;
             _evasive.RemoveEffect = RemoveEvasive;
 
-            this.CheckBuffApplication(_evasive, _abilityEnergyConsumption);
+            _evasive.Apply(this, _abilityEnergyConsumption);
         }
 
         //Ultimate - activated by player
-        public override void Ultimate() //Go invulnerable for one attack stage and raise attack by 25%
+        public override void Ultimate(Enemy enemy) //Go invulnerable for one attack stage and raise attack by 25%
         {
             _abilityEnergyConsumption = 500;
             
-            void Invulnerability(Player player)
+            void Invulnerability(Character player)
             {
                 EvasionDifference = 1 - TotalEvasion;
                 TotalEvasion += EvasionDifference; //caps evasion at 1.0
             }
-            void RemoveInvulnerability(Player player)
+            void RemoveInvulnerability(Character player)
             {
                 TotalEvasion -= EvasionDifference;
                 EvasionDifference = 0;
             }
-            void RaiseAttack(Player player)
+            void RaiseAttack(Character player)
             {
                 AttackDifference = (int) Math.Ceiling(CurrentAttack * _ultimateAttackMultiplier);
                 CurrentAttack += AttackDifference;
             }
-            void RemoveAttack(Player player)
+            void RemoveAttack(Character player)
             {
                 CurrentAttack -= AttackDifference;
                 AttackDifference = 0;
@@ -87,12 +86,11 @@ namespace ProjectLegend.PlayerClasses
             
             _invulnerability.ApplyEffect = Invulnerability;
             _invulnerability.RemoveEffect = RemoveInvulnerability;
-            
             _raiseAttack.ApplyEffect = RaiseAttack;
             _raiseAttack.RemoveEffect = RemoveAttack;
-
-            Buff[] buffs = { _invulnerability, _raiseAttack };
-            this.CheckBuffApplication(buffs, _abilityEnergyConsumption);
+            
+            _invulnerability.Apply(this, _abilityEnergyConsumption/2);
+            _raiseAttack.Apply(this, _abilityEnergyConsumption/2);
         }
     }
 }

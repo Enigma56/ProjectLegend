@@ -4,25 +4,17 @@ using System.Collections.Generic;
 
 namespace ProjectLegend.PlayerClasses
 {
-    public abstract class Player
+    public abstract class Player : Character
     {
         public int Level { get; set; }
         public int Exp { get; set; }
         public int ExpThresh { get; set; }
         
-        public List<Buff> Buffs { get; init; }
         public int MaxEnergy { get; set; }
         public int CurrentEnergy { get; set; }
         public int EnergyPerTurn { get; set; }
         
-        //Character Stats
-        public int MaxHealth { get; set; }
-        public int CurrentHealth { get; set; }
-
-        public int MaxAttack { get; set; }
-        public int CurrentAttack { get; set; }
         
-        public double Accuracy { get; set; }
         public int Vitality { get; set; }
         public int Strength { get; set; }
         
@@ -38,7 +30,7 @@ namespace ProjectLegend.PlayerClasses
             Buffs = new List<Buff>();
             
             MaxEnergy = 1000;
-            CurrentEnergy = 300;
+            CurrentEnergy = 0;
             EnergyPerTurn = 50;
             
             Accuracy = 1;
@@ -50,15 +42,15 @@ namespace ProjectLegend.PlayerClasses
             UnbuffedEvasionCap = .01;
             EvasionPerLevel = .005;
             
+            Level = 1;
             Exp = 0;
             ExpThresh = 10;
-            Level = 1;
         }
         
        
         public abstract void Passive(); //No flag; always active
-        public abstract void Active(); //Flag -a
-        public abstract void Ultimate(); //Flag: -u
+        public abstract void Active(Enemy enemy); //Flag -a
+        public abstract void Ultimate(Enemy enemy); //Flag: -u
         
 
         public override string ToString()
