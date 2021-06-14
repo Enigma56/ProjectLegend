@@ -1,6 +1,6 @@
 ﻿
 
-namespace ProjectLegend.PlayerClasses
+namespace ProjectLegend.CharacterClasses
 {
     public sealed class Bangalore : Player
     {

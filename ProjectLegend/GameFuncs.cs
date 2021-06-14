@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectLegend.PlayerClasses;
+using ProjectLegend.CharacterClasses;
 
 
 namespace ProjectLegend

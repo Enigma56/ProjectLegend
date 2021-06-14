@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace ProjectLegend.PlayerClasses
+namespace ProjectLegend.CharacterClasses
 {
     public abstract class Player : Character
     {

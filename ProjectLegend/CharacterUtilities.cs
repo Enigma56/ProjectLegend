@@ -1,8 +1,8 @@
 ﻿using System;
+using ProjectLegend.CharacterClasses;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
-namespace ProjectLegend.PlayerClasses
+namespace ProjectLegend
 {
     public static class PlayerUtilities
     {
@@ -10,7 +10,7 @@ namespace ProjectLegend.PlayerClasses
         {
             void LevelUpdate()
             { 
-                int xp =player.Exp;
+                int xp = player.Exp;
                 int oldLevel = player.Level;
                 
                 player.Exp = 0;

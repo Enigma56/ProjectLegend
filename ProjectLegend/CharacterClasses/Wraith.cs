@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-namespace ProjectLegend.PlayerClasses
+namespace ProjectLegend.CharacterClasses
 {
     public sealed class Wraith : Player
     {
