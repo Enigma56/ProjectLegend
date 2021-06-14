@@ -62,7 +62,7 @@ namespace ProjectLegend
                            Console.Write("Available commands are: ");
                            Utils.ToString(_genCommands);
                            Console.WriteLine("Type a command after help to see more info on it!");
-                           Utils.Separator();
+                           Utils.Separator('-');
                            
                            // if clause ?(then) ... :(else) ...
                            try
@@ -70,7 +70,7 @@ namespace ProjectLegend
                                Console.WriteLine(_genCommands.Contains(commands[1])
                                    ? $"Command: {commands[1]}" + Environment.NewLine +$"Info: {_commandInfo[commands[1]]}"
                                    : "Command not in list!");
-                               Utils.Separator();
+                               Utils.Separator('-');
                            }
                            catch (IndexOutOfRangeException)
                            {
@@ -100,19 +100,19 @@ namespace ProjectLegend
                          switch (commands[1])
                          {
                              case "-a":
-                                 Console.WriteLine("entered -a");
+                                 Utils.Separator('*');
+                                 Console.WriteLine("You activated your Active ability!");
+                                 player.Active(enemy);
                                  break;
                              case "-u":
-                                 Console.WriteLine("entered -u");
+                                 Console.WriteLine("You activated your ultimate ability!");
+                                 player.Ultimate(enemy);
                                  break;
                          }
                      }
                      //Check if attack lands
                      BattlePhase(player, enemy);
-                     Utils.Separator();
-                     Console.WriteLine("Remaining Stats:");
-                     ViewHealth(player, enemy);
-                     Utils.Separator();
+                     Utils.Separator('-');
                      break;
                  case "stats":
                      Console.WriteLine(player.ToString());
@@ -130,10 +130,10 @@ namespace ProjectLegend
          {
              var enemy = new Enemy();
 
-             Utils.Separator();
+             Utils.Separator('-');
              Console.WriteLine("Starting Stats:");
              ViewStats(player, enemy);
-             Utils.Separator();
+             Utils.Separator('-');
              bool fighting = true;
              Fight:
                  while (fighting)
@@ -148,17 +148,17 @@ namespace ProjectLegend
                  }
 
                  Console.WriteLine("Would you like to fight another enemy? Enter yes or no");
-                 Utils.Separator();
+                 Utils.Separator('-');
              Response:
                  string response = Utils.ReadInput(_yesNo)[0];
                  if (Equals(response, "yes"))
                  {
                      enemy = RespawnEnemy();
                      fighting = true;
-                     Utils.Separator();
+                     Utils.Separator('-');
                      Console.WriteLine("Re-Starting Stats:");
                      ViewStats(player, enemy);
-                     Utils.Separator();
+                     Utils.Separator('-');
                      goto Fight;
                  }
                  else if ( !Equals(response, "yes") && !Equals(response, "no"))
@@ -166,7 +166,11 @@ namespace ProjectLegend
                      Console.WriteLine("Please type yes or no!");
                      goto Response;
                  }
-                 else { Console.WriteLine("Exiting back to main loop!"); }
+                 else
+                 {
+                     Utils.Separator('-');
+                     Console.WriteLine("Exiting back to main loop!");
+                 }
          }
 
          private void BattlePhase(Player player, Enemy enemy) //Processes attack and defense
@@ -205,10 +209,19 @@ namespace ProjectLegend
              void EndPhase() //end of combat phase
              {
                  CharacterUtilities.ProcessBuffs(player, enemy);
-                 if(player.CurrentEnergy < player.MaxEnergy) 
+                 Utils.Separator('-');
+                 Console.WriteLine("Remaining Stats:");
+                 ViewHealth(player, enemy);
+
+                 if (player.CurrentEnergy < player.MaxEnergy)
+                 {
                      player.CurrentEnergy += player.EnergyPerTurn;
+                     Console.WriteLine(Environment.NewLine + $"You gained {player.EnergyPerTurn} energy!");
+                 }
+                 
                  else
                  {
+                     Utils.Separator('-');
                      Console.WriteLine("Your energy is full! Use abilities your abilities!");
                  }
              }
@@ -219,9 +232,9 @@ namespace ProjectLegend
              if ( enemyDeath )
              {
                  EndPhase();
-                 Utils.Separator();
+                 Utils.Separator('-');
                  Console.WriteLine("You killed the enemy!");
-                 Utils.Separator();
+                 Utils.Separator('-');
                  DroppedExp(player, enemy);
                  player.DisplayXpInfo();
              }

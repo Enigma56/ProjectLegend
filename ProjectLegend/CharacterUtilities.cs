@@ -68,7 +68,7 @@ namespace ProjectLegend
                     {
                         buff.Remove(player); //needs to be able to remove any buff, not just actives
                         buff.Applied = false;
-                        Utils.Separator();
+                        Utils.Separator('-');
                         Console.WriteLine($"{buff.Name} has expired!");
                     }
                 }
@@ -85,7 +85,7 @@ namespace ProjectLegend
                     {
                         buff.Remove(enemy); //needs to be able to remove any buff, not just actives
                         buff.Applied = false;
-                        Utils.Separator();
+                        Utils.Separator('-');
                         Console.WriteLine($"{buff.Name} has expired!");
                     }
                 }

@@ -26,15 +26,15 @@ namespace ProjectLegend
 
         public static void ExitSequence(Player p)
        {
-           Separator();
+           Separator('-');
            Console.WriteLine($"You finished at level {p.Level}");
-           Separator();
+           Separator('-');
            Environment.Exit(0);
        }
        
-       public static void Separator()
+       public static void Separator(char sep)
        {
-           string separator = "--------------------------";
+           var separator = new string(sep, 30);
            Console.WriteLine(separator);
        }
        public static string ToString<T>(T[] arr)

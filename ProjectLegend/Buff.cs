@@ -44,6 +44,7 @@ namespace ProjectLegend
                             ApplyEffect(player);
                             Console.WriteLine($"{this} has been applied!");
                             Applied = true;
+                            Utils.Separator('*');
                         }
                     }
                     else
@@ -71,7 +72,7 @@ namespace ProjectLegend
             {
                 RemoveEffect(character);
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 Console.WriteLine($"Please create a remove effect for {Name}");
             }

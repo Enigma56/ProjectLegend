@@ -10,7 +10,6 @@ namespace ProjectLegend.CharacterClasses
         private double _ultimateAttackMultiplier = .25;
         
         private Buff _evasive = new Buff("Evasive", 1);
-        
         private Buff _invulnerability = new Buff("Spectral Movement", 1);
         private Buff _raiseAttack = new Buff("Sharpened Mind", 1);
         
@@ -28,8 +27,6 @@ namespace ProjectLegend.CharacterClasses
 
             CurrentHealth = MaxHealth;
             CurrentAttack = MaxAttack;
-
-            Console.WriteLine(ToString());
         }
         
         // Passive ability - always active
