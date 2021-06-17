@@ -7,7 +7,7 @@ namespace ProjectLegend.CharacterClasses
     {
         //Passive
         private double _passiveEvasionBonus = .05;
-        private double _passiveAttackMultiplier = .5; //in percent
+        private double _passiveAttackMultiplier = .05; //in percent
         private int PassiveAttackIncrease { get; set; }
 
         private int PassiveDifference { get; set; }

@@ -133,11 +133,12 @@ namespace ProjectLegend
         {
             var rand = new Random();
             double playerRoll = Math.Round(rand.NextDouble(), 2);
-            if (enemy.Invulnerable)
-            {
+            if (player.Stunned)
                 return false;
-            }
-            else if (playerRoll <= player.Accuracy) return true;
+            else if (enemy.Invulnerable)
+                return false;
+            else if (playerRoll <= player.Accuracy) 
+                return true;
             else
             {
                 Console.WriteLine("Your attack missed the enemy!");
@@ -152,6 +153,8 @@ namespace ProjectLegend
             double enemyRoll = Math.Round(rand.NextDouble(), 2);
 
             if (player.Invulnerable) 
+                return false;
+            else if (enemy.Stunned)
                 return false;
             else if (evade <= player.TotalEvasion)
             {

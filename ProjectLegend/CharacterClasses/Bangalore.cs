@@ -60,7 +60,7 @@ namespace ProjectLegend.CharacterClasses
             {
                 enemy.Stunned = false;
             }
-            var stunned = new Debuff("Rolling Thunder", 1);
+            var stunned = new Debuff("Rolling Thunder", 2);
             stunned.ApplyEffect = ApplyStun;
             stunned.RemoveEffect = RemoveStun;
 
