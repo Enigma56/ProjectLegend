@@ -16,6 +16,11 @@ namespace ProjectLegend.CharacterClasses
         
         public double Accuracy { get; set; }
         
+        //Character states
+        public bool Invulnerable { get; set; }
+        public bool Stunned { get; set; }
+        public bool Dead { get; set; }
+        
         protected Character() //protected prevents Character from being instantiated anywhere except within Player and Enemy
         {
             Buffs = new List<Buff>();

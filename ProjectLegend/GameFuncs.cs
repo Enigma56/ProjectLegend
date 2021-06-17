@@ -9,7 +9,7 @@ namespace ProjectLegend
     public class GameFuncs
     {
         private readonly string[] _genCommands = {"fight", "help", "exit"};
-        private readonly string[] _combatCommands = {"attack", "stats"};
+        private readonly string[] _combatCommands = {"attack", "energy" ,"buffs", "stats"};
         private readonly string[] _flags = { "-a", "-u" };
         
         private readonly string[] _playerLegends = {"Bangalore", "Wraith"};
@@ -40,6 +40,9 @@ namespace ProjectLegend
                         player = new Wraith();
                         break;
                     //Defensive
+                    case "gibraltar":
+                        player = new Gibraltar();
+                        break;
                     //Suport
                     //Recon
                     default:
@@ -95,6 +98,7 @@ namespace ProjectLegend
              {
                  case "attack":
                      //activate abilities
+                     Console.WriteLine("Use flags -a and -u after \"attack\" to use active and ultimate abilities when you have enough energy!");
                      if (commands.Length > 1 && _flags.Contains(commands[1]))
                      {
                          switch (commands[1])
@@ -119,6 +123,9 @@ namespace ProjectLegend
                      break;
                  case "buffs":
                      player.DisplayBuffs();
+                     break;
+                 case "energy":
+                     Console.WriteLine($"You currently have {player.CurrentEnergy} energy");
                      break;
                  default:
                      Console.WriteLine("Not a valid command!");
@@ -177,7 +184,7 @@ namespace ProjectLegend
          {
              void AttackPhase() //Player attack
              {
-                 bool attackEnemy = player.AttackChance();
+                 bool attackEnemy = player.AttackChance(enemy);
                  if (attackEnemy is true)
                  {
                      enemy.CurrentHealth -= player.CurrentAttack;
@@ -202,8 +209,8 @@ namespace ProjectLegend
 
              bool CheckPlayerDeath()
              {
-                 bool playerIsDead = player.CurrentHealth <= 0;
-                 return playerIsDead;
+                 player.Dead = player.CurrentHealth <= 0;
+                 return player.Dead;
              }
 
              void EndPhase() //end of combat phase

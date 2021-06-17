@@ -5,23 +5,26 @@ namespace ProjectLegend.CharacterClasses
 {
     public sealed class Wraith : Player
     {
+        //Passive
         private double _passiveEvasionBonus = .05;
-        private double _passiveAttackMultiplier = .05; //in percent
+        private double _passiveAttackMultiplier = .5; //in percent
+        private int PassiveAttackIncrease { get; set; }
+
+        private int PassiveDifference { get; set; }
+        //Active
+        private double _activeEvasionBonus = .3;
+        
+        //Ultimate
         private double _ultimateAttackMultiplier = .25;
-        
-        private Buff _evasive = new Buff("Evasive", 1);
-        private Buff _invulnerability = new Buff("Spectral Movement", 1);
-        private Buff _raiseAttack = new Buff("Sharpened Mind", 1);
-        
         private double EvasionDifference { get; set; }
         private int AttackDifference { get; set; }
-
-        private double _activeEvasionBonus = .3;
+        
         public Wraith()
         {
             MaxHealth = 50;
             MaxAttack = 20;
-            CurrentEnergy = 1000;
+            
+            CurrentEnergy = 0;
 
             Passive();
 
@@ -29,11 +32,25 @@ namespace ProjectLegend.CharacterClasses
             CurrentAttack = MaxAttack;
         }
         
-        // Passive ability - always active
+        
         public override void Passive() //Increased evasion and attack
         {
             TotalEvasion += _passiveEvasionBonus;
-            MaxAttack += (int) (MaxAttack * _passiveAttackMultiplier);
+            
+            PassiveAttackIncrease = (int) (MaxAttack * _passiveAttackMultiplier);
+            MaxAttack += PassiveAttackIncrease;
+
+            CanUpdatePassive = true;
+        }
+
+        public override void UpdatePassive()
+        {
+            int oldPassiveIncrease = PassiveAttackIncrease;
+            PassiveAttackIncrease = (int) ((MaxAttack - oldPassiveIncrease) * _passiveAttackMultiplier);
+            MaxAttack -= oldPassiveIncrease;
+            MaxAttack += PassiveAttackIncrease;
+
+            CurrentAttack = MaxAttack;
         }
         
         //Active ability - activated by player
@@ -47,11 +64,12 @@ namespace ProjectLegend.CharacterClasses
             {
                 TotalEvasion -= _activeEvasionBonus;
             }
+            
+            Buff evasive = new Buff("Evasive", 1);
+            evasive.ApplyEffect = AddEvasive;
+            evasive.RemoveEffect = RemoveEvasive;
 
-            _evasive.ApplyEffect = AddEvasive;
-            _evasive.RemoveEffect = RemoveEvasive;
-
-            _evasive.Apply(this, 300);
+            evasive.Apply(this, 300);
         }
 
         //Ultimate - activated by player
@@ -78,13 +96,16 @@ namespace ProjectLegend.CharacterClasses
                 CurrentAttack -= AttackDifference;
                 AttackDifference = 0;
             }
+            var invulnerability = new Buff("Spectral Movement", 1);
+            var raiseAttack = new Buff("Sharpened Mind", 1);
             
-            _invulnerability.ApplyEffect = Invulnerability;
-            _invulnerability.RemoveEffect = RemoveInvulnerability;
-            _raiseAttack.ApplyEffect = RaiseAttack;
-            _raiseAttack.RemoveEffect = RemoveAttack;
+            invulnerability.ApplyEffect = Invulnerability;
+            invulnerability.RemoveEffect = RemoveInvulnerability;
+            raiseAttack.ApplyEffect = RaiseAttack;
+            raiseAttack.RemoveEffect = RemoveAttack;
 
-            Buff[] buffs = { _invulnerability, _raiseAttack };
+            
+            Buff[] buffs = { invulnerability, raiseAttack };
 
             this.ApplyMultipleBuffs(buffs, 500);
         }

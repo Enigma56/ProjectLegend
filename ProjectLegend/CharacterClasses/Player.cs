@@ -24,6 +24,8 @@ namespace ProjectLegend.CharacterClasses
         
         public double EvasionPerLevel { get; set; }
         
+        public bool CanUpdatePassive { get; set; }
+        
 
         protected Player()
         {
@@ -49,8 +51,11 @@ namespace ProjectLegend.CharacterClasses
         
        
         public abstract void Passive(); //No flag; always active
+        public abstract void UpdatePassive();
         public abstract void Active(Enemy enemy); //Flag -a
         public abstract void Ultimate(Enemy enemy); //Flag: -u
+        
+        
         
 
         public override string ToString()

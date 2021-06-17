@@ -5,10 +5,7 @@ namespace ProjectLegend.CharacterClasses
     public class Enemy : Character
     {
         public int ExpDrop { get; set; }
-        
-        //States
-        public bool Dead { get; set; }
-        public bool Stunned { get; set; }
+
         public Enemy()
         {
             var rand = new Random();

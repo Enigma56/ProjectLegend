@@ -8,6 +8,7 @@ namespace ProjectLegend
     {
         public static void AddLevel(this Player player)
         {
+
             void LevelUpdate()
             { 
                 int xp = player.Exp;
@@ -42,6 +43,12 @@ namespace ProjectLegend
                     player.UnbuffedEvasion += player.EvasionPerLevel;
                     player.TotalEvasion += player.EvasionPerLevel;
                 }
+
+                if (player.CanUpdatePassive)
+                {
+                    player.UpdatePassive();
+                }
+                
 
                 Console.WriteLine(Environment.NewLine + $"Max Health Up! {oldMaxHealthVal} --> {player.CurrentHealth}"
                                                       + Environment.NewLine + $"Attack Up! {oldAttackVal} --> {player.CurrentAttack}");
@@ -106,21 +113,31 @@ namespace ProjectLegend
 
         public static void DisplayBuffs(this Character player)
         {
-            string buffs = "";
-            foreach (var buff in player.Buffs)
+            if (player.Buffs.Count > 0)
             {
-                buffs += $"{buff}: Turns Remaining {buff.TurnsRemaining}" + Environment.NewLine;
-            }
+                string buffs = "";
+                foreach (var buff in player.Buffs)
+                {
+                    buffs += $"{buff}: Turns Remaining {buff.TurnsRemaining}" + Environment.NewLine;
+                }
 
-            Console.Write(buffs);
+                Console.Write(buffs);
+            }
+            else
+            {
+                Console.WriteLine("You do not have any active buffs!");
+            }
         }
 
-        public static bool AttackChance(this Player player)
+        public static bool AttackChance(this Player player, Enemy enemy) //player attacks enemy
         {
             var rand = new Random();
             double playerRoll = Math.Round(rand.NextDouble(), 2);
-            //Console.WriteLine($"player roll: {playerRoll}");
-            if (playerRoll <= player.Accuracy) return true;
+            if (enemy.Invulnerable)
+            {
+                return false;
+            }
+            else if (playerRoll <= player.Accuracy) return true;
             else
             {
                 Console.WriteLine("Your attack missed the enemy!");
@@ -128,21 +145,24 @@ namespace ProjectLegend
             }
         }
 
-        public static bool DefenseChance(this Player player, Enemy enemy)
+        public static bool DefenseChance(this Player player, Enemy enemy) //enemy attacks player
         {
             var rand = new Random();
             double evade = Math.Round(rand.NextDouble(), 2);
             double enemyRoll = Math.Round(rand.NextDouble(), 2);
-            //Console.WriteLine($"enemy roll: {enemyRoll}");
-            if (evade <= player.TotalEvasion)
+
+            if (player.Invulnerable) 
+                return false;
+            else if (evade <= player.TotalEvasion)
             {
-                Console.WriteLine("You evaded the enemies attack!"); 
+                Console.WriteLine("You evaded the enemies attack!");
                 return false;
             }
-            else if (enemyRoll <= enemy.Accuracy) return true;
+            else if (enemyRoll <= enemy.Accuracy)
+                return true;
             else
             {
-                Console.WriteLine("The enemy missed their attack!"); 
+                Console.WriteLine("The enemy missed their attack!");
                 return false;
             }
         }
