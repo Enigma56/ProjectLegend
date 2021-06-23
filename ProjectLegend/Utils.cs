@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using ProjectLegend.CharacterClasses;
 
@@ -9,13 +11,14 @@ namespace ProjectLegend
     public static class Utils
     {
 
-        public static string[] ReadInput(string[] options)
+        public static string[] ReadInput(string[] options = null)
         {
             string input;
             string[] args;
             do
             {
-                Console.WriteLine("Your current options are: " + ToString(options));
+                if(options is not null)
+                    Console.WriteLine("Your current options are: " + ToString(options));
                 input = Console.ReadLine();
                 args = input.Split();
             } while (Equals(input, ""));
@@ -23,6 +26,20 @@ namespace ProjectLegend
             args = (from str in args select str.ToLower()).ToArray();
             return args;
        }
+        
+        public static List<int> EmptyIndeces<T>( this T[] array)
+        {
+            var emptyIndeces = new List<int>();
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] is null)
+                {
+                    emptyIndeces.Add(i);
+                }
+            }
+
+            return emptyIndeces;
+        }
 
         public static void ExitSequence(Player p)
        {
@@ -42,11 +59,33 @@ namespace ProjectLegend
            string stringArray = "[";
            for (int i = 0; i < arr.Length - 1; i++)
            {
-               stringArray += $"{arr[i].ToString()}, "; // creates string representation of array
+               stringArray += $"{PrintArrayElement(arr[i])}, "; // creates string representation of array
            }
 
-           stringArray += $"{arr[^1]}]";
+           stringArray += $"{PrintArrayElement(arr[^1])}]";
            return stringArray;
+       }
+
+       public static string ToStringWithIndices<T>(T[] arr)
+       {
+           string stringArray = "[";
+           for (int i = 0; i < arr.Length - 1; i++)
+           {
+               stringArray += $"{i + 1}: {PrintArrayElement(arr[i])}, "; // creates string representation of array
+           }
+
+           stringArray += $"{arr.Length}: {PrintArrayElement(arr[^1])}]";
+           return stringArray;
+       }
+
+       public static string PrintArrayElement<T>(T arrayItem)
+       {
+           if (arrayItem is null)
+               return "empty";
+           else
+           {
+               return arrayItem.ToString();
+           }
        }
 
        public static string ToString(List<Buff> arr)
@@ -84,7 +123,6 @@ namespace ProjectLegend
                    Console.WriteLine($"{e}: Item not found in array!");
                }
            }
-
            return null;
        }
 

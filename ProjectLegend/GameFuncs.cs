@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using ProjectLegend.CharacterClasses;
+using ProjectLegend.Items;
+using ProjectLegend.Items.Consumables;
 
 
 namespace ProjectLegend
 {
     public class GameFuncs
     {
-        private readonly string[] _genCommands = {"fight", "help", "exit"};
-        private readonly string[] _combatCommands = {"attack", "energy" ,"buffs", "stats"};
+        private readonly string[] _genCommands = {"fight", "inventory", "help", "exit"};
+        private readonly string[] _combatCommands = {"attack", "buffs", "stats", "inventory"};
         private readonly string[] _flags = { "-a", "-u" };
         
         private readonly string[] _playerLegends = {"Bangalore", "Wraith"};
@@ -29,7 +31,7 @@ namespace ProjectLegend
             Player player = null;
             while (player is null)
             {
-                string chosenCharacter = Utils.ReadInput(PlayerLegends())[0];
+                string chosenCharacter = Utils.ReadInput(_playerLegends)[0];
                 switch (chosenCharacter)
                 {
                     //Offensive
@@ -79,7 +81,9 @@ namespace ProjectLegend
                            {
                                Console.WriteLine("No command was found! Please provide a command after \'help\'");
                            }
-
+                           break;
+                       case "inventory":
+                           player.DisplayInventory();
                            break;
                        case "exit":
                            //Exit out of the game
@@ -124,8 +128,8 @@ namespace ProjectLegend
                  case "buffs":
                      player.DisplayBuffs();
                      break;
-                 case "energy":
-                     Console.WriteLine($"You currently have {player.CurrentEnergy} energy");
+                 case "inventory":
+                     player.DisplayInventory();
                      break;
                  default:
                      Console.WriteLine("Not a valid command!");
@@ -150,7 +154,7 @@ namespace ProjectLegend
                          fighting = false;
                          goto Fight; //Immediately checks expression
                      }
-                     string[] commands = Utils.ReadInput(CombatCommands());
+                     string[] commands = Utils.ReadInput(_combatCommands);
                      ParseCombatCommand(commands, player, enemy);
                  }
 
@@ -242,8 +246,7 @@ namespace ProjectLegend
                  Utils.Separator('-');
                  Console.WriteLine("You killed the enemy!");
                  Utils.Separator('-');
-                 DroppedExp(player, enemy);
-                 player.DisplayXpInfo();
+                 PlayerDrops(player, enemy);
              }
              else
              {
@@ -267,13 +270,30 @@ namespace ProjectLegend
              return e;
          }
 
-         private void DroppedExp(Player player, Enemy enemy)
+         private void PlayerDrops(Player player, Enemy enemy)
          {
-             player.Exp += enemy.ExpDrop;
-             if (player.Exp >= player.ExpThresh)
+             void expDrop()
              {
-                 player.AddLevel();
+                 player.Exp += enemy.ExpDrop;
+                 if (player.Exp >= player.ExpThresh)
+                 {
+                     player.AddLevel();
+                 }
+                 player.DisplayXpInfo();
              }
+
+             void itemDrop()
+             {
+                 var rollGenerator = new Random();
+                 double itemRoll = Math.Round(rollGenerator.NextDouble(), 2);
+                 Item enemyDrop = enemy.GetDrop();
+                 if (itemRoll < enemyDrop.DropRate)
+                 {
+                     enemyDrop.AddOrDiscard(player);
+                 }
+             }
+             expDrop();
+             itemDrop();
          }
          
          public void PrintCommands()
@@ -301,16 +321,5 @@ namespace ProjectLegend
          {
              return _genCommands;
          }
-
-         public string[] CombatCommands()
-         {
-             return _combatCommands;
-         }
-
-         public string[] PlayerLegends()
-         {
-             return _playerLegends;
-         }
-
     }
 }

@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using ProjectLegend.Items;
+using ProjectLegend.Items.Consumables;
+
 
 namespace ProjectLegend.CharacterClasses
 {
     public abstract class Player : Character
     {
+        public Item[] Inventory { get; set; }
+        public Item Hand { get; set; }
+        public bool HandIsEmpty { get; set; }
         public int Level { get; set; }
         public int Exp { get; set; }
         public int ExpThresh { get; set; }
@@ -21,7 +27,6 @@ namespace ProjectLegend.CharacterClasses
         public double UnbuffedEvasion { get; set; }
         public double UnbuffedEvasionCap { get; set; }
         public double TotalEvasion { get; set; }
-        
         public double EvasionPerLevel { get; set; }
         
         public bool CanUpdatePassive { get; set; }
@@ -29,6 +34,8 @@ namespace ProjectLegend.CharacterClasses
 
         protected Player()
         {
+            Inventory = new Item[10];
+            
             Buffs = new List<Buff>();
             
             MaxEnergy = 1000;
@@ -55,9 +62,6 @@ namespace ProjectLegend.CharacterClasses
         public abstract void Active(Enemy enemy); //Flag -a
         public abstract void Ultimate(Enemy enemy); //Flag: -u
         
-        
-        
-
         public override string ToString()
         {
             return "Stats: " + Environment.NewLine + 

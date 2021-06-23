@@ -1,6 +1,8 @@
 ﻿using System;
-using ProjectLegend.CharacterClasses;
+using System.Collections.Generic;
 using System.Linq;
+using ProjectLegend.CharacterClasses;
+using ProjectLegend.Items;
 
 namespace ProjectLegend
 {
@@ -174,6 +176,20 @@ namespace ProjectLegend
         public static void DisplayXpInfo(this Player player)
         {
             Console.WriteLine($"XP remaining: {player.Exp}/{player.ExpThresh}");
+        }
+        
+        public static void DisplayInventory(this Player player)
+        {
+            string stringArray = "[";
+            for (int i = 0; i < player.Inventory.Length - 1; i++)
+            {
+                if (i % 2 == 0)
+                    stringArray += Environment.NewLine;
+                stringArray += $"{i + 1}: {Utils.PrintArrayElement(player.Inventory[i])}, "; // creates string representation of array
+            }
+
+            stringArray += $"{player.Inventory.Length}: {Utils.PrintArrayElement(player.Inventory[^1])}]";
+            Console.WriteLine(stringArray);
         }
     }
 }
