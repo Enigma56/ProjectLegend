@@ -1,4 +1,4 @@
-﻿namespace ProjectLegend.CharacterClasses
+﻿namespace ProjectLegend.CharacterClasses.Legends
 {
     public sealed class Gibraltar : Player
     {

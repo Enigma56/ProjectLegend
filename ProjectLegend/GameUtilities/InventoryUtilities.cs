@@ -4,7 +4,7 @@ using System.Linq;
 using ProjectLegend.CharacterClasses;
 using ProjectLegend.Items;
 
-namespace ProjectLegend
+namespace ProjectLegend.GameUtilities
 {
     public static class InventoryUtilities
     {
@@ -25,7 +25,7 @@ namespace ProjectLegend
                     player.AddToInventory(player.Hand);
                     break;
                 case"discard":
-                    //effectively a "do nothing"
+                    droppedItem = null;
                     break;
                 default:
                     Console.WriteLine("not a valid choice");
@@ -45,8 +45,9 @@ namespace ProjectLegend
             {
                 Console.WriteLine("Your inventory is full! please swap an item" + Environment.NewLine + 
                                   $"Item in hand: {player.Hand}");
-                
                 player.DisplayInventory();
+                Console.Write("Please enter the slot of the item you want to replace: ");
+                
                 bool inputInRange;
                 do
                 {
@@ -74,6 +75,8 @@ namespace ProjectLegend
             target.InventorySlot = -1;
             
             player.Hand = target;
+            
+            player.Hand.AddOrDiscard(player);
         }
 
     }

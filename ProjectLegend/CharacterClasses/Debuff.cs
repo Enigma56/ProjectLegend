@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProjectLegend
+namespace ProjectLegend.CharacterClasses
 {
     public class Debuff : Buff
     {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using ProjectLegend.Items;
 using ProjectLegend.Items.Consumables;
 
@@ -13,14 +12,15 @@ namespace ProjectLegend.CharacterClasses
         {
             {1, new HealthPotion()},
             {2, new EnergyPotion()}
-        };  
+        };
+
+        protected Random StatGenerator = new();
         public int ExpDrop { get; set; }
 
         public Enemy()
         {
-            var rand = new Random();
-            MaxHealth = rand.Next(20, 50);
-            MaxAttack = rand.Next(5, 10);
+            MaxHealth = StatGenerator.Next(10, 20); 
+            MaxAttack = StatGenerator.Next(5, 10);
             
             CurrentHealth = MaxHealth;
             CurrentAttack = MaxAttack;

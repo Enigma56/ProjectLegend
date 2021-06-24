@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using ProjectLegend.CharacterClasses;
-using ProjectLegend.Items;
 
-namespace ProjectLegend
+
+namespace ProjectLegend.GameUtilities
 {
     public static class CharacterUtilities
     {

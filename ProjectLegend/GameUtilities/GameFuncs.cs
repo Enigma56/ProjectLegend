@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using ProjectLegend.CharacterClasses;
+using ProjectLegend.CharacterClasses.Legends;
 using ProjectLegend.Items;
-using ProjectLegend.Items.Consumables;
 
 
-namespace ProjectLegend
+
+namespace ProjectLegend.GameUtilities
 {
     public class GameFuncs
     {
