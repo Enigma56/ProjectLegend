@@ -3,31 +3,35 @@
     public sealed class Gibraltar : Player
     {
         //private int shield = 5;
-        //private int shieldDifference { get; set; }
+        private int PassiveHealthIncrease { get; set; }
 
         public Gibraltar()
         {
             MaxHealth = 100;
             MaxAttack = 10;
             
+            Passive();
+            
             CurrentHealth = MaxHealth;
             CurrentAttack = MaxAttack;
-            
-            CurrentEnergy = 0;
-            
-            Passive();
         }
         public override void Passive()
         {
-            int additionalHealth = (int) (MaxHealth * .05);
-            MaxHealth += additionalHealth;
+            PassiveHealthIncrease = (int) (MaxHealth * .05);
+            MaxHealth += PassiveHealthIncrease;
 
-            CanUpdatePassive = false;
+            CanUpdatePassive = true;
         }
 
         public override void UpdatePassive()
         {
-            throw new System.NotImplementedException();
+            int oldHealthIncrease = PassiveHealthIncrease;
+
+            PassiveHealthIncrease = (int) ((MaxHealth - oldHealthIncrease) * .05);
+            MaxHealth -= oldHealthIncrease;
+            MaxHealth += PassiveHealthIncrease;
+
+            CurrentHealth = MaxHealth;
         }
 
         public override void Active(Enemy enemy)
@@ -53,5 +57,6 @@
         {
             enemy.CurrentHealth /= 2;
         }
+        
     }
 }

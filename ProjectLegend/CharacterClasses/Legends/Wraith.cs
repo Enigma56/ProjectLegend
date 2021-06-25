@@ -42,7 +42,7 @@ namespace ProjectLegend.CharacterClasses.Legends
             CanUpdatePassive = true;
         }
 
-        public override void UpdatePassive()
+        public override void UpdatePassive() //updates the passive stats per level 
         {
             int oldPassiveIncrease = PassiveAttackIncrease;
             PassiveAttackIncrease = (int) ((MaxAttack - oldPassiveIncrease) * _passiveAttackMultiplier);

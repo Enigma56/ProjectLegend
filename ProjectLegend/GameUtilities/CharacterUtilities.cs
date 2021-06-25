@@ -68,17 +68,21 @@ namespace ProjectLegend.GameUtilities
             //Process player buffs
             if (player.Buffs.Count > 0)
             {
-                Buff[] currentPlayerBuffs = player.Buffs.ToArray();
-                foreach (var buff in currentPlayerBuffs)
+                for(int i = player.Buffs.Count - 1; i >=0; i--) //process buffs directly rather than making copy
                 {
-                    buff.MinusOneTurn();
-                    
-                    if (buff.TurnsRemaining == 0)
+                    if(player.Buffs[i] is TurnBuff playerBuff)
+                        playerBuff.ProcessTurnEffect(player);
+                    else
                     {
-                        buff.Remove(player); //needs to be able to remove any buff, not just actives
-                        buff.Applied = false;
+                        player.Buffs[i].MinusOneTurn();
+                    }
+                    
+                    if (player.Buffs[i].TurnsRemaining == 0) //Duration Check
+                    {
+                        player.Buffs[i].Remove(player); 
+                        player.Buffs[i].Applied = false;
                         Utils.Separator('-');
-                        Console.WriteLine($"{buff.Name} has expired!");
+                        Console.WriteLine($"{player.Buffs[i].Name} has expired!");
                     }
                 }
             }

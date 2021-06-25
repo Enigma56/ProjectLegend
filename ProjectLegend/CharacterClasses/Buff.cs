@@ -10,6 +10,8 @@ namespace ProjectLegend.CharacterClasses
         public int Duration { get; init; }
         public int TurnsRemaining { get; set; }
         
+        public bool HasTurnEffect { get; set; }
+        
         public bool Applied { get; set; }
         
         public Action<Character> ApplyEffect { get; set; }
@@ -41,7 +43,8 @@ namespace ProjectLegend.CharacterClasses
                         else
                         {
                             character.Buffs.Add(this);
-                            ApplyEffect(player);
+                            if(HasTurnEffect is false) //Differentiates between static and dynamic buff effects
+                                ApplyEffect(player);
                             Console.WriteLine($"{this} has been applied!");
                             Applied = true;
                             Utils.Separator('*');
