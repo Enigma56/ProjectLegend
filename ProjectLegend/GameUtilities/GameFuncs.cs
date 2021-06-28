@@ -239,8 +239,6 @@ namespace ProjectLegend.GameUtilities
                  }
              }
 
-             AttackPhase();
-             
              bool enemyDeath = CheckEnemyDeath();
              if ( enemyDeath )
              {
@@ -252,6 +250,7 @@ namespace ProjectLegend.GameUtilities
              }
              else
              {
+                 AttackPhase();
                  DefensePhase();
                  
                  bool playerDeath = CheckPlayerDeath();
@@ -274,7 +273,7 @@ namespace ProjectLegend.GameUtilities
 
          private void PlayerDrops(Player player, Enemy enemy)
          {
-             void expDrop()
+             void ExpDrop()
              {
                  player.Exp += enemy.ExpDrop;
                  if (player.Exp >= player.ExpThresh)
@@ -284,7 +283,7 @@ namespace ProjectLegend.GameUtilities
                  player.DisplayXpInfo();
              }
 
-             void itemDrop()
+             void ItemDrop()
              {
                  var rollGenerator = new Random();
                  double itemRoll = Math.Round(rollGenerator.NextDouble(), 2);
@@ -294,8 +293,8 @@ namespace ProjectLegend.GameUtilities
                      enemyDrop.AddOrDiscard(player);
                  }
              }
-             expDrop();
-             itemDrop();
+             ExpDrop();
+             ItemDrop();
          }
          
          public void PrintCommands()

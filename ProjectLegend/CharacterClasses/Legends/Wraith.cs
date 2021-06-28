@@ -85,12 +85,12 @@ namespace ProjectLegend.CharacterClasses.Legends
                 TotalEvasion -= EvasionDifference;
                 EvasionDifference = 0;
             }
-            void RaiseAttack(Character player)
+            void RaiseAttack(Character character)
             {
                 AttackDifference = (int) Math.Ceiling(CurrentAttack * _ultimateAttackMultiplier);
                 CurrentAttack += AttackDifference;
             }
-            void RemoveAttack(Character player)
+            void RemoveAttack(Character character)
             {
                 CurrentAttack -= AttackDifference;
                 AttackDifference = 0;

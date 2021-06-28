@@ -4,12 +4,20 @@
     {
         public Pathfinder()
         {
+            MaxHealth = 100;
+            MaxAttack = 10;
             
+            Passive();
+            
+            CurrentHealth = MaxHealth;
+            CurrentAttack = MaxAttack;
         }
         
         public override void Passive()
         {
-            throw new System.NotImplementedException();
+            TotalEvasion += .05;
+
+            CanUpdatePassive = false;
         }
 
         public override void UpdatePassive()
@@ -19,12 +27,26 @@
 
         public override void Active(Enemy enemy)
         {
-            throw new System.NotImplementedException();
+            void Evasive(Character character)
+            {
+                TotalEvasion += .3;
+            }
+
+            void RemoveEvasive(Character character)
+            {
+                TotalEvasion -= .3;
+            }
+            var evasive = new Buff("Grapply Jump", 1);
+            evasive.ApplyEffect = Evasive;
+            evasive.RemoveEffect = RemoveEvasive;
+            
+            evasive.Apply(this, 400);
         }
 
         public override void Ultimate(Enemy enemy)
         {
-            throw new System.NotImplementedException();
+            enemy.Dead = true; //immediately kills the enemy
+            //In a future update, revanant will take this ability
         }
     }
 }

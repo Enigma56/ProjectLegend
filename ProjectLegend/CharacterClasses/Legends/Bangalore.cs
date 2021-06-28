@@ -53,12 +53,12 @@ namespace ProjectLegend.CharacterClasses
         {
             void ApplyStun(Character character)
             {
-                enemy.Stunned = true;
+                character.Stunned = true;
             }
 
             void RemoveStun(Character character)
             {
-                enemy.Stunned = false;
+                character.Stunned = false;
             }
             var stunned = new Debuff("Rolling Thunder", 2);
             stunned.ApplyEffect = ApplyStun;

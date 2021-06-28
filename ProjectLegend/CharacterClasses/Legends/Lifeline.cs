@@ -61,7 +61,6 @@ namespace ProjectLegend.CharacterClasses.Legends
                 }
 
             }
-
             void HealRemove(Character character)
             {
             }
@@ -69,7 +68,7 @@ namespace ProjectLegend.CharacterClasses.Legends
             drone.TurnEffect = HealApply;
             drone.RemoveEffect = HealRemove;
             
-            drone.Apply(this, 0);
+            drone.Apply(this, 300);
         }
 
         public override void Ultimate(Enemy enemy) 
