@@ -71,6 +71,7 @@ namespace ProjectLegend.CharacterClasses
         public void Remove(Character character)
         {  
             character.Buffs.Remove(this);
+
             try
             {
                 RemoveEffect(character);

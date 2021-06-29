@@ -1,6 +1,6 @@
 ﻿namespace ProjectLegend.CharacterClasses.Legends
 {
-    public class Pathfinder : Player
+    public sealed class Pathfinder : Player
     {
         public Pathfinder()
         {
@@ -36,7 +36,7 @@
             {
                 TotalEvasion -= .3;
             }
-            var evasive = new Buff("Grapply Jump", 1);
+            var evasive = new Buff("Grapple Jump", 1);
             evasive.ApplyEffect = Evasive;
             evasive.RemoveEffect = RemoveEvasive;
             
@@ -45,8 +45,18 @@
 
         public override void Ultimate(Enemy enemy)
         {
-            enemy.Dead = true; //immediately kills the enemy
+            int energyCost = 700;
+            if(CurrentEnergy >= energyCost)
+            {
+                enemy.Dead = true; //immediately kills the enemy
+                System.Console.WriteLine("You have run from battle!");
+            }
+            else
+            {
+                System.Console.WriteLine("not enough energy!");
+            }
             //In a future update, revanant will take this ability
+            
         }
     }
 }

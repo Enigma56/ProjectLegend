@@ -16,7 +16,7 @@ namespace ProjectLegend.GameUtilities
         private readonly string[] _combatCommands = {"attack", "buffs", "stats", "inventory"};
         private readonly string[] _flags = { "-a", "-u" };
         
-        private readonly string[] _playerLegends = {"Bangalore", "Wraith"};
+        private readonly string[] _playerLegends = {"Bangalore", "Bloodhound", "Gibraltar", "Lifeline", "Pathfinder", "Wraith"};
         private readonly string[] _yesNo = {"yes", "no"};
         private readonly Dictionary<string, string> _commandInfo = new ();
 
@@ -47,8 +47,17 @@ namespace ProjectLegend.GameUtilities
                     case "gibraltar":
                         player = new Gibraltar();
                         break;
-                    //Suport
+                    //Support
+                    case "lifeline":
+                        player = new Lifeline();
+                        break;
                     //Recon
+                    case "bloodhound":
+                        player = new Bloodhound();
+                        break;
+                    case "pathfinder":
+                        player = new Pathfinder();
+                        break;
                     default:
                         Console.WriteLine("Not a valid character!");
                         break;
@@ -157,7 +166,10 @@ namespace ProjectLegend.GameUtilities
                          goto Fight; //Immediately checks expression
                      }
                      string[] commands = Utils.ReadInput(_combatCommands);
-                     ParseCombatCommand(commands, player, enemy);
+                     ParseCombatCommand(commands, player, enemy); 
+
+                     if (player is Lifeline lifeline) //heals the player every turn
+                         lifeline.Heal();
                  }
 
                  Console.WriteLine("Would you like to fight another enemy? Enter yes or no");
@@ -199,7 +211,7 @@ namespace ProjectLegend.GameUtilities
 
              bool CheckEnemyDeath()
              {
-                 bool enemyIsDead = enemy.CurrentHealth <= 0;
+                 bool enemyIsDead = enemy.CurrentHealth <= 0 || enemy.Dead; //check left then right
                  if (enemyIsDead) enemy.Dead = true;
                  return enemyIsDead;
              }
@@ -238,8 +250,11 @@ namespace ProjectLegend.GameUtilities
                      Console.WriteLine("Your energy is full! Use abilities your abilities!");
                  }
              }
-
              bool enemyDeath = CheckEnemyDeath();
+             if (enemyDeath) { } //a basic way to do nothing if the enemy is already dead from an ability
+             else{ AttackPhase(); } 
+             
+             enemyDeath = CheckEnemyDeath(); //I want a fix for this redundancy
              if ( enemyDeath )
              {
                  EndPhase();
@@ -250,7 +265,6 @@ namespace ProjectLegend.GameUtilities
              }
              else
              {
-                 AttackPhase();
                  DefensePhase();
                  
                  bool playerDeath = CheckPlayerDeath();
