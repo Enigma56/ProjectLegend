@@ -1,6 +1,6 @@
 ﻿namespace ProjectLegend.CharacterClasses.Legends
 {
-    public class Bloodhound : Player
+    public sealed class Bloodhound : Player
     {
         private int DamageReduction { get; set; }
         public Bloodhound()
@@ -18,6 +18,7 @@
         {
             if (Accuracy < .8)
                 Accuracy = .8;
+            
             CanUpdatePassive = true;
         }
 
@@ -27,17 +28,16 @@
                 Accuracy = .8;
         }
 
-        public override void Active(Enemy enemy)
+        public override void Active(Enemy enemy) //CHECK
         {
             void ReduceEnemyAttack(Character character)
             {
-                DamageReduction = character.CurrentAttack - (int) (character.CurrentAttack * .9);
-                character.CurrentAttack -= DamageReduction;
+                character.AttackMultiplier = .9;
             }
 
             void RemoveAttackReduction(Character character)
             {
-                character.CurrentAttack += DamageReduction;
+                character.AttackMultiplier = 1.0;
             }
 
             var damageReduction = new Debuff("All-Father's Assistance", 2);
@@ -47,21 +47,22 @@
             damageReduction.Apply(enemy, 400);
         }
 
-        public override void Ultimate(Enemy enemy)
+        public override void Ultimate(Enemy enemy) //CHECK
         {
             void Weakness(Character character)
             {
-                //Damage multiplier should be implemented; multiplier => 1.2
+                character.AttackMultiplier = 1.5;
             }
 
             void RemoveWeakness(Character character)
             {
-                //Revert multiplier to 1.0
+                character.AttackMultiplier = 1.0;
             }
 
-            var weakness = new Buff("All-Father's Omnipotence", 2);
-            weakness.ApplyEffect = Weakness;
-            weakness.RemoveEffect = RemoveWeakness;
+            var strength = new Buff("All-Father's Omnipotence", 2);
+            strength.ApplyEffect = Weakness;
+            strength.RemoveEffect = RemoveWeakness;
+            strength.Apply(this, 600);
         }
     }
 }

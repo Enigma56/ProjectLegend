@@ -3,7 +3,7 @@ using ProjectLegend.Items.Consumables;
 
 namespace ProjectLegend.CharacterClasses.Legends
 {
-    public class Lifeline : Player
+    public sealed class Lifeline : Player
     {
         public Lifeline()
         {
@@ -12,13 +12,17 @@ namespace ProjectLegend.CharacterClasses.Legends
             
             CurrentEnergy = 0;
 
-            Passive();
-
             CurrentHealth = MaxHealth;
             CurrentAttack = MaxAttack;
         }
         
         public override void Passive()
+        {
+            //throw new NotImplementedException();
+            //CanUpdatePassive = false;
+        }
+
+        public void Heal()
         {
             //Heal 5% health every turn - rounded up
             int heal = (int) (MaxHealth * .05);
@@ -29,13 +33,11 @@ namespace ProjectLegend.CharacterClasses.Legends
             {
                 CurrentHealth += heal;
             }
-
-            CanUpdatePassive = false;
         }
 
         public override void UpdatePassive()
         {
-            throw new System.NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public override void Active(Enemy enemy) //heals 20% of current max health over 5 turns
@@ -73,7 +75,19 @@ namespace ProjectLegend.CharacterClasses.Legends
 
         public override void Ultimate(Enemy enemy) 
         {
-            throw new System.NotImplementedException(); //Cannot be added to game until Gear has been added
+            //Real ulti cannot be added until gear is added into the game
+            
+            //Temp. ultimate
+            int energyCost = 600;
+            if (CurrentEnergy >= energyCost)
+            {
+                Console.WriteLine($"You have been fully healed! {CurrentHealth} -> {MaxHealth}");
+                CurrentHealth = MaxHealth;
+            }
+            else
+            {
+                Console.WriteLine("Not enough energy!");
+            }
         }
     }
 }

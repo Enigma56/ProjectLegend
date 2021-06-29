@@ -34,7 +34,7 @@ namespace ProjectLegend.GameUtilities
                 player.MaxHealth += healthIncrease;
                 player.CurrentHealth = player.MaxHealth; //Fully heal on every level up
                 
-                int oldAttackVal = player.CurrentAttack;
+                int oldAttackVal = player.MaxAttack;
                 int attackIncrease = (int) Math.Ceiling(Math.Pow(player.Level, 2) / 20);
                 player.MaxAttack += attackIncrease;
                 player.CurrentAttack = player.MaxAttack;
@@ -53,10 +53,10 @@ namespace ProjectLegend.GameUtilities
                 
 
                 Console.WriteLine(Environment.NewLine + $"Max Health Up! {oldMaxHealthVal} --> {player.CurrentHealth}"
-                                                      + Environment.NewLine + $"Attack Up! {oldAttackVal} --> {player.CurrentAttack}");
+                                                      + Environment.NewLine + $"Attack Up! {oldAttackVal} --> {player.MaxAttack}");
                 
                 Console.WriteLine(player.UnbuffedEvasion < player.UnbuffedEvasionCap 
-                    ? $"Evasion Up! {oldEvasionVal * 100:##.##}% --> {player.TotalEvasion * 100:##.##}%" + Environment.NewLine 
+                    ? $"Evasion Up! {oldEvasionVal * 100:#0.0#}% --> {player.TotalEvasion * 100:##.##}%" + Environment.NewLine 
                     : $"Max Evasion from levels hit! {oldEvasionVal * 100:##.##}% --> {player.TotalEvasion * 100:##.##}%"); // 0 represents always-appearing digit; # is optional
             }
             
@@ -79,10 +79,11 @@ namespace ProjectLegend.GameUtilities
                     
                     if (player.Buffs[i].TurnsRemaining == 0) //Duration Check
                     {
-                        player.Buffs[i].Remove(player); 
                         player.Buffs[i].Applied = false;
                         Utils.Separator('-');
                         Console.WriteLine($"{player.Buffs[i].Name} has expired!");
+                        
+                        player.Buffs[i].Remove(player);
                     }
                 }
             }
@@ -175,7 +176,6 @@ namespace ProjectLegend.GameUtilities
                 return false;
             }
         }
-        
         
         public static void DisplayXpInfo(this Player player)
         {

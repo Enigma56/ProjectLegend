@@ -18,7 +18,7 @@ namespace ProjectLegend.CharacterClasses
         
         public override void Passive()
         {
-            TotalEvasion += .1;
+            TotalEvasion += .05;
             CanUpdatePassive = false;
         }
         

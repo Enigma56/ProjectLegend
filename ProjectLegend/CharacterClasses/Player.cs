@@ -37,11 +37,11 @@ namespace ProjectLegend.CharacterClasses
             Inventory = new Item[10];
             
             Buffs = new List<Buff>();
-            
+
             MaxEnergy = 1000;
             CurrentEnergy = 0;
             EnergyPerTurn = 50;
-            
+
             Accuracy = 1;
             Vitality = 0; 
             Strength = 0; 
@@ -61,6 +61,7 @@ namespace ProjectLegend.CharacterClasses
         public abstract void UpdatePassive();
         public abstract void Active(Enemy enemy); //Flag -a
         public abstract void Ultimate(Enemy enemy); //Flag: -u
+        
         
         public override string ToString()
         {
