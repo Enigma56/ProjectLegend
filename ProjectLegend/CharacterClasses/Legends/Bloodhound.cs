@@ -1,4 +1,6 @@
-﻿namespace ProjectLegend.CharacterClasses.Legends
+﻿using ProjectLegend.GameUtilities.BuffUtilities;
+
+namespace ProjectLegend.CharacterClasses.Legends
 {
     public sealed class Bloodhound : Player
     {

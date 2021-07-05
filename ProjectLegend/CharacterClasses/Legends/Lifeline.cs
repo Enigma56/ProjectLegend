@@ -1,5 +1,6 @@
 ﻿using System;
-using ProjectLegend.Items.Consumables;
+
+using ProjectLegend.GameUtilities.BuffUtilities;
 
 namespace ProjectLegend.CharacterClasses.Legends
 {

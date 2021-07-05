@@ -1,7 +1,8 @@
 ﻿using System;
 using ProjectLegend.CharacterClasses;
+using ProjectLegend.GameUtilities;
 
-namespace ProjectLegend.CharacterClasses
+namespace ProjectLegend.GameUtilities.BuffUtilities
 {
     public class Buff
     {

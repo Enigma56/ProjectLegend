@@ -1,6 +1,6 @@
-﻿
+﻿using ProjectLegend.GameUtilities.BuffUtilities;
 
-namespace ProjectLegend.CharacterClasses
+namespace ProjectLegend.CharacterClasses.Legends
 {
     public sealed class Bangalore : Player
     {

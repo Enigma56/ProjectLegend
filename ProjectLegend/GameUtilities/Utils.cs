@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using ProjectLegend.CharacterClasses;
 
-namespace ProjectLegend
+using ProjectLegend.CharacterClasses;
+using ProjectLegend.GameUtilities.BuffUtilities;
+
+namespace ProjectLegend.GameUtilities
 {
     public static class Utils
     {

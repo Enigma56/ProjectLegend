@@ -1,6 +1,7 @@
 ﻿using System;
+using ProjectLegend.CharacterClasses;
 
-namespace ProjectLegend.CharacterClasses
+namespace ProjectLegend.GameUtilities.BuffUtilities
 {
     public class TurnBuff : Buff
     {

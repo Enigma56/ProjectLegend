@@ -1,5 +1,7 @@
 ﻿using System;
 using ProjectLegend.GameUtilities;
+using ProjectLegend.GameUtilities.BuffUtilities;
+
 namespace ProjectLegend.CharacterClasses.Legends
 {
     public sealed class Wraith : Player
@@ -9,7 +11,6 @@ namespace ProjectLegend.CharacterClasses.Legends
         private double _passiveAttackMultiplier = .05; //in percent
         private int PassiveAttackIncrease { get; set; }
 
-        private int PassiveDifference { get; set; }
         //Active
         private double _activeEvasionBonus = .3;
         
