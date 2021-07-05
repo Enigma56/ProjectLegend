@@ -31,10 +31,12 @@ namespace ProjectLegend.CharacterClasses
         
         public bool CanUpdatePassive { get; set; }
         
+        public int DeathCount { get; set; }
+        
 
         protected Player()
         {
-            Inventory = new Item[10];
+            Inventory = new Item[5];
             
             Buffs = new List<Buff>();
 
@@ -62,6 +64,61 @@ namespace ProjectLegend.CharacterClasses
         public abstract void Active(Enemy enemy); //Flag -a
         public abstract void Ultimate(Enemy enemy); //Flag: -u
         
+        //TODO: factor in other stats when calculating attack and HP; add function that updates stat values dynamically?
+        public void AddLevel()
+        {
+            void LevelUpdate()
+            { 
+                int xp = Exp;
+                int oldLevel = Level;
+                
+                Exp = 0;
+                Exp += (xp % ExpThresh);
+                Level++;
+                int oldExpThresh =ExpThresh;
+                int thresholdIncrease = (int) Math.Ceiling(Math.Pow(Level, 2) * Math.Log10(Level));
+                ExpThresh += thresholdIncrease;
+
+                Console.WriteLine("You Leveled Up!" + Environment.NewLine + 
+                                  $"Current level: {oldLevel} --> {Level}" + Environment.NewLine + 
+                                  $"XP Required {oldExpThresh} --> {ExpThresh}");
+            }
+            void StatUpdate()
+            {
+                int oldMaxHealthVal = MaxHealth;
+                int healthIncrease = (int) Math.Ceiling(Math.Pow(Level, 2) / 5);
+                MaxHealth += healthIncrease;
+                CurrentHealth = MaxHealth; //Fully heal on every level up
+                
+                int oldAttackVal = MaxAttack;
+                int attackIncrease = (int) Math.Ceiling(Math.Pow(Level, 2) / 20);
+                MaxAttack += attackIncrease;
+                CurrentAttack = MaxAttack;
+                
+                double oldEvasionVal = TotalEvasion;
+                if (UnbuffedEvasion < UnbuffedEvasionCap)
+                {
+                    UnbuffedEvasion += EvasionPerLevel;
+                    TotalEvasion += EvasionPerLevel;
+                }
+
+                if (CanUpdatePassive)
+                {
+                    UpdatePassive();
+                }
+                
+
+                Console.WriteLine(Environment.NewLine + $"Max Health Up! {oldMaxHealthVal} --> {CurrentHealth}"
+                                                      + Environment.NewLine + $"Attack Up! {oldAttackVal} --> {MaxAttack}");
+                
+                Console.WriteLine(UnbuffedEvasion < UnbuffedEvasionCap 
+                    ? $"Evasion Up! {oldEvasionVal * 100:#0.0#}% --> {TotalEvasion * 100:##.##}%" + Environment.NewLine 
+                    : $"Max Evasion from levels hit! {oldEvasionVal * 100:##.##}% --> {TotalEvasion * 100:##.##}%"); // 0 represents always-appearing digit; # is optional
+            }
+            
+            LevelUpdate();
+            StatUpdate();
+        }
         
         public override string ToString()
         {
@@ -71,7 +128,7 @@ namespace ProjectLegend.CharacterClasses
                    $"Current Energy = {CurrentEnergy} && Max Energy = {MaxEnergy}" + Environment.NewLine +
                    $"Vitality = {Vitality}" + Environment.NewLine +
                    $"Strength = {Strength}" + Environment.NewLine +
-                   $"Evasion = {TotalEvasion * 100:##.##}%";
+                   $"Evasion = {TotalEvasion * 100:#0.0#}%";
                     
         }
     }

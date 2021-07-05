@@ -5,10 +5,11 @@ using ProjectLegend.CharacterClasses;
 
 namespace ProjectLegend
 {
-    public class Game
+    public class Game 
     {
         private readonly GameFuncs _game = new GameFuncs();
         private Player _player;
+        public bool Running { get; set; }
         private static void Main(string[] args)
         {
             var game1 = new Game();
@@ -21,8 +22,6 @@ namespace ProjectLegend
             {
                 //Let the player choose their character(future version)
                 _player = _game.ChooseCharacter();
-                
-                //FightEnemy();
                 GameLoop(_player);
             }
         }
@@ -36,11 +35,12 @@ namespace ProjectLegend
                               Environment.NewLine + "Separate each command by a space");
             Utils.Separator('-');
             
-            while (p.Dead == false)
+            Running = true;
+            while (Running) //this expression needs to be checked before the game ends
             {
                 // retrieves and converts args
                 string[] args = Utils.ReadInput(_game.GenCommands());
-                _game.ParseGeneralCommand(args, p);
+                _game.ParseGeneralCommand(this, args, p);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 
 using ProjectLegend.CharacterClasses;
@@ -47,24 +48,28 @@ namespace ProjectLegend.GameUtilities
                                   $"Item in hand: {player.Hand}");
                 player.DisplayInventory();
                 Console.Write("Please enter the slot of the item you want to replace: ");
-                
-                bool inputInRange;
+
+                bool slotParsed = false;
+                NumberFormatInfo enUS = CultureInfo.CreateSpecificCulture("en-US").NumberFormat;
                 do
                 {
-                    string replaceItemSlot = Utils.ReadInput()[0];
-                    int replaceItemIndex = int.Parse(replaceItemSlot);
-                    inputInRange = 1 <= replaceItemIndex && replaceItemIndex <= player.Inventory.Length;
-                    if (inputInRange)
+                    string replaceItemSlot = Utils.ReadInput()[0]; //only accepts first integer provided by user 
+                    if (int.TryParse(replaceItemSlot, NumberStyles.None | NumberStyles.AllowTrailingWhite | NumberStyles.AllowLeadingWhite, enUS, out int replaceItemIndex))
                     {
-                        var targetItem = player.Inventory[replaceItemIndex - 1]; //item that will be replaced
-                        player.Hand.Swap(targetItem, player);
+
+                        bool indexInRange = 1 <= replaceItemIndex && replaceItemIndex <= player.Inventory.Length;
+                        if (indexInRange)
+                        {
+                            var targetItem = player.Inventory[replaceItemIndex - 1]; //item that will be replaced
+                            player.Hand.Swap(targetItem, player);
+                            slotParsed = true;
+                        }
                     }
-                        
                     else
                     {
                         Console.WriteLine("Please enter a valid inventory slot!");
                     }
-                } while (inputInRange is false);
+                } while (slotParsed is false);
             }
         }
 

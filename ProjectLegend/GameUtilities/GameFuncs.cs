@@ -66,7 +66,7 @@ namespace ProjectLegend.GameUtilities
             return player;
         }
         
-        public void ParseGeneralCommand(string[] commands, Player player)
+        public void ParseGeneralCommand(Game game, string[] commands, Player player)
          {
              string cmd = commands[0];
              switch(cmd)
@@ -98,6 +98,7 @@ namespace ProjectLegend.GameUtilities
                            break;
                        case "exit":
                            //Exit out of the game
+                           game.Running = false;
                            Utils.ExitSequence(player);
                            break;
                        default:
@@ -106,45 +107,53 @@ namespace ProjectLegend.GameUtilities
                    }
                }
 
-         private void ParseCombatCommand(string[] commands, Player player, Enemy enemy)
+         private void ParseCombatCommand(Player player, Enemy enemy)
          {
-             string cmd = commands[0];
-             switch (cmd)
+             bool validInput = false;
+             while (validInput is false)
              {
-                 case "attack":
-                     //activate abilities
-                     Console.WriteLine("Use flags -a and -u after \"attack\" to use active and ultimate abilities when you have enough energy!");
-                     if (commands.Length > 1 && _flags.Contains(commands[1]))
-                     {
-                         switch (commands[1])
+                 string[] commands = Utils.ReadInput(_combatCommands);
+                 string cmd = commands[0];
+                 switch (cmd)
+                 {
+                     case "attack":
+                         validInput = true;
+                         Console.WriteLine(
+                             "Use flags -a and -u after \"attack\" to use active and ultimate abilities when you have enough energy!");
+                         if (commands.Length > 1 && _flags.Contains(commands[1]))
                          {
-                             case "-a":
-                                 Utils.Separator('*');
-                                 Console.WriteLine("You activated your Active ability!");
-                                 player.Active(enemy);
-                                 break;
-                             case "-u":
-                                 Console.WriteLine("You activated your ultimate ability!");
-                                 player.Ultimate(enemy);
-                                 break;
+                             switch (commands[1])
+                             {
+                                 case "-a":
+                                     Utils.Separator('*');
+                                     Console.WriteLine("You activated your Active ability!");
+                                     player.Active(enemy);
+                                     break;
+                                 case "-u":
+                                     Console.WriteLine("You activated your ultimate ability!");
+                                     player.Ultimate(enemy);
+                                     break;
+                             }
                          }
-                     }
-                     //Check if attack lands
-                     BattlePhase(player, enemy);
-                     Utils.Separator('-');
-                     break;
-                 case "stats":
-                     Console.WriteLine(player.ToString());
-                     break;
-                 case "buffs":
-                     player.DisplayBuffs();
-                     break;
-                 case "inventory":
-                     player.DisplayInventory();
-                     break;
-                 default:
-                     Console.WriteLine("Not a valid command!");
-                     break;
+                         BattlePhase(player, enemy); //Check if attack lands
+                         Utils.Separator('-');
+                         break;
+                     case "stats":
+                         validInput = true;
+                         Console.WriteLine(player.ToString());
+                         break;
+                     case "buffs":
+                         validInput = true;
+                         player.DisplayBuffs();
+                         break;
+                     case "inventory":
+                         validInput = true;
+                         player.DisplayInventory();
+                         break;
+                     default:
+                         Console.WriteLine("Not a valid command!");
+                         break;
+                 }
              }
          }
 
@@ -165,15 +174,14 @@ namespace ProjectLegend.GameUtilities
                          fighting = false;
                          goto Fight; //Immediately checks expression
                      }
-                     string[] commands = Utils.ReadInput(_combatCommands);
-                     ParseCombatCommand(commands, player, enemy); 
-
-                     if (player is Lifeline lifeline) //heals the player every turn
-                         lifeline.Heal();
+                     ParseCombatCommand(player, enemy);
+                     
+                     if (player is Lifeline lifeline) //only activates after input is finished being processed
+                         lifeline.PassiveHeal();
                  }
-
-                 Console.WriteLine("Would you like to fight another enemy? Enter yes or no");
+                 Console.WriteLine("Would you like to fight another enemy?");
                  Utils.Separator('-');
+                 
              Response:
                  string response = Utils.ReadInput(_yesNo)[0];
                  if (Equals(response, "yes"))
@@ -186,7 +194,7 @@ namespace ProjectLegend.GameUtilities
                      Utils.Separator('-');
                      goto Fight;
                  }
-                 else if ( !Equals(response, "yes") && !Equals(response, "no"))
+                 else if (!Equals(response, "yes") && !Equals(response, "no"))
                  {
                      Console.WriteLine("Please type yes or no!");
                      goto Response;
@@ -268,7 +276,10 @@ namespace ProjectLegend.GameUtilities
                  DefensePhase();
                  
                  bool playerDeath = CheckPlayerDeath();
-                 if( playerDeath ) Utils.ExitSequence(player);
+                 if( playerDeath ){ 
+                     Utils.ExitSequence(player); //TODO: send player back to main menu with refreshed(not reset) stats on death
+                     player.DeathCount += 1;
+                 }
                  else
                  {
                      EndPhase();

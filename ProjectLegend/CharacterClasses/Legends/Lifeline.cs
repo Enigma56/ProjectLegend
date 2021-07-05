@@ -22,7 +22,7 @@ namespace ProjectLegend.CharacterClasses.Legends
             //CanUpdatePassive = false;
         }
 
-        public void Heal()
+        public void PassiveHeal()
         {
             //Heal 5% health every turn - rounded up
             int heal = (int) (MaxHealth * .05);

@@ -10,10 +10,8 @@ namespace ProjectLegend.CharacterClasses
         //Character Stats
         public int MaxHealth { get; set; }
         public int CurrentHealth { get; set; }
-
         public int MaxAttack { get; set; }
         public double AttackMultiplier { get; set; }
-
         public double Accuracy { get; set; }
         
         //Character states
