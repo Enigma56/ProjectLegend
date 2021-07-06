@@ -38,7 +38,7 @@ namespace ProjectLegend
             Running = true;
             while (Running) //this expression needs to be checked before the game ends
             {
-                // retrieves and converts args
+                _player.Dead = false;
                 string[] args = Utils.ReadInput(_game.GenCommands());
                 _game.ParseGeneralCommand(this, args, p);
             }

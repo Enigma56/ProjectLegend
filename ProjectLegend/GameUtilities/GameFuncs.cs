@@ -20,6 +20,8 @@ namespace ProjectLegend.GameUtilities
         private readonly string[] _playerLegends = {"Bangalore", "Bloodhound", "Gibraltar", "Lifeline", "Pathfinder", "Wraith"};
         private readonly string[] _yesNo = {"yes", "no"};
         private readonly Dictionary<string, string> _commandInfo = new ();
+        
+        private bool Fighting { get; set; }
 
         public GameFuncs()
         {
@@ -101,7 +103,7 @@ namespace ProjectLegend.GameUtilities
                        case "exit":
                            //Exit out of the game
                            game.Running = false;
-                           Utils.ExitSequence(player);
+                           Utils.ExitSequence(player, "finish");
                            break;
                        default:
                            Console.WriteLine("Command not found!");
@@ -168,13 +170,13 @@ namespace ProjectLegend.GameUtilities
              Console.WriteLine("Starting Stats:");
              ViewStats(player, enemy);
              Utils.Separator('-');
-             bool fighting = true;
+             Fighting = true;
              Fight:
-                 while (fighting)
+                 while (Fighting)
                  {
                      if (enemy.Dead)
                      {
-                         fighting = false;
+                         Fighting = false;
                          goto Fight; //Immediately checks expression
                      }
                      ParseCombatCommand(player, enemy);
@@ -182,31 +184,34 @@ namespace ProjectLegend.GameUtilities
                      if (player is Lifeline lifeline) //only activates after input is finished being processed
                          lifeline.PassiveHeal();
                  }
-                 Console.WriteLine("Would you like to fight another enemy?");
-                 Utils.Separator('-');
-                 
+
              Response:
-                 string response = Utils.ReadInput(_yesNo)[0];
-                 if (Equals(response, "yes"))
-                 {
-                     enemy = RespawnEnemy();
-                     fighting = true;
+                if (player.Dead == false)
+                {
+                     Console.WriteLine("Would you like to fight another enemy?");
                      Utils.Separator('-');
-                     Console.WriteLine("Re-Starting Stats:");
-                     ViewStats(player, enemy);
-                     Utils.Separator('-');
-                     goto Fight;
-                 }
-                 else if (!Equals(response, "yes") && !Equals(response, "no"))
-                 {
-                     Console.WriteLine("Please type yes or no!");
-                     goto Response;
-                 }
-                 else
-                 {
-                     Utils.Separator('-');
-                     Console.WriteLine("Exiting back to main loop!");
-                 }
+                     string response = Utils.ReadInput(_yesNo)[0];
+                     if (Equals(response, "yes"))
+                     {
+                         enemy = RespawnEnemy();
+                         Fighting = true;
+                         Utils.Separator('-');
+                         Console.WriteLine("Re-Starting Stats:");
+                         ViewStats(player, enemy);
+                         Utils.Separator('-');
+                         goto Fight;
+                     }
+                     else if (!Equals(response, "yes") && !Equals(response, "no"))
+                     {
+                         Console.WriteLine("Please type yes or no!");
+                         goto Response;
+                     }
+                     else
+                     {
+                         Utils.Separator('-');
+                         Console.WriteLine("Exiting back to main loop!");
+                     }
+                }
          }
 
          private void BattlePhase(Player player, Enemy enemy) //Processes attack and defense
@@ -279,8 +284,10 @@ namespace ProjectLegend.GameUtilities
                  DefensePhase();
                  
                  bool playerDeath = CheckPlayerDeath();
-                 if( playerDeath ){ 
-                     Utils.ExitSequence(player); //TODO: send player back to main menu with refreshed(not reset) stats on death
+                 if( playerDeath )
+                 {
+                     Fighting = false;
+                     Utils.ExitSequence(player, "death"); //TODO: send player back to main menu with refreshed(not reset) stats on death
                      player.DeathCount += 1;
                  }
                  else
@@ -323,11 +330,6 @@ namespace ProjectLegend.GameUtilities
              }
              ExpDrop();
              ItemDrop();
-         }
-         
-         public void PrintCommands()
-         {
-             Utils.ToString(_genCommands);
          }
 
          private void ViewStats(Player player, Enemy enemy)

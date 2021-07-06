@@ -11,14 +11,13 @@ namespace ProjectLegend.GameUtilities
     public static class Utils
     {
 
-        public static string[] ReadInput(string[] options = null)
+        public static string[] ReadInput(params string[] options)
         {
             string input;
             string[] args;
             do
             {
-                if(options is not null)
-                    Console.WriteLine("Your current options are: " + ToString(options));
+                Console.WriteLine("Your current options are: " + ToString(options));
                 input = Console.ReadLine();
                 args = input.Split(' ', '\t').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
             } while (Equals(input, ""));
@@ -27,12 +26,19 @@ namespace ProjectLegend.GameUtilities
             return args;
        }
 
-        public static void ExitSequence(Player p)
+        public static void ExitSequence(Player p, string reason)
        {
            Separator('-');
-           Console.WriteLine($"You finished at level {p.Level}");
+           if (reason.Equals("death"))
+           {
+               Console.WriteLine($"You died at level {p.Level}");
+               p.CurrentHealth = p.MaxHealth;
+           }
+           else if (reason.Equals("finish"))
+           {
+               Console.WriteLine($"You exited at level {p.Level}");
+           }
            Separator('-');
-           //Environment.Exit(0);
        }
 
         public static void Separator(char sep)
