@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-
+using System.Xml;
 using ProjectLegend.CharacterClasses;
 using ProjectLegend.CharacterClasses.Legends;
-using ProjectLegend.Items;
-
+using ProjectLegend.ItemClasses;
+using ProjectLegend.ItemClasses.Consumables;
 
 
 namespace ProjectLegend.GameUtilities
@@ -95,6 +96,7 @@ namespace ProjectLegend.GameUtilities
                            break;
                        case "inventory":
                            player.DisplayInventory();
+                           player.TryUseConsumable(commands);
                            break;
                        case "exit":
                            //Exit out of the game
@@ -149,6 +151,7 @@ namespace ProjectLegend.GameUtilities
                      case "inventory":
                          validInput = true;
                          player.DisplayInventory();
+                         player.TryUseConsumable(commands);
                          break;
                      default:
                          Console.WriteLine("Not a valid command!");

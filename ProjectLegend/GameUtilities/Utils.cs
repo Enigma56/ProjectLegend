@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 using ProjectLegend.CharacterClasses;
@@ -61,8 +62,15 @@ namespace ProjectLegend.GameUtilities
                return arrayItem.ToString();
            }
        }
+
+        public static (NumberFormatInfo culture, NumberStyles numberStyles) IntegerCultureAndFormat()
+        { 
+            var culture = CultureInfo.CreateSpecificCulture("en-US").NumberFormat;
+            var numberStyles = NumberStyles.None | NumberStyles.AllowTrailingWhite | NumberStyles.AllowLeadingWhite;
+            return (culture, numberStyles);
+        }
         
-        //Unused Methods
+        //UNUSED
         public static List<int> EmptyIndeces<T>( this T[] array)
         {
             var emptyIndeces = new List<int>();

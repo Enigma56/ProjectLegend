@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using ProjectLegend.CharacterClasses;
 
-namespace ProjectLegend.Items.Consumables
+namespace ProjectLegend.ItemClasses.Consumables
 {
-    public class Consumable : Item
+    public abstract class Consumable : Item
     {
         //Fields
         public int MaxStackSize { get; set; }
@@ -15,9 +15,9 @@ namespace ProjectLegend.Items.Consumables
             StackSize = 0;
             MaxStackSize = 20;
         }
+        public abstract void Use(Player player);
         
         //Methods
-
         public void Increment()
         {
             StackSize += 1;

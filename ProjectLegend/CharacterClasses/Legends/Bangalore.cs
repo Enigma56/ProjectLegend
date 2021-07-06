@@ -13,13 +13,12 @@ namespace ProjectLegend.CharacterClasses.Legends
             CurrentAttack = MaxAttack;
             
             Passive();
-
+            CanUpdatePassive = false;
         }
         
         public override void Passive()
         {
             TotalEvasion += .05;
-            CanUpdatePassive = false;
         }
         
         public override void UpdatePassive()

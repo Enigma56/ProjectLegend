@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using ProjectLegend.Items;
-using ProjectLegend.Items.Consumables;
+using ProjectLegend.ItemClasses;
+using ProjectLegend.ItemClasses.Consumables;
 
 namespace ProjectLegend.CharacterClasses
 {
     public class Enemy : Character
     {
-        private Random itemGenerator = new Random();
+        private Random itemGenerator = new();
         Dictionary<int, Item> drops = new()
         {
             {1, new HealthPotion()},

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace ProjectLegend.Items
+namespace ProjectLegend.ItemClasses
 {
     public class Misc : Item
     {

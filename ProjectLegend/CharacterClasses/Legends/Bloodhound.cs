@@ -11,6 +11,7 @@ namespace ProjectLegend.CharacterClasses.Legends
             MaxAttack = 10;
             
             Passive();
+            CanUpdatePassive = true;
             
             CurrentHealth = MaxHealth;
             CurrentAttack = MaxAttack;
@@ -20,8 +21,6 @@ namespace ProjectLegend.CharacterClasses.Legends
         {
             if (Accuracy < .8)
                 Accuracy = .8;
-            
-            CanUpdatePassive = true;
         }
 
         public override void UpdatePassive()

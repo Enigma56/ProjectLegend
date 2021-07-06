@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProjectLegend.Items
+namespace ProjectLegend.ItemClasses.GearClasses
 {
     public class Gear : Item
     {

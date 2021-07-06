@@ -13,6 +13,7 @@ namespace ProjectLegend.CharacterClasses.Legends
             MaxAttack = 10;
             
             Passive();
+            CanUpdatePassive = true;
             
             CurrentHealth = MaxHealth;
             CurrentAttack = MaxAttack;
@@ -21,8 +22,6 @@ namespace ProjectLegend.CharacterClasses.Legends
         {
             PassiveHealthIncrease = (int) (MaxHealth * .05);
             MaxHealth += PassiveHealthIncrease;
-
-            CanUpdatePassive = true;
         }
 
         public override void UpdatePassive()

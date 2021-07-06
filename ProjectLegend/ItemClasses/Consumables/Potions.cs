@@ -4,7 +4,7 @@ using System.Reflection.Metadata;
 using ProjectLegend.CharacterClasses;
 
 
-namespace ProjectLegend.Items.Consumables
+namespace ProjectLegend.ItemClasses.Consumables
 {
     public abstract class Potions : Consumable
     {
@@ -12,14 +12,13 @@ namespace ProjectLegend.Items.Consumables
         {
             DropRate = 1.0;
         }
-        public abstract void Use(Player player);
     }
     
     public sealed class HealthPotion : Potions
     {
-        public static Guid Id { get; set; }
+        public static Guid Id { get; }
 
-        private double _healValue = .15;
+        private readonly double _healValue = .15;
 
         static HealthPotion()
         {
@@ -32,30 +31,34 @@ namespace ProjectLegend.Items.Consumables
 
         public override void Use(Player player)
         {
-            if (StackSize > 0)
-            {
+            // if (StackSize > 0)
+            // {
                 int heal = (int) (player.MaxHealth * _healValue);
 
                 if (player.CurrentHealth + heal > player.MaxHealth)
                 {
                     player.CurrentHealth = player.MaxHealth;
+                    Console.WriteLine("You are now at max health!");
                 }
                 else
                 {
                     player.CurrentHealth += heal;
+                    Console.WriteLine($"You have been healed for {heal} health!");
                 }
-            }
-            else
-            {
-                Console.WriteLine("You do not have enough Health Potions!");
-            }
+            // }
+            // else
+            // {
+            //     Console.WriteLine("You do not have enough Health Potions!");
+            // }
         }
         
     }
 
     public sealed class EnergyPotion : Potions
     {
-        public static Guid Id { get; set; }
+        public static Guid Id { get; }
+
+        private readonly int _energyRefill = 100;
 
         static EnergyPotion()
         {
@@ -68,24 +71,23 @@ namespace ProjectLegend.Items.Consumables
 
         public override void Use(Player player)
         {
-            if (StackSize > 0)
-            {
-                int energyReplenishment = 100;
-
-                if (player.CurrentEnergy + energyReplenishment > player.MaxEnergy)
+            // if (StackSize > 0)
+            // {
+                if (player.CurrentEnergy + _energyRefill > player.MaxEnergy)
                 {
                     player.CurrentEnergy = player.MaxEnergy;
+                    Console.WriteLine("Your energy is nor completely filled!");
                 }
                 else
                 {
-                    player.CurrentEnergy += energyReplenishment;
+                    player.CurrentEnergy += _energyRefill;
+                    Console.WriteLine($"{_energyRefill} energy has been added to your current energy!");
                 }
-            }
-            else
-            {
-                Console.WriteLine("You do not have enough Energy Potions!");
-            }
-            
+            // }
+            // else
+            // {
+            //     Console.WriteLine("You do not have enough Energy Potions!");
+            // }
         }
     }
 }

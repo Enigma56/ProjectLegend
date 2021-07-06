@@ -27,6 +27,7 @@ namespace ProjectLegend.CharacterClasses.Legends
             CurrentEnergy = 0;
 
             Passive();
+            CanUpdatePassive = true;
 
             CurrentHealth = MaxHealth;
             CurrentAttack = MaxAttack;
@@ -39,8 +40,6 @@ namespace ProjectLegend.CharacterClasses.Legends
             
             PassiveAttackIncrease = (int) (MaxAttack * _passiveAttackMultiplier);
             MaxAttack += PassiveAttackIncrease;
-
-            CanUpdatePassive = true;
         }
 
         public override void UpdatePassive() //updates the passive stats per level 

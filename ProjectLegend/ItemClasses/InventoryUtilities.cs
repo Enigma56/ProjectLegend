@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 
 using ProjectLegend.CharacterClasses;
-using ProjectLegend.Items;
+using ProjectLegend.GameUtilities;
+using ProjectLegend.ItemClasses.Consumables;
 
-namespace ProjectLegend.GameUtilities
+namespace ProjectLegend.ItemClasses
 {
     public static class InventoryUtilities
     {
@@ -50,11 +50,11 @@ namespace ProjectLegend.GameUtilities
                 Console.Write("Please enter the slot of the item you want to replace: ");
 
                 bool slotParsed = false;
-                NumberFormatInfo enUS = CultureInfo.CreateSpecificCulture("en-US").NumberFormat;
                 do
                 {
                     string replaceItemSlot = Utils.ReadInput()[0]; //only accepts first integer provided by user 
-                    if (int.TryParse(replaceItemSlot, NumberStyles.None | NumberStyles.AllowTrailingWhite | NumberStyles.AllowLeadingWhite, enUS, out int replaceItemIndex))
+                    if (int.TryParse(replaceItemSlot, Utils.IntegerCultureAndFormat().numberStyles, 
+                        Utils.IntegerCultureAndFormat().culture, out int replaceItemIndex))
                     {
 
                         bool indexInRange = 1 <= replaceItemIndex && replaceItemIndex <= player.Inventory.Length;
@@ -82,6 +82,27 @@ namespace ProjectLegend.GameUtilities
             player.Hand = target;
             
             player.Hand.AddOrDiscard(player);
+        }
+
+        public static void TryUseConsumable(this Player player, string[] commands)
+        {
+            if (commands.Length > 1)
+            {
+                if (commands[1].Equals("use") && commands.Length > 2)
+                {
+                    if (int.TryParse(commands[2], Utils.IntegerCultureAndFormat().numberStyles,
+                        Utils.IntegerCultureAndFormat().culture, out int slot))
+                    {
+                        slot = slot - 1;
+                        if (player.Inventory[slot] is Consumable consumable)
+                        {
+                            consumable.Use(player);
+                            player.Inventory[slot] = null;
+                            player.DisplayInventory();
+                        }
+                    }
+                }
+            }
         }
 
     }

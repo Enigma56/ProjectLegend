@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using ProjectLegend.Items;
+using ProjectLegend.ItemClasses;
 using ProjectLegend.GameUtilities.BuffUtilities;
 
 
@@ -9,34 +9,33 @@ namespace ProjectLegend.CharacterClasses
 {
     public abstract class Player : Character
     {
-        public Item[] Inventory { get; set; }
+        public Item[] Inventory { get; }
         public Item Hand { get; set; }
-        public bool HandIsEmpty { get; set; }
         public int Level { get; set; }
         public int Exp { get; set; }
         public int ExpThresh { get; set; }
         
-        public int MaxEnergy { get; set; }
+        public int MaxEnergy { get; }
         public int CurrentEnergy { get; set; }
-        public int EnergyPerTurn { get; set; }
+        public int EnergyPerTurn { get; }
         
         
         public int Vitality { get; set; }
         public int Strength { get; set; }
         
         public double UnbuffedEvasion { get; set; }
-        public double UnbuffedEvasionCap { get; set; }
+        public double UnbuffedEvasionCap { get; }
         public double TotalEvasion { get; set; }
         public double EvasionPerLevel { get; set; }
         
-        public bool CanUpdatePassive { get; set; }
+        public bool CanUpdatePassive { get; init; }
         
         public int DeathCount { get; set; }
         
 
         protected Player()
         {
-            Inventory = new Item[5];
+            Inventory = new Item[10];
             
             Buffs = new List<Buff>();
 
