@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace ProjectLegend.ItemClasses
 {
     public class Item
@@ -10,6 +9,7 @@ namespace ProjectLegend.ItemClasses
         public int InventorySlot { get; set; }
         
         public double DropRate { get; init; }
+        
         public override string ToString()
         {
             return Name;

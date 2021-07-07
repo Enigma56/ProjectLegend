@@ -1,4 +1,5 @@
 ﻿using System;
+
 using ProjectLegend.GameUtilities;
 using ProjectLegend.GameUtilities.BuffUtilities;
 
@@ -21,8 +22,8 @@ namespace ProjectLegend.CharacterClasses.Legends
         
         public Wraith()
         {
-            MaxHealth = 1;
-            MaxAttack = 2;
+            MaxHealth = 50;
+            MaxAttack = 100;
             
             CurrentEnergy = 0;
 

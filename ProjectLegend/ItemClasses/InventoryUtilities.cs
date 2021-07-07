@@ -17,7 +17,7 @@ namespace ProjectLegend.ItemClasses
             string choice;
             do
             {
-                choice = Utils.ReadInput(new string[] {"Add", "Discard"})[0];
+                choice = Utils.ReadInput("Add", "Discard")[0];
             } while (!(Equals(choice, "add") | Equals(choice, "discard")));
 
             switch (choice)
@@ -26,7 +26,7 @@ namespace ProjectLegend.ItemClasses
                     player.AddToInventory(player.Hand);
                     break;
                 case"discard":
-                    droppedItem = null;
+                    player.Hand = null;
                     break;
                 default:
                     Console.WriteLine("not a valid choice");
@@ -34,42 +34,66 @@ namespace ProjectLegend.ItemClasses
             }
         }
         
-        public static void AddToInventory(this Player player, Item droppedItem)
+        private static void AddToInventory(this Player player, Item droppedItem)
         {
-            var nextAvailableSlot = Array.IndexOf(player.Inventory,player.Inventory.FirstOrDefault(slot => slot == null));
-            if (nextAvailableSlot != -1)
+            Console.WriteLine(droppedItem.GetType());
+            int nextAvailableSlot =
+                Array.IndexOf(player.Inventory, player.Inventory.FirstOrDefault(slot => slot == null));
+            if (droppedItem.IsStackable && droppedItem is Consumable consumable)
             {
-                player.Inventory[nextAvailableSlot] = droppedItem;
-                player.Inventory[nextAvailableSlot].InventorySlot = nextAvailableSlot;
-            }
-            else
-            {
-                Console.WriteLine("Your inventory is full! please swap an item" + Environment.NewLine + 
-                                  $"Item in hand: {player.Hand}");
-                player.DisplayInventory();
-                Console.Write("Please enter the slot of the item you want to replace: ");
-
-                bool slotParsed = false;
-                do
+                int consumableSlot = Utils.GetItemIndex(player.Inventory, droppedItem);
+                if (consumableSlot != -1)
                 {
-                    string replaceItemSlot = Utils.ReadInput()[0]; //only accepts first integer provided by user 
-                    if (int.TryParse(replaceItemSlot, Utils.IntegerCultureAndFormat().numberStyles, 
-                        Utils.IntegerCultureAndFormat().culture, out int replaceItemIndex))
-                    {
-
-                        bool indexInRange = 1 <= replaceItemIndex && replaceItemIndex <= player.Inventory.Length;
-                        if (indexInRange)
-                        {
-                            var targetItem = player.Inventory[replaceItemIndex - 1]; //item that will be replaced
-                            player.Hand.Swap(targetItem, player);
-                            slotParsed = true;
-                        }
-                    }
+                    if(((Consumable)player.Inventory[consumableSlot]).StackSize < consumable.MaxStackSize)
+                        ((Consumable) player.Inventory[consumableSlot]).Increment();
                     else
                     {
-                        Console.WriteLine("Please enter a valid inventory slot!");
+                        player.Inventory[nextAvailableSlot] = droppedItem;
+                        ((Consumable) player.Inventory[nextAvailableSlot]).Increment();
                     }
-                } while (slotParsed is false);
+                }
+                else
+                {
+                    player.Inventory[nextAvailableSlot] = droppedItem;
+                    ((Consumable) player.Inventory[nextAvailableSlot]).Increment();
+                }
+            }
+            else //adds to newest slot 
+            {
+                if (nextAvailableSlot != -1)
+                {
+                    player.Inventory[nextAvailableSlot] = droppedItem;
+                    player.Inventory[nextAvailableSlot].InventorySlot = nextAvailableSlot;
+                }
+                else
+                {
+                    Console.WriteLine("Your inventory is full! please swap an item" + Environment.NewLine +
+                                      $"Item in hand: {player.Hand}");
+                    player.DisplayInventory();
+                    Console.Write("Please enter the slot of the item you want to replace: ");
+
+                    bool slotParsed = false;
+                    do
+                    {
+                        string replaceItemSlot = Utils.ReadInput()[0]; //only accepts first integer provided by user 
+                        if (int.TryParse(replaceItemSlot, Utils.IntegerCultureAndFormat().numberStyles,
+                            Utils.IntegerCultureAndFormat().culture, out int replaceItemIndex))
+                        {
+
+                            bool indexInRange = 1 <= replaceItemIndex && replaceItemIndex <= player.Inventory.Length;
+                            if (indexInRange)
+                            {
+                                var targetItem = player.Inventory[replaceItemIndex - 1]; //item that will be replaced
+                                player.Hand.Swap(targetItem, player);
+                                slotParsed = true;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Please enter a valid inventory slot!");
+                        }
+                    } while (slotParsed is false);
+                }
             }
         }
 
@@ -97,7 +121,10 @@ namespace ProjectLegend.ItemClasses
                         if (player.Inventory[slot] is Consumable consumable)
                         {
                             consumable.Use(player);
-                            player.Inventory[slot] = null;
+                            if (consumable.StackSize == 0)
+                            {
+                                player.Inventory[slot] = null;
+                            }
                             player.DisplayInventory();
                         }
                     }

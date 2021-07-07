@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Xml;
+
 using ProjectLegend.CharacterClasses;
 using ProjectLegend.CharacterClasses.Legends;
 using ProjectLegend.ItemClasses;
-using ProjectLegend.ItemClasses.Consumables;
-
 
 namespace ProjectLegend.GameUtilities
 {

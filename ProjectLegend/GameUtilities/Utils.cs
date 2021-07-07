@@ -5,6 +5,7 @@ using System.Linq;
 
 using ProjectLegend.CharacterClasses;
 using ProjectLegend.GameUtilities.BuffUtilities;
+using ProjectLegend.ItemClasses;
 
 namespace ProjectLegend.GameUtilities
 {
@@ -19,9 +20,8 @@ namespace ProjectLegend.GameUtilities
             {
                 Console.WriteLine("Your current options are: " + ToString(options));
                 input = Console.ReadLine();
-                args = input.Split(' ', '\t').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
-            } while (Equals(input, ""));
-            
+            } while (Equals(input, "") | input == null);
+            args = input.Split(' ', '\t').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
             args = (from str in args select str.ToLower()).ToArray();
             return args;
        }
@@ -76,6 +76,24 @@ namespace ProjectLegend.GameUtilities
             return (culture, numberStyles);
         }
         
+        /**
+         * Similar to Index of except it compares types rather than searching for something in the array 
+         */
+        public static int GetItemIndex(Item[] source, Item item)
+        {
+            for (int slot = 0; slot < source.Length; slot++)
+            {
+                if (source[slot] != null)
+                {
+                    if (source[slot].GetType() == item.GetType())
+                    {
+                        return slot;
+                    }
+                }
+            }
+            return -1;
+        }
+
         //UNUSED
         public static List<int> EmptyIndeces<T>( this T[] array)
         {
@@ -121,25 +139,5 @@ namespace ProjectLegend.GameUtilities
                return "You do not have any active buffs!";
            }
        }
-
-        //NOT IN USE
-       public static string GetItem(this string[] source, string target)
-       {
-           foreach (string item in source)
-           {
-               if (!item.Equals(target)) continue;
-               
-               try
-               {
-                   return item;
-               }
-               catch (Exception e) //get type of exception so that it does not catch generic exceptions
-               {
-                   Console.WriteLine($"{e}: Item not found in array!");
-               }
-           }
-           return null;
-       }
-
     }
 }
