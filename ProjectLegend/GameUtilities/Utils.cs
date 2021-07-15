@@ -6,6 +6,7 @@ using System.Linq;
 using ProjectLegend.CharacterClasses;
 using ProjectLegend.GameUtilities.BuffUtilities;
 using ProjectLegend.ItemClasses;
+using ProjectLegend.ItemClasses.GearClasses;
 
 namespace ProjectLegend.GameUtilities
 {
@@ -83,18 +84,47 @@ namespace ProjectLegend.GameUtilities
         {
             for (int slot = 0; slot < source.Length; slot++)
             {
-                if (source[slot] != null)
+                if (source[slot] != null && source[slot].GetType() == item.GetType())
                 {
-                    if (source[slot].GetType() == item.GetType())
-                    {
                         return slot;
-                    }
                 }
             }
             return -1;
         }
 
         //UNUSED
+
+        public static List<Stat> GetRandomStats(List<Stat> source, int numberOfStats)
+        {
+            if (source == null)
+                throw new NullReferenceException();
+            
+            Random rand = new();
+            List<Stat> chosenStats = new();
+
+            for (int i = 0; i < numberOfStats;)
+            {
+                int index = rand.Next(source.Count);
+                if (source[index].Chosen is false)
+                {
+                    var stat = source.ElementAt(index);
+                    //stat.Roll(stat.Range(1,5).min, stat.Range.max);
+                    chosenStats.Add(stat);
+                    stat.Chosen = true;
+                    i++;
+                }
+            }
+
+            foreach (var stat in chosenStats)
+                stat.Chosen = false;
+
+            return chosenStats;
+        }
+
+        public static double RandomDouble(this Random random, double min, double max)
+        {
+            return Math.Round(random.NextDouble() * (max - min) + min, 2);//random.NextDouble() * (max - min) + min; //Math.Round(random.NextDouble() * (max - min) + min, 1);
+        }
         public static List<int> EmptyIndeces<T>( this T[] array)
         {
             var emptyIndeces = new List<int>();

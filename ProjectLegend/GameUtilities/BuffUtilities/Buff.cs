@@ -7,8 +7,8 @@ namespace ProjectLegend.GameUtilities.BuffUtilities
     public class Buff
     {
         public Guid Id { get; }
-        public string Name { get; init; }
-        public int Duration { get; init; }
+        public string Name { get; }
+        public int Duration { get; }
         public int TurnsRemaining { get; set; }
         
         public bool HasTurnEffect { get; set; }

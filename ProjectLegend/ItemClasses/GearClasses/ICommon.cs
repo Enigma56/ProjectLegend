@@ -4,6 +4,6 @@ namespace ProjectLegend.ItemClasses.GearClasses
 {
     public interface ICommon
     {
-        public void CommonStatRolls(Player player);
+        public void CommonStatRolls(int rolls);
     }
 }

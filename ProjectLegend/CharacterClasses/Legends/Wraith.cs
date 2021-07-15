@@ -23,7 +23,7 @@ namespace ProjectLegend.CharacterClasses.Legends
         public Wraith()
         {
             MaxHealth = 50;
-            MaxAttack = 100;
+            MaxAttack = 20;
             
             CurrentEnergy = 0;
 

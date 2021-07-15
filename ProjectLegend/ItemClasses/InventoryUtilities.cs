@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 using ProjectLegend.CharacterClasses;
 using ProjectLegend.GameUtilities;
 using ProjectLegend.ItemClasses.Consumables;
+using ProjectLegend.ItemClasses.GearClasses;
 
 namespace ProjectLegend.ItemClasses
 {
@@ -36,21 +38,14 @@ namespace ProjectLegend.ItemClasses
         
         private static void AddToInventory(this Player player, Item droppedItem)
         {
-            Console.WriteLine(droppedItem.GetType());
             int nextAvailableSlot =
                 Array.IndexOf(player.Inventory, player.Inventory.FirstOrDefault(slot => slot == null));
             if (droppedItem.IsStackable && droppedItem is Consumable consumable)
             {
                 int consumableSlot = Utils.GetItemIndex(player.Inventory, droppedItem);
-                if (consumableSlot != -1)
+                if (consumableSlot != -1 &&((Consumable)player.Inventory[consumableSlot]).StackSize < consumable.MaxStackSize)
                 {
-                    if(((Consumable)player.Inventory[consumableSlot]).StackSize < consumable.MaxStackSize)
-                        ((Consumable) player.Inventory[consumableSlot]).Increment();
-                    else
-                    {
-                        player.Inventory[nextAvailableSlot] = droppedItem;
-                        ((Consumable) player.Inventory[nextAvailableSlot]).Increment();
-                    }
+                    ((Consumable) player.Inventory[consumableSlot]).Increment();
                 }
                 else
                 {
@@ -102,9 +97,9 @@ namespace ProjectLegend.ItemClasses
             player.Inventory[target.InventorySlot] = hand;
             hand.InventorySlot = target.InventorySlot;
             target.InventorySlot = -1;
-            
+
             player.Hand = target;
-            
+
             player.Hand.AddOrDiscard(player);
         }
 
@@ -132,5 +127,19 @@ namespace ProjectLegend.ItemClasses
             }
         }
 
+        public static void Equip(this Player player, Gear newGear)
+        {
+            int gearSlot = newGear.Slot;
+            Gear oldGear = null;
+
+            if (player.GearInventory[gearSlot] != null) //handle if slot is taken
+            {
+                oldGear = player.GearInventory[gearSlot];
+                player.AddToInventory(oldGear);
+            }
+
+            player.GearInventory[gearSlot] = newGear;
+            //player.UpdatePlayerStats(newGear, oldGear);
+        }
     }
 }
