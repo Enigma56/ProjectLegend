@@ -284,7 +284,7 @@ namespace ProjectLegend.GameUtilities
                  if( playerDeath )
                  {
                      Fighting = false;
-                     Utils.ExitSequence(player, "death"); //TODO: send player back to main menu with refreshed(not reset) stats on death
+                     Utils.ExitSequence(player, "death");
                      player.DeathCount += 1;
                  }
                  else

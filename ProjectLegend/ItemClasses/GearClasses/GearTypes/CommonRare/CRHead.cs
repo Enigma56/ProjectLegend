@@ -5,29 +5,24 @@ using ProjectLegend.GameUtilities;
 
 namespace ProjectLegend.ItemClasses.GearClasses.GearTypes.CommonRare
 {
-    public sealed class CHead1 : Head, ICommon //TODO: Implement first piece of common/rare gear
+    public sealed class CHead1 : Head, ICommon 
     {
-        public List<Stat> headStats { get; set; }
-        public CHead1() //TODO: Test implementation of stats
+        
+        public CHead1() //TODO: Implement equip and remove
         {
             Name = "Tattered Helm";
-            CommonStatRolls(NumCommonRolls);
+            CommonStatRolls(NumLegendaryRolls);
         }
 
         public void CommonStatRolls(int rolls)
         {
-            headStats = Utils.GetRandomStats(CharacterStats.StandardStats, rolls);
-            foreach (var stat in headStats)
+            gearStats = Utils.GetRandomStats(CharacterStats.AllStats, rolls);
+            foreach (var stat in gearStats)
             {
-                object min = stat.Range.GetMin();
-                object max = stat.Range.GetMax();
+                dynamic min = stat.Range.GetMin();
+                dynamic max = stat.Range.GetMax();
                 
-                if(stat.Type.Equals("add"))
-                    stat.RollStatValues((int) min, (int) max);
-                else
-                {
-                    stat.RollStatValues((double) min, (double) max);
-                }
+                Stat.RollStat(stat, min, max);
             }
         }
 
@@ -36,9 +31,9 @@ namespace ProjectLegend.ItemClasses.GearClasses.GearTypes.CommonRare
             string StatString()
             {
                 string stats = "";
-                foreach (var stat in headStats)
+                foreach (var stat in gearStats)
                 {
-                    stats += Environment.NewLine + $"{stat.Name}: {stat.StatValue}";
+                    stats += Environment.NewLine + stat;
                 }
                 return stats;
             }

@@ -11,7 +11,7 @@ namespace ProjectLegend.ItemClasses.GearClasses
         protected static int NumEpicRolls = 3;
         protected static int NumLegendaryRolls = 4;
         protected static int NumHeirloomRolls = 4;
-        public List<Stat> gearStats { get; }
+        public List<Stat> gearStats { get; set; }
         public int Slot { get; set; }
 
         protected Gear()

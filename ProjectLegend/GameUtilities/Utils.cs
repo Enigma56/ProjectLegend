@@ -92,8 +92,6 @@ namespace ProjectLegend.GameUtilities
             return -1;
         }
 
-        //UNUSED
-
         public static List<Stat> GetRandomStats(List<Stat> source, int numberOfStats)
         {
             if (source == null)
@@ -125,6 +123,7 @@ namespace ProjectLegend.GameUtilities
         {
             return Math.Round(random.NextDouble() * (max - min) + min, 2);//random.NextDouble() * (max - min) + min; //Math.Round(random.NextDouble() * (max - min) + min, 1);
         }
+        
         public static List<int> EmptyIndeces<T>( this T[] array)
         {
             var emptyIndeces = new List<int>();

@@ -132,14 +132,30 @@ namespace ProjectLegend.ItemClasses
             int gearSlot = newGear.Slot;
             Gear oldGear = null;
 
-            if (player.GearInventory[gearSlot] != null) //handle if slot is taken
+            if (player.GearInventory[gearSlot] != null) //replaces old gear if slots are conflicting
             {
                 oldGear = player.GearInventory[gearSlot];
                 player.AddToInventory(oldGear);
             }
 
             player.GearInventory[gearSlot] = newGear;
-            //player.UpdatePlayerStats(newGear, oldGear);
+            player.UpdatePlayerStats(newGear, oldGear, "new/replace");
+        }
+
+        public static void UnEquip(this Player player, Gear gear)
+        {
+            int gearSlot = gear.Slot;
+            if (player.GearInventory[gearSlot] == null)
+            {
+                Console.WriteLine("Current slot is empty!");
+            }
+            else
+            {
+                player.GearInventory[gearSlot] = null;
+                player.AddToInventory(gear);
+                Console.WriteLine($"{gear.Name} has been removed and added to inventory!");
+                player.UpdatePlayerStats(gear, null, "replace");
+            }
         }
     }
 }

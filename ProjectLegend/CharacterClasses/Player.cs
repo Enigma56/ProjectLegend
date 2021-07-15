@@ -10,7 +10,7 @@ namespace ProjectLegend.CharacterClasses
 {
     public abstract class Player : Character
     {
-        public CharacterStats PlayerStats { get; set; }
+        public CharacterStats PlayerStats { get; }
         public Gear[] GearInventory { get; }
         public Item[] Inventory { get; }
         public Item Hand { get; set; }
@@ -129,14 +129,31 @@ namespace ProjectLegend.CharacterClasses
                 : $"Max Evasion from levels hit! {oldEvasionVal * 100:##.##}% --> {TotalEvasion * 100:##.##}%"); // 0 represents always-appearing digit; # is optional
         }
 
-        public void UpdatePlayerStats() //TODO: ensure that stats are updated when the player equips/removes gear
+        public void UpdatePlayerStats(Gear newGear, Gear oldGear, string action) //TODO: ensure that stats are updated when the player equips/removes gear
         {
-            void StrengthUpdate()
+            if (action.Equals("new/replace"))
             {
-                
+                if (oldGear != null) //remove oldgear stats
+                {
+                    foreach (Stat stat in oldGear.gearStats)
+                    {
+                        PlayerStats.stats[stat.Id].StatTotal -= stat.StatRoll;
+                    }
+                }
+
+                //add newGear stats
+                foreach (var stat in newGear.gearStats)
+                {
+                    PlayerStats.stats[stat.Id].StatTotal += stat.StatRoll;
+                }
             }
-            //update strength
-            //update vitality
+            else
+            {
+                foreach (var stat in newGear.gearStats)
+                {
+                    PlayerStats.stats[stat.Id].StatTotal -= stat.StatRoll;
+                }
+            }
         }
         
         public override string ToString()

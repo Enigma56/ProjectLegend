@@ -11,7 +11,6 @@ namespace ProjectLegend.ItemClasses.GearClasses
         public static List<Stat> AllStats { get; }
         public static List<Stat> StandardStats { get; }
         public Dictionary<string, Stat> stats { get; }
-        //public Dictionary<string, Dictionary<string, Stat>> pstats { get; }
 
         static CharacterStats()
         {
@@ -45,71 +44,28 @@ namespace ProjectLegend.ItemClasses.GearClasses
                 ["patk"] = new AttackPercentIncrease(),
                 ["php"] = new HealthPercentIncrease()
             };
-
-            /*pstats = new Dictionary<string, Dictionary<string, Stat>>()
-            {
-                ["add"] = new()
-                {
-                    ["str"] = new Strength(),
-                    ["vit"]  = new Vitality(),
-                    ["fatk"] = new FlatAttIncrease(),
-                    ["fhp"] = new FlatHpIncrease(),
-                },
-                    
-                ["mult"] = new()
-                {
-                    ["patk"] = new AttackPercentIncrease(),
-                    ["php"] = new HealthPercentIncrease()
-                }
-
-            };*/
         }
     }
 
     public abstract class Stat
     {
-        public class Value
-        {
-            private object _value;
-            
-            public Value(int value) { _value = value; }
-            public Value(double value) { _value = value; }
-            
-            public object GetValue() { return _value; }
-
-            public override string ToString()
-            {
-                if(GetValue() is int)
-                    return $"{GetValue()}";
-                else
-                {
-                    return $"{(double) GetValue() * 100:#0.0#}";
-                }
-            }
-        }
-
         public class NumRange
         {
-            private object _min;
-            private object _max;
+            private dynamic _min;
+            private dynamic _max;
 
-            public NumRange(int min, int max)
-            {
-                _min = min;
-                _max = max;
-            }
-            public NumRange(double min, double max)
+            public NumRange(dynamic min, dynamic max)
             {
                 _min = min;
                 _max = max;
             }
 
-            public object GetMin()
+            public dynamic GetMin()
             {
                 return _min;
             }
 
-            public object GetMax()
+            public dynamic GetMax()
             {
                 return _max;
             }
@@ -122,10 +78,12 @@ namespace ProjectLegend.ItemClasses.GearClasses
         public string Type { get; }
         public bool Chosen { get; set; } //flag when choosing random stat
 
-        public Value StatValue { get; set; } = new(0);
+        public dynamic StatRoll { get; set; } = 0;
+
+        public dynamic StatTotal { get; set; } = 0;
         public NumRange Range { get; set; }
         public double Multiplier { get; }
-
+        
         protected Stat(string name, string id, string type)
         {
             Name = name;
@@ -134,14 +92,45 @@ namespace ProjectLegend.ItemClasses.GearClasses
             
             Multiplier = 1.0;
         }
-        public void RollStatValues(int min, int max)
+
+        public static void RollStat(Stat stat, dynamic min, dynamic max)
         {
-            StatValue = new Value(StatRoller.Next(min, max));
+            if (min is int minInt && max is int maxInt)
+            {
+                stat.StatRoll = StatRoller.Next(minInt, maxInt);
+            }
+            else if (min is double minDouble && max is double maxDouble)
+            {
+                stat.StatRoll = StatRoller.RandomDouble(minDouble, maxDouble);
+            }
+            else
+            {
+                throw new ArgumentException("No Valid numbers to roll stats from!");
+            }
         }
 
-        public void RollStatValues(double min, double max)
+        public string RollsToString()
         {
-            StatValue = new Value(StatRoller.RandomDouble(min, max));
+            string roll;
+            if (StatRoll is int)
+                roll = $": {StatRoll}";
+            else
+            {
+                roll = $": {StatRoll * 100:#0.0#}";
+            }
+            return Name + roll;
+        }
+
+        public override string ToString()
+        {
+            string total;
+            if (StatTotal is int)
+                total = $": {StatTotal}";
+            else
+            {
+                total = $": {StatTotal * 100:#0.0#}";
+            }
+            return Name + total;
         }
     }
 
@@ -151,12 +140,6 @@ namespace ProjectLegend.ItemClasses.GearClasses
          {
              Range = new NumRange(5, 20);
          }
-
-         public int CurrentValue()
-         {
-             return (int) Math.Ceiling((int) StatValue.GetValue() * Multiplier);
-         }
-         
      }
 
      public sealed class Vitality : Stat
@@ -167,10 +150,6 @@ namespace ProjectLegend.ItemClasses.GearClasses
              Range = new(5, 20);
          }
          
-         public int CurrentValue()
-         {
-             return (int) Math.Ceiling((int)StatValue.GetValue() * Multiplier);
-         }
      }
      
      public sealed class FlatAttIncrease : Stat
@@ -179,11 +158,6 @@ namespace ProjectLegend.ItemClasses.GearClasses
          {
              Range = new NumRange(1, 5);
          }
-         
-         public int CurrentValue()
-         {
-             return (int) Math.Ceiling((int)StatValue.GetValue() * Multiplier);
-         }
      }
 
      public sealed class FlatHpIncrease : Stat
@@ -191,11 +165,6 @@ namespace ProjectLegend.ItemClasses.GearClasses
          public FlatHpIncrease() : base("Flat HP", "fhp", "add")
          {
              Range = new NumRange(1, 5);
-         }
-         
-         public int CurrentValue()
-         {
-             return (int) Math.Ceiling((int)StatValue.GetValue() * Multiplier);
          }
      }
 
@@ -206,10 +175,6 @@ namespace ProjectLegend.ItemClasses.GearClasses
              Range = new NumRange(.05, .1);
          }
          
-         public double CurrentValue()
-         {
-             return Math.Ceiling((double)StatValue.GetValue() * Multiplier);
-         }
      }
 
      public sealed class HealthPercentIncrease : Stat
@@ -217,11 +182,6 @@ namespace ProjectLegend.ItemClasses.GearClasses
          public HealthPercentIncrease() : base("HP % Increase","php", "mult")
          {
              Range = new NumRange(.05, .1);
-         }
-         
-         public double CurrentValue()
-         {
-             return Math.Ceiling((double)StatValue.GetValue() * Multiplier);
          }
      }
 }
