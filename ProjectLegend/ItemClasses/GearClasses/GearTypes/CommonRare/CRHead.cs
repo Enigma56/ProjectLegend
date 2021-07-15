@@ -8,7 +8,7 @@ namespace ProjectLegend.ItemClasses.GearClasses.GearTypes.CommonRare
     public sealed class CHead1 : Head, ICommon 
     {
         
-        public CHead1() //TODO: Implement equip and remove
+        public CHead1()
         {
             Name = "Tattered Helm";
             CommonStatRolls(NumLegendaryRolls);

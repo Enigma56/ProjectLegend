@@ -129,7 +129,7 @@ namespace ProjectLegend.CharacterClasses
                 : $"Max Evasion from levels hit! {oldEvasionVal * 100:##.##}% --> {TotalEvasion * 100:##.##}%"); // 0 represents always-appearing digit; # is optional
         }
 
-        public void UpdatePlayerStats(Gear newGear, Gear oldGear, string action) //TODO: ensure that stats are updated when the player equips/removes gear
+        public void UpdatePlayerStats(Gear newGear, Gear oldGear, string action) 
         {
             if (action.Equals("new/replace"))
             {
