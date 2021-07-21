@@ -6,19 +6,19 @@ namespace ProjectLegend.CharacterClasses.Legends
     {
         public Pathfinder()
         {
-            MaxHealth = 100;
-            MaxAttack = 10;
+            Health.Max = 100;
+            Attack.Max = 10;
             
             Passive();
             CanUpdatePassive = false;
             
-            CurrentHealth = MaxHealth;
-            CurrentAttack = MaxAttack;
+            Health.Current = Health.Max;
+            Attack.Current = Attack.Max;
         }
         
         public override void Passive()
         {
-            TotalEvasion += .05;
+            Evasion.Total += .05;
         }
 
         public override void UpdatePassive()
@@ -30,12 +30,12 @@ namespace ProjectLegend.CharacterClasses.Legends
         {
             void Evasive(Character character)
             {
-                TotalEvasion += .3;
+                Evasion.Total += .3;
             }
 
             void RemoveEvasive(Character character)
             {
-                TotalEvasion -= .3;
+                Evasion.Total -= .3;
             }
             var evasive = new Buff("Grapple Jump", 1);
             evasive.ApplyEffect = Evasive;
@@ -47,7 +47,7 @@ namespace ProjectLegend.CharacterClasses.Legends
         public override void Ultimate(Enemy enemy)
         {
             int energyCost = 700;
-            if(CurrentEnergy >= energyCost)
+            if(Energy.Current >= energyCost)
             {
                 enemy.Dead = true; //immediately kills the enemy
                 System.Console.WriteLine("You have run from battle!");

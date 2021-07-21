@@ -9,30 +9,30 @@ namespace ProjectLegend.CharacterClasses.Legends
 
         public Gibraltar()
         {
-            MaxHealth = 100;
-            MaxAttack = 10;
+            Health.Max = 100;
+            Attack.Max = 10;
             
             Passive();
             CanUpdatePassive = true;
             
-            CurrentHealth = MaxHealth;
-            CurrentAttack = MaxAttack;
+            Health.Current = Health.Max;
+            Attack.Current = Attack.Max;
         }
         public override void Passive()
         {
-            PassiveHealthIncrease = (int) (MaxHealth * .05);
-            MaxHealth += PassiveHealthIncrease;
+            PassiveHealthIncrease = (int) (Health.Max * .05);
+            Health.Max += PassiveHealthIncrease;
         }
 
         public override void UpdatePassive()
         {
             int oldHealthIncrease = PassiveHealthIncrease;
 
-            PassiveHealthIncrease = (int) ((MaxHealth - oldHealthIncrease) * .05);
-            MaxHealth -= oldHealthIncrease;
-            MaxHealth += PassiveHealthIncrease;
+            PassiveHealthIncrease = (int) ((Health.Max - oldHealthIncrease) * .05);
+            Health.Max -= oldHealthIncrease;
+            Health.Max += PassiveHealthIncrease;
 
-            CurrentHealth = MaxHealth;
+            Health.Current = Health.Max;
         }
 
         public override void Active(Enemy enemy)
@@ -57,9 +57,9 @@ namespace ProjectLegend.CharacterClasses.Legends
         public override void Ultimate(Enemy enemy)
         {
             int energyCost = 900;
-            if (CurrentEnergy >= energyCost)
+            if (Energy.Current >= energyCost)
             {
-                enemy.CurrentHealth /= 2;
+                enemy.Health.Current /= 2;
                 System.Console.WriteLine("You have bombed the enemy!");
             }
             else

@@ -18,22 +18,15 @@ namespace ProjectLegend.CharacterClasses
         public int Exp { get; set; }
         public int ExpThresh { get; set; }
         
-        public int MaxEnergy { get; }
-        public int CurrentEnergy { get; set; }
-        public int EnergyPerTurn { get; }
+        public Energy Energy { get; set; }
+        public Evasion Evasion { get; set; }
         
-        
-        public int BaseVitality { get; set; }
-        public int MaxVitality { get; set; }
-        public int BaseStrength { get; set; }
-        public int MaxStrength { get; set; }
+        private int BaseVitality { get; set; }
+        private int MaxVitality { get; set; }
+        private int BaseStrength { get; set; }
+        private int MaxStrength { get; set; }
 
-        public double UnbuffedEvasion { get; set; }
-        public double UnbuffedEvasionCap { get; }
-        public double TotalEvasion { get; set; }
-        public double EvasionPerLevel { get; set; }
-        
-        public bool CanUpdatePassive { get; init; }
+        protected bool CanUpdatePassive { get; init; }
         
         public int DeathCount { get; set; }
         
@@ -46,21 +39,16 @@ namespace ProjectLegend.CharacterClasses
             PlayerStats = new CharacterStats();
             Buffs = new List<Buff>();
 
-            MaxEnergy = 1000;
-            CurrentEnergy = 0;
-            EnergyPerTurn = 50;
+            Energy = new Energy();
+            Evasion = new Evasion();
 
             Accuracy = 1;
+            
             BaseStrength = 0;
             BaseVitality = 0;
             MaxStrength = 500;
             MaxVitality = 500;
 
-            TotalEvasion = 0.0;
-            UnbuffedEvasion = 0.0;
-            UnbuffedEvasionCap = .01;
-            EvasionPerLevel = .005;
-            
             Level = 1;
             Exp = 0;
             ExpThresh = 10;
@@ -79,6 +67,7 @@ namespace ProjectLegend.CharacterClasses
             LevelUpdate();
             StatLevelUpdate();
         }
+        
         private void LevelUpdate()
         { 
             int xp = Exp;
@@ -98,21 +87,23 @@ namespace ProjectLegend.CharacterClasses
         
         private void StatLevelUpdate()
         {
-            int oldMaxHealthVal = MaxHealth;
-            int healthIncrease = (int) Math.Ceiling((Math.Pow(Level, 2) + BaseVitality) / 5);
-            MaxHealth += healthIncrease;
-            CurrentHealth = MaxHealth; //Fully heal on every level up
-                
-            int oldAttackVal = MaxAttack;
-            int attackIncrease = (int) Math.Ceiling((Math.Pow(Level, 2) + BaseStrength) / 20);
-            MaxAttack += attackIncrease;
-            CurrentAttack = MaxAttack;
-                
-            double oldEvasionVal = TotalEvasion;
-            if (UnbuffedEvasion < UnbuffedEvasionCap)
+            //HP Stats
+            int oldMaxHealthVal = Health.Max;
+            BaseVitality += (int) Math.Ceiling(Math.Pow(Level, 2) / 5);
+            Health.Max += (int) Math.Ceiling(Math.Pow(2, (Level + 100) / 20.0) - 32);
+            Health.Current = Health.Max; //Fully heal on every level up
+            
+            //Atk Stats
+            int oldAttackVal = Attack.Max;
+            BaseStrength += (int) Math.Ceiling(Math.Pow(Level, 2) / 20);
+            Attack.Max += (int) Math.Ceiling(Math.Pow(2, (Level + 100) / 25.0) - 16);
+            Attack.Current = Attack.Max;
+
+            double oldEvasionVal = Evasion.Total;
+            if (Evasion.UnbuffedTotal < Evasion.UnbuffedCap)
             {
-                UnbuffedEvasion += EvasionPerLevel;
-                TotalEvasion += EvasionPerLevel;
+                Evasion.UnbuffedTotal += Evasion.PercentPerLevel;
+                Evasion.Total += Evasion.PercentPerLevel;
             }
 
             if (CanUpdatePassive)
@@ -121,50 +112,86 @@ namespace ProjectLegend.CharacterClasses
             }
                 
 
-            Console.WriteLine(Environment.NewLine + $"Max Health Up! {oldMaxHealthVal} --> {CurrentHealth}"
-                                                  + Environment.NewLine + $"Attack Up! {oldAttackVal} --> {MaxAttack}");
+            Console.WriteLine(Environment.NewLine + $"Max Health Up! {oldMaxHealthVal} --> {Health.Current}"
+                                                  + Environment.NewLine + $"Attack Up! {oldAttackVal} --> {Attack.Max}");
                 
-            Console.WriteLine(UnbuffedEvasion < UnbuffedEvasionCap 
-                ? $"Evasion Up! {oldEvasionVal * 100:#0.0#}% --> {TotalEvasion * 100:##.##}%" + Environment.NewLine 
-                : $"Max Evasion from levels hit! {oldEvasionVal * 100:##.##}% --> {TotalEvasion * 100:##.##}%"); // 0 represents always-appearing digit; # is optional
+            Console.WriteLine(Evasion.UnbuffedTotal < Evasion.UnbuffedCap 
+                ? $"Evasion Up! {oldEvasionVal * 100:#0.0#}% --> {Evasion.Total * 100:##.##}%" + Environment.NewLine 
+                : $"Max Evasion from levels hit! {oldEvasionVal * 100:##.##}% --> {Evasion.Total * 100:##.##}%"); // 0 represents always-appearing digit; # is optional
         }
 
-        public void UpdatePlayerStats(Gear newGear, Gear oldGear, string action) 
+        public void UpdatePlayerStats(Gear newGear, Gear oldGear, string action)
+        {
+            //Removes old bonus(if set)
+            Attack.Max -= Attack.Bonus;
+            Attack.Current -= Attack.Bonus;
+            Health.Max -= Health.Bonus;
+            Health.Current -= Health.Bonus;
+
+            UpdateStatsFromGear(newGear, oldGear, action); //Changes bonus in /CalculateBonuses/
+            
+            //Adds new bonus
+            Attack.Max += Attack.Bonus;
+            Attack.Current += Attack.Bonus;
+            Health.Max += Health.Bonus;
+            Health.Current += Health.Bonus;
+        }
+
+        private void UpdateStatsFromGear(Gear newGear, Gear oldGear, string action) //add and remove addition stats from base
         {
             if (action.Equals("new/replace"))
             {
-                if (oldGear != null) //remove oldgear stats
+                if (oldGear != null) //remove oldGear stats
                 {
-                    foreach (Stat stat in oldGear.gearStats)
+                    foreach (var stat in oldGear.gearStats)
                     {
-                        PlayerStats.stats[stat.Id].StatTotal -= stat.StatRoll;
+                        PlayerStats[stat.Id].StatTotal -= stat.StatRoll;
                     }
                 }
 
                 //add newGear stats
                 foreach (var stat in newGear.gearStats)
                 {
-                    PlayerStats.stats[stat.Id].StatTotal += stat.StatRoll;
+                    PlayerStats[stat.Id].StatTotal += stat.StatRoll;
                 }
             }
             else
             {
                 foreach (var stat in newGear.gearStats)
                 {
-                    PlayerStats.stats[stat.Id].StatTotal -= stat.StatRoll;
+                    PlayerStats[stat.Id].StatTotal -= stat.StatRoll;
                 }
             }
+            CalculateBonuses();
         }
-        
+
+        private void CalculateBonuses() //TODO: update player health/attack in accordance with stat changes
+        {
+            double percentIncrease(double value)
+            {
+                return 1 + value;
+            }
+
+            int playerStrTotal = BaseStrength + PlayerStats["str"].StatTotal;
+            var factoredStr = playerStrTotal / 12; //equation: Math.Pow(2, (Level + 100)/ 25.0) - 16
+            int calculatedBonusAtk = (int) Math.Floor((factoredStr + PlayerStats["fatk"].StatTotal) * percentIncrease(PlayerStats["patk"].StatTotal));
+            Attack.Bonus = calculatedBonusAtk;
+
+            int playerVitTotal = BaseVitality + PlayerStats["vit"].StatTotal;
+            var factoredVit = playerVitTotal / 4;
+            int calculatedBonusHp = (int) Math.Floor((factoredVit + PlayerStats["fhp"].StatTotal) * percentIncrease(PlayerStats["php"].StatTotal));
+            Health.Bonus = calculatedBonusHp;
+        }
+
         public override string ToString()
         {
             return "Stats: " + Environment.NewLine + 
-                   $"Health = {CurrentHealth}" + Environment.NewLine + 
-                   $"Attack = {CurrentAttack}" + Environment.NewLine +
-                   $"Current Energy = {CurrentEnergy} && Max Energy = {MaxEnergy}" + Environment.NewLine +
-                   $"Vitality = {BaseVitality}" + Environment.NewLine +
-                   $"Strength = {BaseStrength}" + Environment.NewLine +
-                   $"Evasion = {TotalEvasion * 100:#0.0#}%";
+                   $"Health = {Health.Current}" + Environment.NewLine + 
+                   $"Attack = {Attack.Current}" + Environment.NewLine +
+                   $"Current Energy = {Energy.Current} && Max Energy = {Energy.Max}" + Environment.NewLine +
+                   $"Vitality = {PlayerStats["vit"].StatTotal}" + Environment.NewLine +
+                   $"Strength = {PlayerStats["str"].StatTotal}" + Environment.NewLine +
+                   $"Evasion = {Evasion.Total * 100:#0.0#}%";
                     
         }
     }

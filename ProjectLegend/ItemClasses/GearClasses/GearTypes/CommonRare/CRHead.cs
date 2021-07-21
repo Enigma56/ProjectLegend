@@ -11,34 +11,16 @@ namespace ProjectLegend.ItemClasses.GearClasses.GearTypes.CommonRare
         public CHead1()
         {
             Name = "Tattered Helm";
-            CommonStatRolls(NumLegendaryRolls);
+            CommonStatRolls(NumCommonRolls);
         }
 
         public void CommonStatRolls(int rolls)
         {
-            gearStats = Utils.GetRandomStats(CharacterStats.AllStats, rolls);
+            gearStats = Utils.GetRandomStats(CharacterStats.StandardStats, rolls);
             foreach (var stat in gearStats)
             {
-                dynamic min = stat.Range.GetMin();
-                dynamic max = stat.Range.GetMax();
-                
-                Stat.RollStat(stat, min, max);
+                stat.RollStat();
             }
-        }
-
-        public override string ToString()
-        {
-            string StatString()
-            {
-                string stats = "";
-                foreach (var stat in gearStats)
-                {
-                    stats += Environment.NewLine + stat;
-                }
-                return stats;
-            }
-            
-            return $"{Name}" + StatString();
         }
     }
 }

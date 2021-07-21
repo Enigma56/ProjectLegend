@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Security.Cryptography.X509Certificates;
 using ProjectLegend.GameUtilities;
 
 
@@ -32,18 +32,26 @@ namespace ProjectLegend.ItemClasses.GearClasses
                 new FlatHpIncrease()
             };
         }
-        
-        public CharacterStats()
+
+        public CharacterStats() //TODO: HP/ATK/Ev% need to be reworked into core stats
         {
-            stats = new Dictionary<string, Stat>()
+            stats = new Dictionary<string, Stat>() //
             {
+                
+                //["hp"] = new HealthPoints(),
+                //["atk"] =  new AttackPoints(),
                 ["str"] = new Strength(),
-                ["vit"]  = new Vitality(),
+                ["vit"] = new Vitality(),
                 ["fatk"] = new FlatAttIncrease(),
                 ["fhp"] = new FlatHpIncrease(),
                 ["patk"] = new AttackPercentIncrease(),
-                ["php"] = new HealthPercentIncrease()
+                ["php"] = new HealthPercentIncrease(),
+                //E%
             };
+        }
+        public Stat this[string key]
+        {
+            get => stats[key];
         }
     }
 
@@ -93,15 +101,18 @@ namespace ProjectLegend.ItemClasses.GearClasses
             Multiplier = 1.0;
         }
 
-        public static void RollStat(Stat stat, dynamic min, dynamic max)
+        public void RollStat()
         {
+            dynamic min = Range.GetMin();
+            dynamic max = Range.GetMax();
+            
             if (min is int minInt && max is int maxInt)
             {
-                stat.StatRoll = StatRoller.Next(minInt, maxInt);
+                StatRoll = StatRoller.Next(minInt, maxInt);
             }
             else if (min is double minDouble && max is double maxDouble)
             {
-                stat.StatRoll = StatRoller.RandomDouble(minDouble, maxDouble);
+                StatRoll = StatRoller.RandomDouble(minDouble, maxDouble);
             }
             else
             {
@@ -109,45 +120,89 @@ namespace ProjectLegend.ItemClasses.GearClasses
             }
         }
 
-        public string RollsToString()
-        {
-            string roll;
-            if (StatRoll is int)
-                roll = $": {StatRoll}";
-            else
-            {
-                roll = $": {StatRoll * 100:#0.0#}";
-            }
-            return Name + roll;
-        }
-
         public override string ToString()
         {
             string total;
-            if (StatTotal is int)
-                total = $": {StatTotal}";
+            if(StatRoll is int)
+                total = $": {StatRoll}";
             else
             {
-                total = $": {StatTotal * 100:#0.0#}";
+                total = $": {StatRoll * 100:#0.0#}%";
             }
             return Name + total;
         }
     }
 
+    public sealed class HealthPoints //Core
+    {
+        public int Current { get; set; }
+        public int Max { get; set; }
+        public int Bonus { get; set; }
+
+        public HealthPoints()
+        {
+            Current = 0;
+            Max = 0;
+
+            Bonus = 0;
+        }
+    }
+
+    public sealed class AttackPoints //Core
+    {
+        private int _current;
+        public int Current
+        {
+            get => (int) (_current * AtkMultiplier);
+            set => _current = value;
+        }
+        public int Max { get; set; }
+        public int Bonus { get; set; }
+        
+        public double AtkMultiplier { get; set; }
+
+        public AttackPoints()
+        {
+            AtkMultiplier = 1.0;
+        }
+    }
+
+    public class Energy : Stat
+    {
+        public static int EnergyPerTurn = 50;
+        
+        public int Current { get; set; }
+        public int Max { get; set; }
+
+        public Energy() : base("Energy", "nrg", "add")
+        {
+            Max = 1000;
+        }
+    }
+
      public sealed class Strength : Stat
      {
+         public int Base { get; set; }
+         public int Max { get; set; }
+         
          public Strength() : base("Strength", "str", "add")
          {
              Range = new NumRange(5, 20);
+             Base = 0;
+             Max = 500;
          }
      }
 
      public sealed class Vitality : Stat
      {
-
+         public int Base { get; set; }
+         public int Max { get; set; }
+         
          public Vitality() : base("Vitality","vit", "add")
          {
              Range = new(5, 20);
+             Base = 0;
+             Max = 500;
          }
          
      }
@@ -182,6 +237,21 @@ namespace ProjectLegend.ItemClasses.GearClasses
          public HealthPercentIncrease() : base("HP % Increase","php", "mult")
          {
              Range = new NumRange(.05, .1);
+         }
+     }
+
+     public sealed class Evasion //Core
+     {
+         public const double PercentPerLevel = .002;
+         public double Total { get; set; }
+         public double UnbuffedTotal { get; set; }
+         public double UnbuffedCap { get; }
+
+         public Evasion()
+         {
+             Total = 0.0;
+             UnbuffedTotal = 0.0;
+             UnbuffedCap = .05;
          }
      }
 }

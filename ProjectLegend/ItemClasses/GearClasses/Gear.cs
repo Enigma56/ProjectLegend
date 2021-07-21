@@ -21,5 +21,20 @@ namespace ProjectLegend.ItemClasses.GearClasses
             IsStackable = false;
             gearStats = new List<Stat>();
         }
+        
+        public override string ToString()
+        {
+            string StatString()
+            {
+                string stats = "";
+                foreach (var stat in gearStats)
+                {
+                    stats += Environment.NewLine + stat;
+                }
+                return stats;
+            }
+            
+            return $"{Name}" + StatString();
+        }
     }
 }

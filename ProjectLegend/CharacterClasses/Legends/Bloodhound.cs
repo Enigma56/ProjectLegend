@@ -7,14 +7,14 @@ namespace ProjectLegend.CharacterClasses.Legends
         private int DamageReduction { get; set; }
         public Bloodhound()
         {
-            MaxHealth = 100;
-            MaxAttack = 10;
+            Health.Max = 100;
+            Attack.Max = 10;
             
             Passive();
             CanUpdatePassive = true;
             
-            CurrentHealth = MaxHealth;
-            CurrentAttack = MaxAttack;
+            Health.Current = Health.Max;
+            Attack.Current = Attack.Max;
         }
         
         public override void Passive()
@@ -33,12 +33,12 @@ namespace ProjectLegend.CharacterClasses.Legends
         {
             void ReduceEnemyAttack(Character character)
             {
-                character.AttackMultiplier = .9;
+                character.Attack.AtkMultiplier = .9;
             }
 
             void RemoveAttackReduction(Character character)
             {
-                character.AttackMultiplier = 1.0;
+                character.Attack.AtkMultiplier = 1.0;
             }
 
             var damageReduction = new Debuff("All-Father's Assistance", 2);
@@ -52,12 +52,12 @@ namespace ProjectLegend.CharacterClasses.Legends
         {
             void Weakness(Character character)
             {
-                character.AttackMultiplier = 1.5;
+                character.Attack.AtkMultiplier = 1.5;
             }
 
             void RemoveWeakness(Character character)
             {
-                character.AttackMultiplier = 1.0;
+                character.Attack.AtkMultiplier = 1.0;
             }
 
             var strength = new Buff("All-Father's Omnipotence", 2);

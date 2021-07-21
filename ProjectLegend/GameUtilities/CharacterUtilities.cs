@@ -76,7 +76,7 @@ namespace ProjectLegend.GameUtilities
             }
             else
             {
-                Console.WriteLine("You do not have any active buffs!");
+                Console.WriteLine("No Active Buffs!");
             }
         }
 
@@ -107,7 +107,7 @@ namespace ProjectLegend.GameUtilities
                 return false;
             else if (enemy.Stunned)
                 return false;
-            else if (evade <= player.TotalEvasion)
+            else if (evade <= player.Evasion.Total)
             {
                 Console.WriteLine("You evaded the enemies attack!");
                 return false;

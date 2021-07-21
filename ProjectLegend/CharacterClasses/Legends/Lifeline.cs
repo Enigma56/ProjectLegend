@@ -1,6 +1,7 @@
 ﻿using System;
 
 using ProjectLegend.GameUtilities.BuffUtilities;
+using ProjectLegend.ItemClasses.GearClasses;
 
 namespace ProjectLegend.CharacterClasses.Legends
 {
@@ -8,31 +9,30 @@ namespace ProjectLegend.CharacterClasses.Legends
     {
         public Lifeline()
         {
-            MaxHealth = 100;
-            MaxAttack = 20;
+            Health.Max = 40;
+            Attack.Max = 20;
             
-            CurrentEnergy = 0;
+            Energy.Current = 0;
 
-            CurrentHealth = MaxHealth;
-            CurrentAttack = MaxAttack;
+            Health.Current = Health.Max;
+            Attack.Current = Attack.Max;
         }
         
         public override void Passive()
         {
-            //throw new NotImplementedException();
-            //CanUpdatePassive = false;
+            throw new NotImplementedException();
         }
 
         public void PassiveHeal()
         {
             //Heal 5% health every turn - rounded up
-            int heal = (int) (MaxHealth * .05);
+            int heal = (int) (Health.Max * .05);
 
-            if (CurrentHealth + heal > MaxHealth)
-                CurrentHealth = MaxHealth;
+            if (Health.Current + heal > Health.Max)
+                Health.Current = Health.Max;
             else
             {
-                CurrentHealth += heal;
+                Health.Current += heal;
             }
         }
 
@@ -48,19 +48,19 @@ namespace ProjectLegend.CharacterClasses.Legends
             
             void HealApply(Character character) //Snapshot of current Max Health
             {
-                int healthPerTurn = MaxHealth / drone.Duration;
-                if (CurrentHealth == MaxHealth)
+                int healthPerTurn = Health.Max / drone.Duration;
+                if (Health.Current == Health.Max)
                 {
                     Console.WriteLine("Cannot go above max health!");
                 }
-                else if (CurrentHealth + healthPerTurn > MaxHealth)
+                else if (Health.Current + healthPerTurn > Health.Max)
                 {
-                    CurrentHealth = MaxHealth;
+                    Health.Current = Health.Max;
                     Console.WriteLine("You have hit max health!");
                 }
                 else
                 {
-                    CurrentHealth += healthPerTurn;
+                    Health.Current += healthPerTurn;
                 }
 
             }
@@ -80,10 +80,10 @@ namespace ProjectLegend.CharacterClasses.Legends
             
             //Temp. ultimate
             int energyCost = 600;
-            if (CurrentEnergy >= energyCost)
+            if (Energy.Current >= energyCost)
             {
-                Console.WriteLine($"You have been fully healed! {CurrentHealth} -> {MaxHealth}");
-                CurrentHealth = MaxHealth;
+                Console.WriteLine($"You have been fully healed! {Health.Current} -> {Health.Max}");
+                Health.Current = Health.Max;
             }
             else
             {

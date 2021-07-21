@@ -33,7 +33,7 @@ namespace ProjectLegend.GameUtilities
            if (reason.Equals("death"))
            {
                Console.WriteLine($"You died at level {p.Level}");
-               p.CurrentHealth = p.MaxHealth;
+               p.Health.Current = p.Health.Max;
            }
            else if (reason.Equals("finish"))
            {

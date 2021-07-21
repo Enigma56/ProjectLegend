@@ -5,8 +5,8 @@
     {
         public BinSpider()
         {
-            MaxHealth = StatGenerator.Next(10, 20); 
-            MaxAttack = StatGenerator.Next(5, 10);
+            Health.Max = StatGenerator.Next(10, 20); 
+            Attack.Max = StatGenerator.Next(5, 10);
         }
     }
 
@@ -14,8 +14,8 @@
     {
         public CarthageSpider()
         {
-            MaxHealth = StatGenerator.Next(20, 40); 
-            MaxAttack = 10;
+            Health.Max = StatGenerator.Next(20, 40); 
+            Attack.Max = 10;
         }
         
     }

@@ -23,20 +23,20 @@ namespace ProjectLegend.ItemClasses.Consumables
 
         public override void Use(Player player)
         {
-            int heal = (int) (player.MaxHealth * _healValue);
+            int heal = (int) (player.Health.Max * _healValue);
 
-            if (player.CurrentHealth == player.MaxHealth)
+            if (player.Health.Current == player.Health.Max)
                 Console.WriteLine("You're already at max health!");
-            else if (player.CurrentHealth + heal > player.MaxHealth)
+            else if (player.Health.Current + heal > player.Health.Max)
             {
                 Decrement();
-                player.CurrentHealth = player.MaxHealth;
+                player.Health.Current = player.Health.Max;
                 Console.WriteLine("You are now at max health!");
             }
             else
             {
                 Decrement();
-                player.CurrentHealth += heal;
+                player.Health.Current += heal;
                 Console.WriteLine($"You have been healed for {heal} health!");
             }
         }
@@ -55,18 +55,18 @@ namespace ProjectLegend.ItemClasses.Consumables
 
         public override void Use(Player player)
         {
-            if (player.CurrentEnergy == player.MaxEnergy)
+            if (player.Energy.Current == player.Energy.Max)
                 Console.WriteLine("You're already at max energy!");
-            if (player.CurrentEnergy + _energyRefill > player.MaxEnergy)
+            if (player.Energy.Current + _energyRefill > player.Energy.Max)
             {
                 Decrement();
-                player.CurrentEnergy = player.MaxEnergy;
+                player.Energy.Current = player.Energy.Max;
                 Console.WriteLine("Your energy is filled!");
             }
             else
             {
                 Decrement();
-                player.CurrentEnergy += _energyRefill;
+                player.Energy.Current += _energyRefill;
                 Console.WriteLine($"{_energyRefill} energy has been added!");
             }
         }

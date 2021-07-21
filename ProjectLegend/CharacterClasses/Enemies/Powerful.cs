@@ -4,8 +4,8 @@
     {
         public Leviathan()
         {
-            MaxHealth = StatGenerator.Next(10, 20); 
-            MaxAttack = StatGenerator.Next(5, 10);
+            Health.Max = StatGenerator.Next(10, 20); 
+            Attack.Max = StatGenerator.Next(5, 10);
         }
     }
 
@@ -13,8 +13,8 @@
     {
         public Goliath()
         {
-            MaxHealth = StatGenerator.Next(10, 20); 
-            MaxAttack = StatGenerator.Next(5, 10);
+            Health.Max = StatGenerator.Next(10, 20); 
+            Attack.Max = StatGenerator.Next(5, 10);
         }
     }
 }

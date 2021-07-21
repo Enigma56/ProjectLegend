@@ -4,8 +4,8 @@
     {
         public Flyer()
         {
-            MaxHealth = StatGenerator.Next(35, 50); 
-            MaxAttack = StatGenerator.Next(15, 20);
+            Health.Max = StatGenerator.Next(35, 50); 
+            Attack.Max = StatGenerator.Next(15, 20);
         }
     }
 
@@ -13,8 +13,8 @@
     {
         public Prowler()
         {
-            MaxHealth = StatGenerator.Next(25, 40); 
-            MaxAttack = StatGenerator.Next(10, 15);
+            Health.Max = StatGenerator.Next(25, 40); 
+            Attack.Max = StatGenerator.Next(10, 15);
         }
     }
 }

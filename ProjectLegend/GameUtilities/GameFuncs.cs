@@ -5,6 +5,7 @@ using System.Linq;
 using ProjectLegend.CharacterClasses;
 using ProjectLegend.CharacterClasses.Legends;
 using ProjectLegend.ItemClasses;
+using ProjectLegend.ItemClasses.GearClasses;
 
 namespace ProjectLegend.GameUtilities
 {
@@ -218,13 +219,13 @@ namespace ProjectLegend.GameUtilities
                  bool attackEnemy = player.AttackChance(enemy);
                  if (attackEnemy is true)
                  {
-                     enemy.CurrentHealth -= player.CurrentAttack;
+                     enemy.Health.Current -= player.Attack.Current;
                  }
              }
 
              bool CheckEnemyDeath()
              {
-                 bool enemyIsDead = enemy.CurrentHealth <= 0 || enemy.Dead; //check left then right
+                 bool enemyIsDead = enemy.Health.Current <= 0 || enemy.Dead; //check left then right
                  if (enemyIsDead) enemy.Dead = true;
                  return enemyIsDead;
              }
@@ -234,13 +235,13 @@ namespace ProjectLegend.GameUtilities
                  bool attackPlayer = player.DefenseChance(enemy);
                  if (attackPlayer is true)
                  {
-                     player.CurrentHealth -= enemy.CurrentAttack;
+                     player.Health.Current -= enemy.Attack.Current;
                  }
              }
 
              bool CheckPlayerDeath()
              {
-                 player.Dead = player.CurrentHealth <= 0;
+                 player.Dead = player.Health.Current <= 0;
                  return player.Dead;
              }
 
@@ -251,10 +252,10 @@ namespace ProjectLegend.GameUtilities
                  Console.WriteLine("Remaining Stats:");
                  ViewHealth(player, enemy);
 
-                 if (player.CurrentEnergy < player.MaxEnergy)
+                 if (player.Energy.Current < player.Energy.Max)
                  {
-                     player.CurrentEnergy += player.EnergyPerTurn;
-                     Console.WriteLine(Environment.NewLine + $"You gained {player.EnergyPerTurn} energy!");
+                     player.Energy.Current += Energy.EnergyPerTurn;
+                     Console.WriteLine(Environment.NewLine + $"You gained {Energy.EnergyPerTurn} energy!");
                  }
                  
                  else
@@ -331,8 +332,8 @@ namespace ProjectLegend.GameUtilities
 
          private void ViewStats(Player player, Enemy enemy)
          {
-             string playerStats = $"Your  Health: {player.CurrentHealth,-6}Your  Attack: {player.CurrentAttack}";
-             string enemyStats = $"Enemy Health: {enemy.CurrentHealth,-6}Enemy Attack: {enemy.CurrentAttack}";
+             string playerStats = $"Your  Health: {player.Health.Current,-6}Your  Attack: {player.Attack.Current}";
+             string enemyStats = $"Enemy Health: {enemy.Health.Current,-6}Enemy Attack: {enemy.Attack.Current}";
              Console.WriteLine(playerStats + 
                                Environment.NewLine +
                                enemyStats);
@@ -340,9 +341,9 @@ namespace ProjectLegend.GameUtilities
 
          private void ViewHealth(Player player, Enemy enemy)
          {
-             Console.WriteLine($"Your  Health: {player.CurrentHealth}" + 
+             Console.WriteLine($"Your  Health: {player.Health.Current}" + 
                                Environment.NewLine +
-                               $"Enemy Health: {enemy.CurrentHealth}");
+                               $"Enemy Health: {enemy.Health.Current}");
          }
 
          public string[] GenCommands()

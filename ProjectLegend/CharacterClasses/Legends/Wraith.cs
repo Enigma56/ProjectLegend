@@ -22,35 +22,35 @@ namespace ProjectLegend.CharacterClasses.Legends
         
         public Wraith()
         {
-            MaxHealth = 50;
-            MaxAttack = 20;
+            Health.Max = 50;
+            Attack.Max = 20;
             
-            CurrentEnergy = 0;
+            Energy.Current = 0;
 
             Passive();
             CanUpdatePassive = true;
 
-            CurrentHealth = MaxHealth;
-            CurrentAttack = MaxAttack;
+            Health.Current = Health.Max;
+            Attack.Current = Attack.Max;
         }
         
         
         public override void Passive() //Increased evasion and attack
         {
-            TotalEvasion += _passiveEvasionBonus;
+            Evasion.Total += _passiveEvasionBonus;
             
-            PassiveAttackIncrease = (int) (MaxAttack * _passiveAttackMultiplier);
-            MaxAttack += PassiveAttackIncrease;
+            PassiveAttackIncrease = (int) (Attack.Max * _passiveAttackMultiplier);
+            Attack.Max += PassiveAttackIncrease;
         }
 
         public override void UpdatePassive() //updates the passive stats per level 
         {
             int oldPassiveIncrease = PassiveAttackIncrease;
-            PassiveAttackIncrease = (int) ((MaxAttack - oldPassiveIncrease) * _passiveAttackMultiplier);
-            MaxAttack -= oldPassiveIncrease;
-            MaxAttack += PassiveAttackIncrease;
+            PassiveAttackIncrease = (int) ((Attack.Max - oldPassiveIncrease) * _passiveAttackMultiplier);
+            Attack.Max -= oldPassiveIncrease;
+            Attack.Max += PassiveAttackIncrease;
 
-            CurrentAttack = MaxAttack;
+            Attack.Current = Attack.Max;
         }
         
         //Active ability - activated by player
@@ -58,11 +58,11 @@ namespace ProjectLegend.CharacterClasses.Legends
         {
             void AddEvasive(Character player)
             {
-            TotalEvasion += _activeEvasionBonus;
+            Evasion.Total += _activeEvasionBonus;
             }
             void RemoveEvasive(Character player)
             {
-                TotalEvasion -= _activeEvasionBonus;
+                Evasion.Total -= _activeEvasionBonus;
             }
             
             Buff evasive = new Buff("Evasive", 1);
@@ -78,22 +78,22 @@ namespace ProjectLegend.CharacterClasses.Legends
 
             void Invulnerability(Character player)
             {
-                EvasionDifference = 1 - TotalEvasion;
-                TotalEvasion += EvasionDifference; //caps evasion at 1.0
+                EvasionDifference = 1 - Evasion.Total;
+                Evasion.Total += EvasionDifference; //caps evasion at 1.0
             }
             void RemoveInvulnerability(Character player)
             {
-                TotalEvasion -= EvasionDifference;
+                Evasion.Total -= EvasionDifference;
                 EvasionDifference = 0;
             }
             void RaiseAttack(Character character)
             {
-                AttackDifference = (int) Math.Ceiling(CurrentAttack * _ultimateAttackMultiplier);
-                CurrentAttack += AttackDifference;
+                AttackDifference = (int) Math.Ceiling(Attack.Current * _ultimateAttackMultiplier);
+                Attack.Current += AttackDifference;
             }
             void RemoveAttack(Character character)
             {
-                CurrentAttack -= AttackDifference;
+                Attack.Current -= AttackDifference;
                 AttackDifference = 0;
             }
             var invulnerability = new Buff("Spectral Movement", 1);

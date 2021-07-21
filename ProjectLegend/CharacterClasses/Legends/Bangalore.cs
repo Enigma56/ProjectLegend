@@ -6,11 +6,11 @@ namespace ProjectLegend.CharacterClasses.Legends
     {
         public Bangalore()
         {
-            MaxHealth = 70;
-            MaxAttack = 15;
+            Health.Max = 70;
+            Attack.Max = 15;
             
-            CurrentHealth = MaxHealth;
-            CurrentAttack = MaxAttack;
+            Health.Current = Health.Max;
+            Attack.Current = Attack.Max;
             
             Passive();
             CanUpdatePassive = false;
@@ -18,7 +18,7 @@ namespace ProjectLegend.CharacterClasses.Legends
         
         public override void Passive()
         {
-            TotalEvasion += .05;
+            Evasion.Total += .05;
         }
         
         public override void UpdatePassive()

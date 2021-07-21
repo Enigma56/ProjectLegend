@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ProjectLegend.GameUtilities.BuffUtilities;
+using ProjectLegend.ItemClasses.GearClasses;
 
 namespace ProjectLegend.CharacterClasses
 {
@@ -9,10 +10,10 @@ namespace ProjectLegend.CharacterClasses
         public List<Buff> Buffs { get; init; }
         
         //Character Stats
-        public int MaxHealth { get; set; }
-        public int CurrentHealth { get; set; }
-        public int MaxAttack { get; set; }
-        public double AttackMultiplier { get; set; }
+        public HealthPoints Health { get; set; }
+        
+        public AttackPoints Attack { get; set; }
+        
         public double Accuracy { get; set; }
         
         //Character states
@@ -22,16 +23,11 @@ namespace ProjectLegend.CharacterClasses
         
         protected Character() //protected prevents Character from being instantiated anywhere except within Player and Enemy
         {
+            Health = new HealthPoints();
+            Attack = new AttackPoints();
+
             Buffs = new List<Buff>();
-            AttackMultiplier = 1.0;
         }
-        
-        //All getter/setters that are not auto-properties
-        private int _currentAttack;
-        public int CurrentAttack
-        {
-            get => (int) (_currentAttack * AttackMultiplier);
-            set => _currentAttack = value;
-        }
+
     }
 }

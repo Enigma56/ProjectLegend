@@ -19,11 +19,11 @@ namespace ProjectLegend.CharacterClasses
 
         public Enemy()
         {
-            MaxHealth = StatGenerator.Next(10, 20); 
-            MaxAttack = StatGenerator.Next(5, 10);
+            Health.Max = StatGenerator.Next(10, 20); 
+            Attack.Max = StatGenerator.Next(5, 10);
             
-            CurrentHealth = MaxHealth;
-            CurrentAttack = MaxAttack;
+            Health.Current = Health.Max;
+            Attack.Current = Attack.Max;
             
             Accuracy = 1;
             
@@ -46,7 +46,7 @@ namespace ProjectLegend.CharacterClasses
         
         public override string ToString()
         {
-            return $"Enemy Stats" + Environment.NewLine + $"Health = {MaxHealth}, Attack = {CurrentAttack}";
+            return $"Enemy Stats" + Environment.NewLine + $"Health = {Health.Max}, Attack = {Attack.Current}";
         }
     }
     

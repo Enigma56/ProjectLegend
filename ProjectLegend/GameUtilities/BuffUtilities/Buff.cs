@@ -33,9 +33,9 @@ namespace ProjectLegend.GameUtilities.BuffUtilities
             {
                 if (character is Player player)
                 {
-                    if (player.CurrentEnergy >= energyConsumption)
+                    if (player.Energy.Current >= energyConsumption)
                     {
-                        player.CurrentEnergy -= energyConsumption;
+                        player.Energy.Current -= energyConsumption;
                         if (HasBuff(character))
                         {
                             RefreshBuff();
