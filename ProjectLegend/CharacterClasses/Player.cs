@@ -60,8 +60,6 @@ namespace ProjectLegend.CharacterClasses
         public abstract void Active(Enemy enemy); //Flag -a
         public abstract void Ultimate(Enemy enemy); //Flag: -u
 
-        //TODO: factor in other stats when calculating attack and HP; add function that updates stat values dynamically?
-        
         public void AddLevel()
         {
             LevelUpdate();
@@ -143,21 +141,21 @@ namespace ProjectLegend.CharacterClasses
             {
                 if (oldGear != null) //remove oldGear stats
                 {
-                    foreach (var stat in oldGear.gearStats)
+                    foreach (var stat in oldGear.GearStats)
                     {
                         PlayerStats[stat.Id].StatTotal -= stat.StatRoll;
                     }
                 }
 
                 //add newGear stats
-                foreach (var stat in newGear.gearStats)
+                foreach (var stat in newGear.GearStats)
                 {
                     PlayerStats[stat.Id].StatTotal += stat.StatRoll;
                 }
             }
             else
             {
-                foreach (var stat in newGear.gearStats)
+                foreach (var stat in newGear.GearStats)
                 {
                     PlayerStats[stat.Id].StatTotal -= stat.StatRoll;
                 }
@@ -165,7 +163,7 @@ namespace ProjectLegend.CharacterClasses
             CalculateBonuses();
         }
 
-        private void CalculateBonuses() //TODO: update player health/attack in accordance with stat changes
+        private void CalculateBonuses()
         {
             double percentIncrease(double value)
             {

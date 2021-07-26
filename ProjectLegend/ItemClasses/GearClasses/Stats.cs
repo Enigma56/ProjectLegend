@@ -8,10 +8,23 @@ namespace ProjectLegend.ItemClasses.GearClasses
 {
     public class CharacterStats
     {
+        //General Stat Pools
         public static List<Stat> AllStats { get; }
-        public static List<Stat> StandardStats { get; }
-        public Dictionary<string, Stat> stats { get; }
 
+        //public static List<Stat> LegendaryStats { get; }
+        //Gear Type Specific Stat Pools
+        public static List<Stat> OmnifensiveCommonStats { get; }
+        public static List<Stat> OmnifensiveRareAndAboveStats { get; }
+        
+        public static List<Stat> OffensiveCommonStats { get; }
+        public static List<Stat> OffensiveRareAndAboveStats { get; }
+        
+        public static List<Stat> DefensiveCommonStats { get; }
+        public static List<Stat> DefensiveRareAndAboveStats { get; }
+        
+        //Character stat list
+        public static Dictionary<string, Stat> Stats { get; set; }
+        
         static CharacterStats()
         {
             AllStats = new List<Stat>()
@@ -20,38 +33,71 @@ namespace ProjectLegend.ItemClasses.GearClasses
                 new Vitality(),
                 new FlatAttIncrease(),
                 new FlatHpIncrease(),
-                new AttackPercentIncrease(),
-                new HealthPercentIncrease()
+                new AttackPercentIncrease(), //Rare and above
+                new HealthPercentIncrease() //Rare and above
             };
-            
-            StandardStats = new List<Stat>()
+
+            OmnifensiveCommonStats = new List<Stat>()
             {
                 new Strength(),
                 new Vitality(),
                 new FlatAttIncrease(),
+                new FlatHpIncrease(),
+                new AttackPercentIncrease(), //Rare and above
+                new HealthPercentIncrease()
+            };
+            OmnifensiveRareAndAboveStats = new List<Stat>()
+            {
+                new Strength(),
+                new Vitality(),
+                new FlatAttIncrease(),
+                new FlatHpIncrease(),
+                new AttackPercentIncrease(), //Rare and above
+                new HealthPercentIncrease()
+            };
+
+            OffensiveCommonStats = new List<Stat>()
+            {
+                new Strength(),
+                new FlatAttIncrease()
+            };
+            
+            OffensiveRareAndAboveStats = new List<Stat>()
+            {
+                new Strength(),
+                new FlatAttIncrease(),
+                new AttackPercentIncrease()
+            };
+
+            DefensiveCommonStats = new List<Stat>()
+            {
+                new Vitality(),
                 new FlatHpIncrease()
             };
+            DefensiveCommonStats = new List<Stat>()
+            {
+                new Vitality(),
+                new FlatHpIncrease(),
+                new HealthPercentIncrease()
+            };
+            
         }
 
-        public CharacterStats() //TODO: HP/ATK/Ev% need to be reworked into core stats
+        public CharacterStats()
         {
-            stats = new Dictionary<string, Stat>() //
+            Stats = new Dictionary<string, Stat>() //
             {
-                
-                //["hp"] = new HealthPoints(),
-                //["atk"] =  new AttackPoints(),
                 ["str"] = new Strength(),
                 ["vit"] = new Vitality(),
                 ["fatk"] = new FlatAttIncrease(),
                 ["fhp"] = new FlatHpIncrease(),
                 ["patk"] = new AttackPercentIncrease(),
                 ["php"] = new HealthPercentIncrease(),
-                //E%
             };
         }
         public Stat this[string key]
         {
-            get => stats[key];
+            get => Stats[key];
         }
     }
 
@@ -133,7 +179,8 @@ namespace ProjectLegend.ItemClasses.GearClasses
         }
     }
 
-    public sealed class HealthPoints //Core
+    //Core Stats
+    public sealed class HealthPoints 
     {
         public int Current { get; set; }
         public int Max { get; set; }
@@ -148,7 +195,7 @@ namespace ProjectLegend.ItemClasses.GearClasses
         }
     }
 
-    public sealed class AttackPoints //Core
+    public sealed class AttackPoints
     {
         private int _current;
         public int Current
@@ -179,7 +226,23 @@ namespace ProjectLegend.ItemClasses.GearClasses
             Max = 1000;
         }
     }
+    
+    public sealed class Evasion
+    {
+        public const double PercentPerLevel = .002;
+        public double Total { get; set; }
+        public double UnbuffedTotal { get; set; }
+        public double UnbuffedCap { get; }
 
+        public Evasion()
+        {
+            Total = 0.0;
+            UnbuffedTotal = 0.0;
+            UnbuffedCap = .05;
+        }
+    }
+
+    // Gear Stats
      public sealed class Strength : Stat
      {
          public int Base { get; set; }
@@ -237,21 +300,6 @@ namespace ProjectLegend.ItemClasses.GearClasses
          public HealthPercentIncrease() : base("HP % Increase","php", "mult")
          {
              Range = new NumRange(.05, .1);
-         }
-     }
-
-     public sealed class Evasion //Core
-     {
-         public const double PercentPerLevel = .002;
-         public double Total { get; set; }
-         public double UnbuffedTotal { get; set; }
-         public double UnbuffedCap { get; }
-
-         public Evasion()
-         {
-             Total = 0.0;
-             UnbuffedTotal = 0.0;
-             UnbuffedCap = .05;
          }
      }
 }

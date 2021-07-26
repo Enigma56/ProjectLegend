@@ -106,9 +106,9 @@ namespace ProjectLegend.GameUtilities
                 if (source[index].Chosen is false)
                 {
                     var stat = source.ElementAt(index);
-                    //stat.Roll(stat.Range(1,5).min, stat.Range.max);
                     chosenStats.Add(stat);
                     stat.Chosen = true;
+                    stat.RollStat();
                     i++;
                 }
             }
