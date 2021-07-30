@@ -1,60 +1,60 @@
 ﻿namespace ProjectLegend.ItemClasses.GearClasses.GearTypes.CommonGear
 {
-    public sealed class WoodArmour : Chest
+    public sealed class CLTatteredBoots : Legs
     {
-        public WoodArmour()
+        public CLTatteredBoots()
         {
-            Name = "Wood Armour";
+            Name = "Tattered Boots";
             Rarity = new Common();
-            
+
+            GearStats = RollCommonStats();
+            DropRate = .5;
+        }
+    }
+
+    public sealed class CLVoidSandals : Legs //Restorable
+    {
+        public CLVoidSandals()
+        {
+            Name = "Heavily-Damaged Void Sandals";
+            Rarity = new Common();
+
             GearStats = RollCommonStats();
             DropRate = .5;
         }
     }
     
-    public sealed class CAChainMail : Chest
+    public sealed class CLDesertSandals : Legs
     {
-        public CAChainMail()
+        public CLDesertSandals()
         {
-            Name = "Weak Chain Mail Armour";
+            Name = "Desert Sandals";
             Rarity = new Common();
-            
+
             GearStats = RollCommonStats();
             DropRate = .5;
         }
     }
     
-    public sealed class CAMIPlate : Chest
+    public sealed class CLFootGuards : Legs
     {
-        public CAMIPlate()
+        public CLFootGuards()
         {
-            Name = "Shattered Mineral-Infused Plate";
+            Name = "Wooden Foot Guards";
             Rarity = new Common();
-            
+
             GearStats = RollCommonStats();
             DropRate = .5;
         }
     }
     
-    public sealed class CAVineCloak : Chest
+    public sealed class CLCombatBoots : Legs
     {
-        public CAVineCloak()
+        public CLCombatBoots()
         {
-            Name = "Vine-Wrapped Cloak";
+            Name = "Shredded Combat Boots";
             Rarity = new Common();
-            
-            GearStats = RollCommonStats();
-            DropRate = .5;
-        }
-    }
-    
-    public sealed class CADirtArmour : Chest
-    {
-        public CADirtArmour()
-        {
-            Name = "Rocky Dirty Armour";
-            Rarity = new Common();
-            
+
             GearStats = RollCommonStats();
             DropRate = .5;
         }

@@ -16,13 +16,13 @@ namespace ProjectLegend.ItemClasses.GearClasses.GearTypes
 
         protected List<Stat> RollCommonStats()
         {
-            var stats = Utils.GetRandomStats(CharacterStats.OmnifensiveCommonStats, NumCommonRolls);
+            var stats = Utils.GetRandomStats(StatPools.OmnifensiveCommonStats, NumCommonRolls);
             return stats;
         }
         
         protected List<Stat> RollRareStats()
         {
-            var stats = Utils.GetRandomStats(CharacterStats.OmnifensiveRareAndAboveStats, NumRareRolls);
+            var stats = Utils.GetRandomStats(StatPools.OmnifensiveRareAndAboveStats, NumRareRolls);
             return stats;
         }
     }
@@ -36,13 +36,13 @@ namespace ProjectLegend.ItemClasses.GearClasses.GearTypes
         
         protected List<Stat> RollCommonStats()
         {
-            var stats = Utils.GetRandomStats(CharacterStats.DefensiveCommonStats, NumCommonRolls);
+            var stats = Utils.GetRandomStats(StatPools.DefensiveCommonStats, NumCommonRolls);
             return stats;
         }
         
         protected List<Stat> RollRareStats()
         {
-            var stats = Utils.GetRandomStats(CharacterStats.DefensiveRareAndAboveStats, NumRareRolls);
+            var stats = Utils.GetRandomStats(StatPools.DefensiveRareAndAboveStats, NumRareRolls);
             return stats;
         }
     }
@@ -57,13 +57,13 @@ namespace ProjectLegend.ItemClasses.GearClasses.GearTypes
         
         protected List<Stat> RollCommonStats()
         {
-            var stats = Utils.GetRandomStats(CharacterStats.OmnifensiveCommonStats, NumCommonRolls);
+            var stats = Utils.GetRandomStats(StatPools.OmnifensiveCommonStats, NumCommonRolls);
             return stats;
         }
         
-        protected List<Stat> RollRareStats()
+        protected List<Stat> RollRareAndAboveStats()
         {
-            var stats = Utils.GetRandomStats(CharacterStats.OmnifensiveRareAndAboveStats, NumRareRolls);
+            var stats = Utils.GetRandomStats(StatPools.OmnifensiveRareAndAboveStats, NumRareRolls);
             return stats;
         }
     }
@@ -78,13 +78,13 @@ namespace ProjectLegend.ItemClasses.GearClasses.GearTypes
         
         protected List<Stat> RollCommonStats()
         {
-            var stats = Utils.GetRandomStats(CharacterStats.OffensiveCommonStats, NumCommonRolls);
+            var stats = Utils.GetRandomStats(StatPools.OffensiveCommonStats, NumCommonRolls);
             return stats;
         }
         
         protected List<Stat> RollRareStats()
         {
-            var stats = Utils.GetRandomStats(CharacterStats.OffensiveRareAndAboveStats, NumRareRolls);
+            var stats = Utils.GetRandomStats(StatPools.OffensiveRareAndAboveStats, NumRareRolls);
             return stats;
         }
     }

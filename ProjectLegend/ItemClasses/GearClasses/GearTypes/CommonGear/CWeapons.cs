@@ -1,60 +1,60 @@
 ﻿namespace ProjectLegend.ItemClasses.GearClasses.GearTypes.CommonGear
 {
-    public sealed class WoodArmour : Chest
+    public sealed class CWWoodStick : Weapon 
     {
-        public WoodArmour()
+        public CWWoodStick()
         {
-            Name = "Wood Armour";
+            Name = "Sharp Wood Stick";
             Rarity = new Common();
-            
+
+            GearStats = RollCommonStats();
+            DropRate = .5;
+        }
+    }
+
+    public sealed class CWObsidianHilt : Weapon
+    {
+        public CWObsidianHilt()
+        {
+            Name = "Obsidian Sword Hilt";
+            Rarity = new Common();
+
             GearStats = RollCommonStats();
             DropRate = .5;
         }
     }
     
-    public sealed class CAChainMail : Chest
+    public sealed class CWIronSword : Weapon
     {
-        public CAChainMail()
+        public CWIronSword()
         {
-            Name = "Weak Chain Mail Armour";
+            Name = "Dull Iron Sword";
             Rarity = new Common();
-            
+
             GearStats = RollCommonStats();
             DropRate = .5;
         }
     }
     
-    public sealed class CAMIPlate : Chest
+    public sealed class CWVineSword : Weapon
     {
-        public CAMIPlate()
+        public CWVineSword()
         {
-            Name = "Shattered Mineral-Infused Plate";
+            Name = "Limp Vine Sword";
             Rarity = new Common();
-            
+
             GearStats = RollCommonStats();
             DropRate = .5;
         }
     }
     
-    public sealed class CAVineCloak : Chest
+    public sealed class CWWoodSword : Weapon
     {
-        public CAVineCloak()
+        public CWWoodSword()
         {
-            Name = "Vine-Wrapped Cloak";
+            Name = "Chipped Wooden Sword";
             Rarity = new Common();
-            
-            GearStats = RollCommonStats();
-            DropRate = .5;
-        }
-    }
-    
-    public sealed class CADirtArmour : Chest
-    {
-        public CADirtArmour()
-        {
-            Name = "Rocky Dirty Armour";
-            Rarity = new Common();
-            
+
             GearStats = RollCommonStats();
             DropRate = .5;
         }
