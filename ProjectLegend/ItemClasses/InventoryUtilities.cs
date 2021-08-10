@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 
 using ProjectLegend.CharacterClasses;
@@ -105,23 +104,21 @@ namespace ProjectLegend.ItemClasses
 
         public static void TryUseConsumable(this Player player, string[] commands)
         {
-            if (commands.Length > 1)
+            if (commands.Length > 2)
             {
-                if (commands[1].Equals("use") && commands.Length > 2)
+                if (int.TryParse(commands[2], Utils.IntegerCultureAndFormat().numberStyles,
+                    Utils.IntegerCultureAndFormat().culture, out int slot))
                 {
-                    if (int.TryParse(commands[2], Utils.IntegerCultureAndFormat().numberStyles,
-                        Utils.IntegerCultureAndFormat().culture, out int slot))
+                    slot = slot - 1;
+                    if (player.Inventory[slot] is Consumable consumable)
                     {
-                        slot = slot - 1;
-                        if (player.Inventory[slot] is Consumable consumable)
+                        consumable.Use(player);
+                        if (consumable.StackSize == 0)
                         {
-                            consumable.Use(player);
-                            if (consumable.StackSize == 0)
-                            {
-                                player.Inventory[slot] = null;
-                            }
-                            player.DisplayInventory();
+                            player.Inventory[slot] = null;
                         }
+
+                        player.DisplayInventory();
                     }
                 }
             }
@@ -135,6 +132,7 @@ namespace ProjectLegend.ItemClasses
             if (player.GearInventory[gearSlot] != null) //replaces old gear if slots are conflicting
             {
                 oldGear = player.GearInventory[gearSlot];
+                Console.WriteLine($"{oldGear.Name} has been removed and added to inventory!");
                 player.AddToInventory(oldGear);
             }
 
@@ -142,7 +140,7 @@ namespace ProjectLegend.ItemClasses
             player.UpdatePlayerStats(newGear, oldGear, "new/replace");
         }
 
-        public static void UnEquip(this Player player, Gear gear)
+        public static void UnEquip(this Player player, Gear gear) //When asking if the user wants to unequip the piece of gear
         {
             int gearSlot = gear.Slot;
             if (player.GearInventory[gearSlot] == null)

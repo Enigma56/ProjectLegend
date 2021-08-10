@@ -12,6 +12,7 @@ namespace ProjectLegend.ItemClasses.GearClasses.GearTypes
         protected Head()
         {
             Slot = 0;
+            Type = "Head";
         }
 
         protected List<Stat> RollCommonStats()
@@ -32,6 +33,7 @@ namespace ProjectLegend.ItemClasses.GearClasses.GearTypes
         protected Chest()
         {
             Slot = 1;
+            Type = "Chest";
         }
         
         protected List<Stat> RollCommonStats()
@@ -53,6 +55,7 @@ namespace ProjectLegend.ItemClasses.GearClasses.GearTypes
         protected Legs()
         {
             Slot = 2;
+            Type = "Legs";
         }
         
         protected List<Stat> RollCommonStats()
@@ -74,6 +77,7 @@ namespace ProjectLegend.ItemClasses.GearClasses.GearTypes
         protected Weapon()
         {
             Slot = 3;
+            Type = "Weapon";
         }
         
         protected List<Stat> RollCommonStats()

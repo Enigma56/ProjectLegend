@@ -1,8 +1,8 @@
 ﻿namespace ProjectLegend.ItemClasses.GearClasses.GearTypes.CommonGear
 {
-    public sealed class WoodArmour : Chest
+    public sealed class CAWoodArmour : Chest
     {
-        public WoodArmour()
+        public CAWoodArmour()
         {
             Name = "Wood Armour";
             Rarity = new Common();

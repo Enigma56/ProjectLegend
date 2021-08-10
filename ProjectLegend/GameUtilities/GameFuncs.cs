@@ -15,8 +15,6 @@ namespace ProjectLegend.GameUtilities
         private readonly string[] _combatCommands = {"attack", "buffs", "stats", "inventory"};
         private readonly string[] _flags = { "-a", "-u" };
         
-        private readonly string[] _playerLegends = {"Bangalore", "Bloodhound", "Gibraltar", "Lifeline", "Pathfinder", "Wraith"};
-        private readonly string[] _yesNo = {"yes", "no"};
         private readonly Dictionary<string, string> _commandInfo = new ();
         
         private bool Fighting { get; set; }
@@ -34,35 +32,8 @@ namespace ProjectLegend.GameUtilities
             Player player = null;
             while (player is null)
             {
-                string chosenCharacter = Utils.ReadInput(_playerLegends)[0];
-                switch (chosenCharacter)
-                {
-                    //Offensive
-                    case "bangalore":
-                        player = new Bangalore();
-                        break;
-                    case "wraith":
-                        player = new Wraith();
-                        break;
-                    //Defensive
-                    case "gibraltar":
-                        player = new Gibraltar();
-                        break;
-                    //Support
-                    case "lifeline":
-                        player = new Lifeline();
-                        break;
-                    //Recon
-                    case "bloodhound":
-                        player = new Bloodhound();
-                        break;
-                    case "pathfinder":
-                        player = new Pathfinder();
-                        break;
-                    default:
-                        Console.WriteLine("Not a valid character!");
-                        break;
-                }
+                string chosenCharacter = Utils.ReadInput(UserQueries.PlayerLegends)[0];
+                player = UserQueries.CharacterSelection(chosenCharacter);
             }
             return player;
         }
@@ -70,44 +41,9 @@ namespace ProjectLegend.GameUtilities
         public void ParseGeneralCommand(Game game, string[] commands, Player player)
          {
              string cmd = commands[0];
-             switch(cmd)
-                   {
-                       case "fight":
-                           FightEnemy(player);
-                           break;
-                       case "help":
-                           Console.Write("Available commands are: ");
-                           Utils.ToString(_genCommands);
-                           Console.WriteLine("Type a command after help to see more info on it!");
-                           Utils.Separator('-');
-                           
-                           // if clause ?(then) ... :(else) ...
-                           try
-                           {
-                               Console.WriteLine(_genCommands.Contains(commands[1])
-                                   ? $"Command: {commands[1]}" + Environment.NewLine +$"Info: {_commandInfo[commands[1]]}"
-                                   : "Command not in list!");
-                               Utils.Separator('-');
-                           }
-                           catch (IndexOutOfRangeException)
-                           {
-                               Console.WriteLine("No command was found! Please provide a command after \'help\'");
-                           }
-                           break;
-                       case "inventory":
-                           player.DisplayInventory();
-                           player.TryUseConsumable(commands);
-                           break;
-                       case "exit":
-                           //Exit out of the game
-                           game.Running = false;
-                           Utils.ExitSequence(player, "finish");
-                           break;
-                       default:
-                           Console.WriteLine("Command not found!");
-                           break;
-                   }
-               }
+             bool flags = commands.Length > 1 && commands[1].StartsWith("-");
+             UserQueries.GenGommandParse(game, player, commands, cmd, flags);
+         }
 
          private void ParseCombatCommand(Player player, Enemy enemy)
          {
@@ -116,51 +52,12 @@ namespace ProjectLegend.GameUtilities
              {
                  string[] commands = Utils.ReadInput(_combatCommands);
                  string cmd = commands[0];
-                 switch (cmd)
-                 {
-                     case "attack":
-                         validInput = true;
-                         Console.WriteLine(
-                             "Use flags -a and -u after \"attack\" to use active and ultimate abilities when you have enough energy!");
-                         if (commands.Length > 1 && _flags.Contains(commands[1]))
-                         {
-                             switch (commands[1])
-                             {
-                                 case "-a":
-                                     Utils.Separator('*');
-                                     Console.WriteLine("You activated your Active ability!");
-                                     player.Active(enemy);
-                                     break;
-                                 case "-u":
-                                     Console.WriteLine("You activated your ultimate ability!");
-                                     player.Ultimate(enemy);
-                                     break;
-                             }
-                         }
-                         BattlePhase(player, enemy); //Check if attack lands
-                         Utils.Separator('-');
-                         break;
-                     case "stats":
-                         validInput = true;
-                         Console.WriteLine(player.ToString());
-                         break;
-                     case "buffs":
-                         validInput = true;
-                         player.DisplayBuffs();
-                         break;
-                     case "inventory":
-                         validInput = true;
-                         player.DisplayInventory();
-                         player.TryUseConsumable(commands);
-                         break;
-                     default:
-                         Console.WriteLine("Not a valid command!");
-                         break;
-                 }
+                 bool flags = commands.Length > 1 && commands[1].StartsWith("-");
+                 validInput = UserQueries.CombatCommandParse(this, player, enemy, commands, cmd, flags);
              }
          }
 
-         private void FightEnemy(Player player)
+         public void FightEnemy(Player player)
          {
              var enemy = new Enemy();
 
@@ -175,44 +72,38 @@ namespace ProjectLegend.GameUtilities
                      if (enemy.Dead)
                      {
                          Fighting = false;
-                         goto Fight; //Immediately checks expression
+                         break;
                      }
                      ParseCombatCommand(player, enemy);
                      
-                     if (player is Lifeline lifeline) //only activates after input is finished being processed
+                     if (player is Lifeline lifeline) // Convert this to per-turn 
                          lifeline.PassiveHeal();
                  }
-
-             Response:
-                if (player.Dead == false)
-                {
-                     Console.WriteLine("Would you like to fight another enemy?");
+                 
+            if (player.Dead == false)
+            {
+                 Console.WriteLine("Would you like to fight another enemy?");
+                 Utils.Separator('-');
+                 bool continueToFight = Utils.YesOrNo();
+                 if (continueToFight)
+                 {
                      Utils.Separator('-');
-                     string response = Utils.ReadInput(_yesNo)[0];
-                     if (Equals(response, "yes"))
-                     {
-                         enemy = RespawnEnemy();
-                         Fighting = true;
-                         Utils.Separator('-');
-                         Console.WriteLine("Re-Starting Stats:");
-                         ViewStats(player, enemy);
-                         Utils.Separator('-');
-                         goto Fight;
-                     }
-                     else if (!Equals(response, "yes") && !Equals(response, "no"))
-                     {
-                         Console.WriteLine("Please type yes or no!");
-                         goto Response;
-                     }
-                     else
-                     {
-                         Utils.Separator('-');
-                         Console.WriteLine("Exiting back to main loop!");
-                     }
-                }
+                     Console.WriteLine("Starting Stats:");
+                     enemy = RespawnEnemy();
+                     ViewStats(player, enemy);
+                     Utils.Separator('-');
+                     Fighting = true;
+                     goto Fight;
+                 }
+                 else
+                 {
+                     Utils.Separator('-');
+                     Console.WriteLine("Exiting back to main loop!");
+                 }
+            }
          }
 
-         private void BattlePhase(Player player, Enemy enemy) //Processes attack and defense
+         public void BattlePhase(Player player, Enemy enemy) //Processes attack and defense
          {
              void AttackPhase() //Player attack
              {

@@ -6,10 +6,10 @@ using ProjectLegend.GameUtilities;
 
 namespace ProjectLegend.ItemClasses.GearClasses.GearTypes.CommonGear
 {
-    
-    public sealed class TatteredHelm : Head
+
+    public sealed class CHTatteredHelm : Head
     {
-        public TatteredHelm()
+        public CHTatteredHelm()
         {
             Name = "Tattered Helm";
             Rarity = new Common();
@@ -79,9 +79,9 @@ namespace ProjectLegend.ItemClasses.GearClasses.GearTypes.CommonGear
         }
     }
     
-    public sealed class CHDustyStrawHat : Head
+    public sealed class CHStrawHat : Head
     {
-        public CHDustyStrawHat()
+        public CHStrawHat()
         {
             Name = "Dusty Straw Hat";
             Rarity = new Common();

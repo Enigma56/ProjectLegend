@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-
+using System.Net;
 using ProjectLegend.CharacterClasses;
 using ProjectLegend.GameUtilities.BuffUtilities;
 using ProjectLegend.ItemClasses;
@@ -26,6 +26,26 @@ namespace ProjectLegend.GameUtilities
             args = (from str in args select str.ToLower()).ToArray();
             return args;
        }
+        //TODO: Add choice method when asking for yes/no input
+
+        public static bool YesOrNo()
+        { 
+            Response:
+                string query = ReadInput("yes", "no")[0];
+                if (query.Equals("yes"))
+                {
+                    return true;
+                }
+                else if (!Equals(query, "yes") && !Equals(query, "no"))
+                {
+                    Console.WriteLine("Please type yes or no!");
+                    goto Response;
+                }
+                else
+                {
+                    return false;
+                }
+        }
 
         public static void ExitSequence(Player p, string reason)
        {
@@ -121,7 +141,32 @@ namespace ProjectLegend.GameUtilities
 
         public static double RandomDouble(this Random random, double min, double max)
         {
-            return Math.Round(random.NextDouble() * (max - min) + min, 2);//random.NextDouble() * (max - min) + min; //Math.Round(random.NextDouble() * (max - min) + min, 1);
+            return Math.Round(random.NextDouble() * (max - min) + min, 2);
+        }
+
+        public static Gear DropItem(GearPool pool) //TODO: iterate through a given loot pool and choose 1 to 2 pieces of loot maximum
+        {
+            Random gearGenerator = new();
+            //iterate through loot pool
+            Gear droppedItem = null;
+            
+            bool itemChosen = false;
+            while (itemChosen is false)
+            {
+                double itemChance = gearGenerator.NextDouble();
+                int itemIndex = gearGenerator.Next(pool.LootPool.Count);
+                
+                if (itemChance <= pool.LootPool[itemIndex].DropRate)
+                {
+                    droppedItem = pool.LootPool[itemIndex];
+                    itemChosen = true;
+                }
+            }
+            //generate a random double
+            //generate a random index in pool
+            //check if double is less than index's drop rate
+            // if 'chosen', break out of loop --> return item
+            return droppedItem;
         }
         
         public static List<int> EmptyIndeces<T>( this T[] array)

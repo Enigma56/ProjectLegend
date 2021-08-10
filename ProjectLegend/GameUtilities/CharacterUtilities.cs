@@ -62,24 +62,6 @@ namespace ProjectLegend.GameUtilities
             }
         }
 
-        public static void DisplayBuffs(this Character player)
-        {
-            if (player.Buffs.Count > 0)
-            {
-                string buffs = "";
-                foreach (var buff in player.Buffs)
-                {
-                    buffs += $"{buff}: Turns Remaining {buff.TurnsRemaining}" + Environment.NewLine;
-                }
-
-                Console.Write(buffs);
-            }
-            else
-            {
-                Console.WriteLine("No Active Buffs!");
-            }
-        }
-
         public static bool AttackChance(this Player player, Enemy enemy) //player attacks enemy
         {
             var rand = new Random();
@@ -124,20 +106,6 @@ namespace ProjectLegend.GameUtilities
         public static void DisplayXpInfo(this Player player)
         {
             Console.WriteLine($"XP remaining: {player.Exp}/{player.ExpThresh}");
-        }
-        
-        public static void DisplayInventory(this Player player)
-        {
-            string stringArray = "[";
-            for (int i = 0; i < player.Inventory.Length - 1; i++)
-            {
-                if (i % 2 == 0)
-                    stringArray += Environment.NewLine;
-                stringArray += $"{i + 1}: {Utils.PrintArrayElement(player.Inventory[i])}, "; // creates string representation of array
-            }
-
-            stringArray += $"{player.Inventory.Length}: {Utils.PrintArrayElement(player.Inventory[^1])}]";
-            Console.WriteLine(stringArray);
         }
     }
 }

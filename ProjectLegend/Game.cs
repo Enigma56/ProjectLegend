@@ -7,7 +7,7 @@ namespace ProjectLegend
 {
     public class Game 
     {
-        private readonly GameFuncs _game = new GameFuncs();
+        public readonly GameFuncs GameFuncs = new();
         private Player _player;
         public bool Running { get; set; }
         private static void Main(string[] args)
@@ -21,7 +21,7 @@ namespace ProjectLegend
             if(option.Equals("game"))
             {
                 //Let the player choose their character(future version)
-                _player = _game.ChooseCharacter();
+                _player = GameFuncs.ChooseCharacter();
                 GameLoop(_player);
             }
         }
@@ -39,8 +39,8 @@ namespace ProjectLegend
             while (Running) //this expression needs to be checked before the game ends
             {
                 _player.Dead = false;
-                string[] args = Utils.ReadInput(_game.GenCommands());
-                _game.ParseGeneralCommand(this, args, p);
+                string[] args = Utils.ReadInput(GameFuncs.GenCommands());
+                GameFuncs.ParseGeneralCommand(this, args, p);
             }
         }
     }

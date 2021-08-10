@@ -15,8 +15,8 @@ namespace ProjectLegend.ItemClasses.GearClasses
         
         public RarityType Rarity { get; protected set; }
         public List<Stat> GearStats { get; set; }
-        public double DropRate { get; protected set; }
         public int Slot { get; set; }
+        public string Type { get; protected set; }
         
         //public bool IsRestorable {get;}
 
@@ -47,5 +47,13 @@ namespace ProjectLegend.ItemClasses.GearClasses
         {
             return Name;
         }
+    }
+
+    public enum GearType
+    {
+        Head = 0,
+        Chest = 1,
+        Legs = 2,
+        Weapon = 3
     }
 }

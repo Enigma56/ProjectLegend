@@ -8,7 +8,7 @@ namespace ProjectLegend.ItemClasses
         
         public int InventorySlot { get; set; }
         
-        public double DropRate { get; init; }
+        public double DropRate { get; protected init; }
         
         public override string ToString()
         {

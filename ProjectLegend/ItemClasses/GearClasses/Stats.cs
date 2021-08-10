@@ -185,7 +185,7 @@ namespace ProjectLegend.ItemClasses.GearClasses
          
          public Strength() : base("Strength", "str", "add")
          {
-             Range = new NumRange(5, 20);
+             Range = new NumRange(5, 15);
              Base = 0;
              Max = 500;
          }
@@ -198,7 +198,7 @@ namespace ProjectLegend.ItemClasses.GearClasses
          
          public Vitality() : base("Vitality","vit", "add")
          {
-             Range = new(5, 20);
+             Range = new(5, 15);
              Base = 0;
              Max = 500;
          }
@@ -225,7 +225,7 @@ namespace ProjectLegend.ItemClasses.GearClasses
      {
          public AttackPercentIncrease() : base("Atk % Increase", "patk", "mult")
          {
-             Range = new NumRange(.05, .1);
+             Range = new NumRange(.01, .05);
          }
          
      }
@@ -234,7 +234,7 @@ namespace ProjectLegend.ItemClasses.GearClasses
      {
          public HealthPercentIncrease() : base("HP % Increase","php", "mult")
          {
-             Range = new NumRange(.05, .1);
+             Range = new NumRange(.01, .05);
          }
      }
 }
