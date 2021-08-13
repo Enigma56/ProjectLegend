@@ -11,11 +11,13 @@ namespace ProjectLegend.CharacterClasses.Legends
         {
             Health.Max = 40;
             Attack.Max = 20;
-            
-            Energy.Current = 0;
-
             Health.Current = Health.Max;
             Attack.Current = Attack.Max;
+
+            ActiveCost = 300;
+            UltimateCost = 600;
+
+            CanUpdatePassive = false;
         }
         
         public override void Passive()
@@ -67,11 +69,12 @@ namespace ProjectLegend.CharacterClasses.Legends
             void HealRemove(Character character)
             {
             }
+            
             //var drone = new Buff("Healing Drone", 5);
             drone.TurnEffect = HealApply;
             drone.RemoveEffect = HealRemove;
             
-            drone.Apply(this, 300);
+            drone.Apply(this, ActiveCost);
         }
 
         public override void Ultimate(Enemy enemy) 
@@ -79,8 +82,7 @@ namespace ProjectLegend.CharacterClasses.Legends
             //Real ulti cannot be added until gear is added into the game
             
             //Temp. ultimate
-            int energyCost = 600;
-            if (Energy.Current >= energyCost)
+            if (Energy.Current >= UltimateCost)
             {
                 Console.WriteLine($"You have been fully healed! {Health.Current} -> {Health.Max}");
                 Health.Current = Health.Max;

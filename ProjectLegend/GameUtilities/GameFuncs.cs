@@ -13,8 +13,6 @@ namespace ProjectLegend.GameUtilities
     {
         private readonly string[] _genCommands = {"fight", "inventory", "help", "exit"};
         private readonly string[] _combatCommands = {"attack", "buffs", "stats", "inventory"};
-        private readonly string[] _flags = { "-a", "-u" };
-        
         private readonly Dictionary<string, string> _commandInfo = new ();
         
         private bool Fighting { get; set; }
@@ -78,6 +76,8 @@ namespace ProjectLegend.GameUtilities
                      
                      if (player is Lifeline lifeline) // Convert this to per-turn 
                          lifeline.PassiveHeal();
+                     if (player.Energy.Current >= player.ActiveCost)
+                         Console.WriteLine("You have enough energy for your active ability!");
                  }
                  
             if (player.Dead == false)

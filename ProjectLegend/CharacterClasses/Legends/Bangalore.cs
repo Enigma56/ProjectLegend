@@ -8,9 +8,11 @@ namespace ProjectLegend.CharacterClasses.Legends
         {
             Health.Max = 70;
             Attack.Max = 15;
-            
             Health.Current = Health.Max;
             Attack.Current = Attack.Max;
+
+            ActiveCost = 250;
+            UltimateCost = 600;
             
             Passive();
             CanUpdatePassive = false;
@@ -43,7 +45,7 @@ namespace ProjectLegend.CharacterClasses.Legends
             smoked.ApplyEffect = ReduceAccuracy;
             smoked.RemoveEffect = RecoverAccuracy;
             
-            smoked.Apply(enemy, 250);
+            smoked.Apply(enemy, ActiveCost);
 
         }
 
@@ -63,7 +65,7 @@ namespace ProjectLegend.CharacterClasses.Legends
             stunned.ApplyEffect = ApplyStun;
             stunned.RemoveEffect = RemoveStun;
 
-            stunned.Apply(enemy);
+            stunned.Apply(enemy, UltimateCost);
         }
     }
 }

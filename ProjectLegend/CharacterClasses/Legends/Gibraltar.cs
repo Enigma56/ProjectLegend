@@ -4,19 +4,20 @@ namespace ProjectLegend.CharacterClasses.Legends
 {
     public sealed class Gibraltar : Player
     {
-        //private int shield = 5;
         private int PassiveHealthIncrease { get; set; }
 
         public Gibraltar()
         {
             Health.Max = 100;
             Attack.Max = 10;
+            Health.Current = Health.Max;
+            Attack.Current = Attack.Max;
+            
+            ActiveCost = 500;
+            UltimateCost = 900;
             
             Passive();
             CanUpdatePassive = true;
-            
-            Health.Current = Health.Max;
-            Attack.Current = Attack.Max;
         }
         public override void Passive()
         {
@@ -51,13 +52,12 @@ namespace ProjectLegend.CharacterClasses.Legends
             block.ApplyEffect = ApplyBlock;
             block.RemoveEffect = RemoveBlock;
             
-            block.Apply(this, 500);
+            block.Apply(this, ActiveCost);
         }
 
         public override void Ultimate(Enemy enemy)
         {
-            int energyCost = 900;
-            if (Energy.Current >= energyCost)
+            if (Energy.Current >= UltimateCost)
             {
                 enemy.Health.Current /= 2;
                 System.Console.WriteLine("You have bombed the enemy!");

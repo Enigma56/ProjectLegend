@@ -9,10 +9,6 @@ namespace ProjectLegend.GameUtilities
 {
     public static class UserQueries
     {
-        private static readonly string[] GenCommands = {"fight", "inventory", "help", "exit"};
-        private static readonly string[] CombatCommands = {"attack", "buffs", "stats", "inventory"};
-        private static readonly List<string> Flags = new() { "-a", "-u" };
-        
         public static readonly string[] PlayerLegends = {"Bangalore", "Bloodhound", "Gibraltar", "Lifeline", "Pathfinder", "Wraith"};
         
         public static Player CharacterSelection(string input)
@@ -83,8 +79,6 @@ namespace ProjectLegend.GameUtilities
             switch (input)
             {
                 case "attack":
-                    Console.WriteLine(
-                        "Use flags -a and -u after \"attack\" to use active and ultimate abilities when you have enough energy!");
                     ParseAttackFlags(player, enemy, flag);
                     gameFuncs.BattlePhase(player, enemy); //Check if attack lands
                     Utils.Separator('-');
@@ -139,11 +133,11 @@ namespace ProjectLegend.GameUtilities
             {
                 case "-a":
                     Utils.Separator('*');
-                    Console.WriteLine("You activated your Active ability!");
+                    Console.WriteLine("You attempted to activate your Active ability!");
                     player.Active(enemy);
                     break;
                 case "-u":
-                    Console.WriteLine("You activated your ultimate ability!");
+                    Console.WriteLine("You attempted to activate your ultimate ability!");
                     player.Ultimate(enemy);
                     break;
                 default:

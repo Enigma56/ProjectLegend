@@ -19,19 +19,19 @@ namespace ProjectLegend.CharacterClasses.Legends
         private double _ultimateAttackMultiplier = .25;
         private double EvasionDifference { get; set; }
         private int AttackDifference { get; set; }
-        
+
         public Wraith()
         {
             Health.Max = 50;
             Attack.Max = 20;
+            Health.Current = Health.Max;
+            Attack.Current = Attack.Max;
             
-            Energy.Current = 0;
+            ActiveCost = 300;
+            UltimateCost = 600;
 
             Passive();
             CanUpdatePassive = true;
-
-            Health.Current = Health.Max;
-            Attack.Current = Attack.Max;
         }
         
         
@@ -69,13 +69,12 @@ namespace ProjectLegend.CharacterClasses.Legends
             evasive.ApplyEffect = AddEvasive;
             evasive.RemoveEffect = RemoveEvasive;
 
-            evasive.Apply(this, 300);
+            evasive.Apply(this, ActiveCost);
         }
 
         //Ultimate - activated by player
         public override void Ultimate(Enemy enemy) //Go invulnerable for one attack stage and raise attack by 25%
         {
-
             void Invulnerability(Character player)
             {
                 EvasionDifference = 1 - Evasion.Total;
@@ -107,7 +106,7 @@ namespace ProjectLegend.CharacterClasses.Legends
             
             Buff[] buffs = { invulnerability, raiseAttack };
 
-            this.ApplyMultipleBuffs(buffs, 500);
+            this.ApplyMultipleBuffs(buffs, UltimateCost);
         }
     }
 }

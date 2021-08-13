@@ -9,12 +9,14 @@ namespace ProjectLegend.CharacterClasses.Legends
         {
             Health.Max = 100;
             Attack.Max = 10;
+            Health.Current = Health.Max;
+            Attack.Current = Attack.Max;
+            
+            ActiveCost = 400;
+            UltimateCost = 600;
             
             Passive();
             CanUpdatePassive = true;
-            
-            Health.Current = Health.Max;
-            Attack.Current = Attack.Max;
         }
         
         public override void Passive()
@@ -45,7 +47,7 @@ namespace ProjectLegend.CharacterClasses.Legends
             damageReduction.ApplyEffect = ReduceEnemyAttack;
             damageReduction.RemoveEffect = RemoveAttackReduction;
             
-            damageReduction.Apply(enemy, 400);
+            damageReduction.Apply(enemy, ActiveCost);
         }
 
         public override void Ultimate(Enemy enemy) //CHECK
@@ -63,7 +65,7 @@ namespace ProjectLegend.CharacterClasses.Legends
             var strength = new Buff("All-Father's Omnipotence", 2);
             strength.ApplyEffect = Weakness;
             strength.RemoveEffect = RemoveWeakness;
-            strength.Apply(this, 600);
+            strength.Apply(this,  UltimateCost);
         }
     }
 }

@@ -6,7 +6,6 @@ namespace ProjectLegend.ItemClasses.Consumables
 {
     public abstract class Consumable : Item
     {
-        private static Guid _id;
         public int MaxStackSize { get; }
         public int StackSize { get; set; }
         protected int DropAmount { get; }

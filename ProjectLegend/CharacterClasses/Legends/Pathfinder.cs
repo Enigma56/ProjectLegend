@@ -8,12 +8,14 @@ namespace ProjectLegend.CharacterClasses.Legends
         {
             Health.Max = 100;
             Attack.Max = 10;
+            Health.Current = Health.Max;
+            Attack.Current = Attack.Max;
+
+            ActiveCost = 400;
+            UltimateCost = 700;
             
             Passive();
             CanUpdatePassive = false;
-            
-            Health.Current = Health.Max;
-            Attack.Current = Attack.Max;
         }
         
         public override void Passive()
@@ -41,16 +43,16 @@ namespace ProjectLegend.CharacterClasses.Legends
             evasive.ApplyEffect = Evasive;
             evasive.RemoveEffect = RemoveEvasive;
             
-            evasive.Apply(this, 400);
+            evasive.Apply(this, ActiveCost);
         }
 
         public override void Ultimate(Enemy enemy)
         {
-            int energyCost = 700;
-            if(Energy.Current >= energyCost)
+            if(Energy.Current >= UltimateCost)
             {
                 enemy.Dead = true; //immediately kills the enemy
                 System.Console.WriteLine("You have run from battle!");
+                Energy.Current -= UltimateCost;
             }
             else
             {

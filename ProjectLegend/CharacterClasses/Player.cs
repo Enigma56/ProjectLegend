@@ -14,9 +14,13 @@ namespace ProjectLegend.CharacterClasses
         public Gear[] GearInventory { get; }
         public Item[] Inventory { get; }
         public Item Hand { get; set; }
+        
         public int Level { get; set; }
         public int Exp { get; set; }
         public int ExpThresh { get; set; }
+        
+        public int ActiveCost { get; protected set; }
+        public int UltimateCost { get; protected set; }
         
         public Energy Energy { get; set; }
         public Evasion Evasion { get; set; }
@@ -40,6 +44,7 @@ namespace ProjectLegend.CharacterClasses
             Buffs = new List<Buff>();
 
             Energy = new Energy();
+            Energy.Current = 0;
             Evasion = new Evasion();
 
             Accuracy = 1;
@@ -54,7 +59,7 @@ namespace ProjectLegend.CharacterClasses
             ExpThresh = 10;
         }
         
-       
+       //If the ability is a buff, energy checking is done when applying the buff 
         public abstract void Passive(); //No flag; always active
         public abstract void UpdatePassive();
         public abstract void Active(Enemy enemy); //Flag -a
