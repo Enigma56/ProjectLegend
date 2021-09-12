@@ -8,11 +8,11 @@ namespace ProjectLegend.ItemClasses.GearClasses
     {
         public List<Gear> LootPool { get; protected set; }
     }
-    public static class GearLootPools
+    public static class RarityLootPools
     {
         public static CommonGear CommonGear { get; }
 
-        static GearLootPools()
+        static RarityLootPools()
         {
             CommonGear = new CommonGear();
         }
