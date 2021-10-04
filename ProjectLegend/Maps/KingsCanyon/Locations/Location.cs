@@ -8,7 +8,7 @@ namespace ProjectLegend.Maps.KingsCanyon.Locations
         
         //Types of Locations
         
-        public GearPool LocationLoot { get; protected set; }
+        //public GearPool LocationLoot { get; protected set; }
         
         public bool Completed { get; set; }
         

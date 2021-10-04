@@ -1,6 +1,11 @@
 ﻿
 namespace ProjectLegend.ItemClasses
 {
+    public class ItemPool
+    {
+        
+    }
+    
     public abstract class Item
     {
         public string Name { get; init; }

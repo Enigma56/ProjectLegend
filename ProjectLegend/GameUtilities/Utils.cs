@@ -144,9 +144,10 @@ namespace ProjectLegend.GameUtilities
             return Math.Round(random.NextDouble() * (max - min) + min, 2);
         }
 
-        public static Gear DropItem(GearPool pool) //TODO: iterate through a given loot pool and choose 1 to 2 pieces of loot maximum
+        public static List<Item> DropItem(GearPool pool) //TODO: Generalize to drop items from any source
         {
-            Random gearGenerator = new();
+            var droppedItems = new List<Item>();
+            /*Random gearGenerator = new();
             //iterate through loot pool
             Gear droppedItem = null;
             
@@ -156,17 +157,15 @@ namespace ProjectLegend.GameUtilities
                 double itemChance = gearGenerator.NextDouble();
                 int itemIndex = gearGenerator.Next(pool.LootPool.Count);
                 
-                if (itemChance <= pool.LootPool[itemIndex].DropRate)
+                if (itemChance <= pool.LootPool[itemIndex].DropRate) //Sets have an element but is not accessed like this
                 {
-                    droppedItem = pool.LootPool[itemIndex];
+                    droppedItem = pool.LootPool[itemIndex]; //.ElementAt for hashset indexing
                     itemChosen = true;
                 }
             }
-            //generate a random double
-            //generate a random index in pool
-            //check if double is less than index's drop rate
-            // if 'chosen', break out of loop --> return item
-            return droppedItem;
+            return droppedItem;*/
+
+            return droppedItems;
         }
         
         public static List<int> EmptyIndeces<T>( this T[] array)

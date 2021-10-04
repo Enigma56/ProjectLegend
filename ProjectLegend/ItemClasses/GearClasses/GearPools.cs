@@ -4,18 +4,10 @@ using ProjectLegend.ItemClasses.GearClasses.GearTypes.CommonGear;
 
 namespace ProjectLegend.ItemClasses.GearClasses
 {
-    public class GearPool //TODO: Disambiguate the naming schemes to clarify inheritance and calling in code
+    //TODO: Reduce redundancy in creating LootLists
+    public class GearPool
     {
-        public List<Gear> LootPool { get; protected set; }
-    }
-    public static class RarityLootPools
-    {
-        public static CommonGear CommonGear { get; }
-
-        static RarityLootPools()
-        {
-            CommonGear = new CommonGear();
-        }
+        public HashSet<Gear> LootPool { get; protected set; } //Cannot represent item categories
     }
 
     public class CommonGear : GearPool
@@ -66,12 +58,13 @@ namespace ProjectLegend.ItemClasses.GearClasses
 
         public CommonGear()
         {
-            LootPool = new List<Gear>();
-            
-            LootPool.AddRange(CommonHead);
-            LootPool.AddRange(CommonChest);
-            LootPool.AddRange(CommonLegs);
-            LootPool.AddRange(CommonWeapon);
+            List<Gear> lootList = new List<Gear>();
+            lootList.AddRange(CommonHead);
+            lootList.AddRange(CommonChest);
+            lootList.AddRange(CommonLegs);
+            lootList.AddRange(CommonWeapon);
+
+            LootPool = new HashSet<Gear>(lootList); 
         }
     }
 }
