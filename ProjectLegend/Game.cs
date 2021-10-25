@@ -1,6 +1,7 @@
 ﻿using System;
 
 using ProjectLegend.GameUtilities;
+using ProjectLegend.GameUtilities.UXUtils;
 using ProjectLegend.CharacterClasses;
 
 namespace ProjectLegend

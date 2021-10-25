@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -167,7 +168,17 @@ namespace ProjectLegend.GameUtilities
 
             return droppedItems;
         }
-        
+
+        public static bool IsEmpty(this ICollection collection)
+        {
+            if (collection.Count == 0)
+                return true;
+            else
+            {
+                return false;
+            }
+        }
+
         public static List<int> EmptyIndeces<T>( this T[] array)
         {
             var emptyIndeces = new List<int>();

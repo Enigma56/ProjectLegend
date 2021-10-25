@@ -2,9 +2,12 @@
 using System.Linq;
 
 using ProjectLegend.CharacterClasses;
-using ProjectLegend.GameUtilities;
+
 using ProjectLegend.ItemClasses.Consumables;
 using ProjectLegend.ItemClasses.GearClasses;
+
+using ProjectLegend.GameUtilities;
+using ProjectLegend.GameUtilities.UIUtils;
 
 namespace ProjectLegend.ItemClasses
 {

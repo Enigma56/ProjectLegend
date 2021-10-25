@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 
 using ProjectLegend.CharacterClasses;
+using ProjectLegend.CharacterClasses.Enemies;
 using ProjectLegend.CharacterClasses.Legends;
 using ProjectLegend.ItemClasses;
 using ProjectLegend.ItemClasses.GearClasses;
 
-namespace ProjectLegend.GameUtilities
+namespace ProjectLegend.GameUtilities.UXUtils
 {
     public class GameFuncs
     {
@@ -53,6 +54,11 @@ namespace ProjectLegend.GameUtilities
                  bool flags = commands.Length > 1 && commands[1].StartsWith("-");
                  validInput = UserQueries.CombatCommandParse(this, player, enemy, commands, cmd, flags);
              }
+         }
+
+         public void FillCluster(EnemyCluster cluster, int numEnemies)
+         {
+             
          }
 
          public void FightEnemy(Player player)

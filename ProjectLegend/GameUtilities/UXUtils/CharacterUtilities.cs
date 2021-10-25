@@ -3,7 +3,7 @@ using ProjectLegend.CharacterClasses;
 using ProjectLegend.GameUtilities.BuffUtilities;
 
 
-namespace ProjectLegend.GameUtilities
+namespace ProjectLegend.GameUtilities.UXUtils
 {
     public static class CharacterUtilities
     {
@@ -49,18 +49,18 @@ namespace ProjectLegend.GameUtilities
                 }
             }
         }
-
-        public static void ApplyMultipleBuffs(this Character character, Buff[] buffs, int totalEnergyCost = 0)
-        {
-            int costPerBuff = totalEnergyCost / buffs.Length;
-            if (buffs.Length > 0)
-            {
-                foreach (var buff in buffs)
+        
+         public static void ApplyMultipleBuffs(this Character character, Buff[] buffs, int totalEnergyCost = 0)
                 {
-                    buff.Apply(character, costPerBuff);
+                    int costPerBuff = totalEnergyCost / buffs.Length;
+                    if (buffs.Length > 0)
+                    {
+                        foreach (var buff in buffs)
+                        {
+                            buff.Apply(character, costPerBuff);
+                        }
+                    }
                 }
-            }
-        }
 
         public static bool AttackChance(this Player player, Enemy enemy) //player attacks enemy
         {

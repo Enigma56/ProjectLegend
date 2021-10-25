@@ -4,8 +4,9 @@ using System.Reflection.PortableExecutable;
 using ProjectLegend.CharacterClasses;
 using ProjectLegend.CharacterClasses.Legends;
 using ProjectLegend.ItemClasses;
+using ProjectLegend.GameUtilities.UIUtils;
 
-namespace ProjectLegend.GameUtilities
+namespace ProjectLegend.GameUtilities.UXUtils
 {
     public static class UserQueries
     {
