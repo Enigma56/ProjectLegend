@@ -7,7 +7,7 @@ using ProjectLegend.ItemClasses.Consumables;
 using ProjectLegend.ItemClasses.GearClasses;
 
 using ProjectLegend.GameUtilities;
-using ProjectLegend.GameUtilities.UIUtils;
+using ProjectLegend.GameUtilities.FaceUtils;
 
 namespace ProjectLegend.ItemClasses
 {

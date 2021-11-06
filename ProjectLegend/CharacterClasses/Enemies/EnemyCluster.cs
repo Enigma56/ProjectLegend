@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
-using ProjectLegend.GameUtilities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using ProjectLegend.GameUtilities.FuncUtils;
 
 namespace ProjectLegend.CharacterClasses.Enemies
 {
-    public class EnemySets
+    public static class EnemySets
     {
-        public HashSet<Enemy> AllPool { get; set; }
+        public static HashSet<Enemy> AllPool { get; }
 
-        public HashSet<Enemy> WeakPool { get; set; }
-        public HashSet<Enemy> StrongPool { get; set; }
-        public HashSet<Enemy> PowerfulPool { get; set; }
+        public static HashSet<Enemy> WeakPool { get; }
+        public static HashSet<Enemy> StrongPool { get; }
+        public static HashSet<Enemy> PowerfulPool { get; }
         
-        public EnemySets() //To create enemy pools to pull from
+        static EnemySets() //To create enemy pools to pull from
         {
             AllPool = new HashSet<Enemy>();
             WeakPool = new HashSet<Enemy>();
@@ -36,15 +38,21 @@ namespace ProjectLegend.CharacterClasses.Enemies
     {
         public List<Enemy> Cluster;
 
-        public int MaxEnemies { get; set; }
-
         public bool Defeated { get; set; }
 
-        public EnemyCluster(int numEnemies, int threatLevel = 0)
+        //TODO: Find way to use all the pools/specific ones
+        public EnemyCluster(int maxEnemies)
         {
-            MaxEnemies = numEnemies;
-            //Fill cluster randomly from a GameUtils Function
-            //Utils.FillCluster(numEnemies, threatLevel)
+            FillCluster(maxEnemies);
+        }
+
+        private void FillCluster(int numEnemies) //Currently just grabs from weak pool
+        {
+            for(int i = 0; i < numEnemies; i++)
+            {
+                int setIndex = RandomGenerators.IntGenerator.Next(EnemySets.WeakPool.Count);
+                Cluster.Add(EnemySets.WeakPool.ElementAt(setIndex));
+            }
         }
     }
 }

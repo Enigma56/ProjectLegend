@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection.PortableExecutable;
+
 using ProjectLegend.CharacterClasses;
 using ProjectLegend.CharacterClasses.Legends;
 using ProjectLegend.ItemClasses;
-using ProjectLegend.GameUtilities.UIUtils;
+using ProjectLegend.GameUtilities.FaceUtils;
 
-namespace ProjectLegend.GameUtilities.UXUtils
+namespace ProjectLegend.GameUtilities.FuncUtils
 {
     public static class UserQueries
     {

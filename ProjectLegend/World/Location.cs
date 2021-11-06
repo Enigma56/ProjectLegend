@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using ProjectLegend.CharacterClasses;
-using ProjectLegend.CharacterClasses.Enemies;
-using ProjectLegend.ItemClasses.GearClasses;
 
-namespace ProjectLegend.Maps
+using ProjectLegend.CharacterClasses.Enemies;
+
+namespace ProjectLegend.World
 {
     public abstract class Location
     {
         public string Name { get; protected set; }
+        public bool Completed { get; set; }
 
         public string ID { get; set; }
 
@@ -17,9 +17,7 @@ namespace ProjectLegend.Maps
         //Types of Locations
         
         //public GearPool LocationLoot { get; protected set; }
-        
-        public bool Completed { get; set; }
-        
+
         protected Location()
         {
             

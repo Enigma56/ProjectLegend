@@ -2,7 +2,7 @@
 using ProjectLegend.CharacterClasses;
 using ProjectLegend.ItemClasses.GearClasses;
 
-namespace ProjectLegend.GameUtilities.UIUtils
+namespace ProjectLegend.GameUtilities.FaceUtils
 {
     public static class MenuDisplays
     {

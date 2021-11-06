@@ -3,7 +3,7 @@ using ProjectLegend.CharacterClasses;
 using ProjectLegend.GameUtilities.BuffUtilities;
 
 
-namespace ProjectLegend.GameUtilities.UXUtils
+namespace ProjectLegend.GameUtilities.FuncUtils
 {
     public static class CharacterUtilities
     {

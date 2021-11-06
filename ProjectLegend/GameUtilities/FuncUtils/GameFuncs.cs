@@ -8,7 +8,7 @@ using ProjectLegend.CharacterClasses.Legends;
 using ProjectLegend.ItemClasses;
 using ProjectLegend.ItemClasses.GearClasses;
 
-namespace ProjectLegend.GameUtilities.UXUtils
+namespace ProjectLegend.GameUtilities.FuncUtils
 {
     public class GameFuncs
     {

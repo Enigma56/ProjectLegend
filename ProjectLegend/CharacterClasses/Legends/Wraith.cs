@@ -1,6 +1,6 @@
 ﻿using System;
 
-using ProjectLegend.GameUtilities.UXUtils;
+using ProjectLegend.GameUtilities.FuncUtils;
 using ProjectLegend.GameUtilities.BuffUtilities;
 
 namespace ProjectLegend.CharacterClasses.Legends

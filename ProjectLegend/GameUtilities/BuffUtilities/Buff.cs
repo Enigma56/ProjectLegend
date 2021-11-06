@@ -1,6 +1,5 @@
 ﻿using System;
 using ProjectLegend.CharacterClasses;
-using ProjectLegend.GameUtilities;
 
 namespace ProjectLegend.GameUtilities.BuffUtilities
 {
