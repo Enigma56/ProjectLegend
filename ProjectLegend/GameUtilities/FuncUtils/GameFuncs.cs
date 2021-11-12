@@ -80,8 +80,8 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                      }
                      ParseCombatCommand(player, enemy);
                      
-                     if (player is Lifeline lifeline) // Convert this to per-turn 
-                         lifeline.PassiveHeal();
+                     if (player is MinuteMedic medic) // Convert this to per-turn 
+                         medic.PassiveHeal();
                      if (player.Energy.Current >= player.ActiveCost)
                          Console.WriteLine("You have enough energy for your active ability!");
                  }

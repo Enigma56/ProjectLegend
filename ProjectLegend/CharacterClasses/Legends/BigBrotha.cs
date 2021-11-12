@@ -2,11 +2,11 @@
 
 namespace ProjectLegend.CharacterClasses.Legends
 {
-    public sealed class Gibraltar : Player
+    public sealed class BigBrotha : Player
     {
         private int PassiveHealthIncrease { get; set; }
 
-        public Gibraltar()
+        public BigBrotha()
         {
             Health.Max = 100;
             Attack.Max = 10;

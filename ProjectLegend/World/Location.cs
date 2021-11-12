@@ -18,10 +18,5 @@ namespace ProjectLegend.World
         
         //public GearPool LocationLoot { get; protected set; }
 
-        protected Location()
-        {
-            
-        }
-        
     }
 }

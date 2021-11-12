@@ -2,10 +2,10 @@
 
 namespace ProjectLegend.CharacterClasses.Legends
 {
-    public sealed class Bloodhound : Player
+    public sealed class BloodIt : Player
     {
         private int DamageReduction { get; set; }
-        public Bloodhound()
+        public BloodIt()
         {
             Health.Max = 100;
             Attack.Max = 10;

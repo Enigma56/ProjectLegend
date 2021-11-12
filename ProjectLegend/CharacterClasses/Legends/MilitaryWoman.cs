@@ -2,9 +2,9 @@
 
 namespace ProjectLegend.CharacterClasses.Legends
 {
-    public sealed class Bangalore : Player
+    public sealed class MilitaryWoman : Player
     {
-        public Bangalore()
+        public MilitaryWoman()
         {
             Health.Max = 70;
             Attack.Max = 15;

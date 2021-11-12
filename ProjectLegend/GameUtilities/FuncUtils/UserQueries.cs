@@ -9,7 +9,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
 {
     public static class UserQueries
     {
-        public static readonly string[] PlayerLegends = {"Bangalore", "Bloodhound", "Gibraltar", "Lifeline", "Pathfinder", "Wraith"};
+        public static readonly string[] PlayerLegends = {"MilitaryWoman", "BloodIt", "BigBrotha", "MinuteMedic", "HappyRobot", "PortalGirl"};
         
         public static Player CharacterSelection(string input)
         {
@@ -17,20 +17,20 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             {
                 //Offensive
                 case "bangalore":
-                    return new Bangalore();
+                    return new MilitaryWoman();
                 case "wraith":
-                    return new Wraith();
+                    return new PortalGirl();
                 //Defensive
                 case "gibraltar":
-                    return new Gibraltar();
+                    return new BigBrotha();
                 //Support
                 case "lifeline":
-                    return new Lifeline();
+                    return new MinuteMedic();
                 //Recon
                 case "bloodhound":
-                    return new Bloodhound();
+                    return new BloodIt();
                 case "pathfinder":
-                    return new Pathfinder();
+                    return new HappyRobot();
                 default:
                     Console.WriteLine("Not a valid character!");
                     break;

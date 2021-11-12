@@ -6,8 +6,4 @@
         <RootNamespace>ProjectLegend</RootNamespace>
     </PropertyGroup>
 
-    <ItemGroup>
-      <Folder Include="World\KingsCanyon\Locations" />
-    </ItemGroup>
-
 </Project>

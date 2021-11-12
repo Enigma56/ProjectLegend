@@ -5,9 +5,9 @@ using ProjectLegend.ItemClasses.GearClasses;
 
 namespace ProjectLegend.CharacterClasses.Legends
 {
-    public sealed class Lifeline : Player
+    public sealed class MinuteMedic : Player
     {
-        public Lifeline()
+        public MinuteMedic()
         {
             Health.Max = 40;
             Attack.Max = 20;

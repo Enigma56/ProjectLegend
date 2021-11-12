@@ -1,6 +1,6 @@
-﻿namespace ProjectLegend.Maps.KingsCanyon
+﻿namespace ProjectLegend.World.RoyalMarsh
 {
-    public class KCMap
+    public class RMMap
     {
         // A way to store locations for the map
         
