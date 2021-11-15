@@ -43,6 +43,7 @@ namespace ProjectLegend.CharacterClasses.Enemies
         //TODO: Find way to use all the pools/specific ones
         public EnemyCluster(int maxEnemies)
         {
+            Cluster = new List<Enemy>();
             FillCluster(maxEnemies);
         }
 
@@ -53,6 +54,11 @@ namespace ProjectLegend.CharacterClasses.Enemies
                 int setIndex = RandomGenerators.IntGenerator.Next(EnemySets.WeakPool.Count);
                 Cluster.Add(EnemySets.WeakPool.ElementAt(setIndex));
             }
+        }
+
+        public override string ToString()
+        {
+            return "test!";
         }
     }
 }
