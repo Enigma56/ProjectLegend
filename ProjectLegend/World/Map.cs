@@ -5,7 +5,8 @@ namespace ProjectLegend.World
 {
     public abstract class Map
     {
-        public Dictionary<string, Location> LocationDict; //perhaps use a Location ID to hash into the instance
+        public Dictionary<string, Location>
+            LocationDict { get; protected init; } //perhaps use a Location ID to hash into the instance
 
         public bool Complete { get; set; }
 

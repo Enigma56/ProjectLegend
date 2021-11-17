@@ -5,9 +5,14 @@ namespace ProjectLegend.World.RoyalMarsh.Locations.Encampments
 {
     public class Caves : Location
     {
+        public static string ID { get; }
+        static Caves()
+        {
+            ID = "caves";
+        }
         public Caves()
         {
-            ID = "Caves";
+            Name = "Caves";
             Enemies = new Queue<EnemyCluster>();
         }
 
@@ -20,7 +25,7 @@ namespace ProjectLegend.World.RoyalMarsh.Locations.Encampments
 
         public override string ToString()
         {
-            return ID;
+            return Name;
         }
         
     }

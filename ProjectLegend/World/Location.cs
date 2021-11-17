@@ -7,10 +7,8 @@ namespace ProjectLegend.World
 {
     public abstract class Location
     {
-        public string Name { get; protected set; }
+        public string Name { get; protected init; }
         public bool Completed { get; set; }
-
-        public string ID { get; set; }
 
         public Queue<EnemyCluster> Enemies { get; protected set; }
 

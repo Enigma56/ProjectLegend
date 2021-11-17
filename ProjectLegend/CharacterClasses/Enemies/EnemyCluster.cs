@@ -55,10 +55,5 @@ namespace ProjectLegend.CharacterClasses.Enemies
                 Cluster.Add(EnemySets.WeakPool.ElementAt(setIndex));
             }
         }
-
-        public override string ToString()
-        {
-            return "test!";
-        }
     }
 }
