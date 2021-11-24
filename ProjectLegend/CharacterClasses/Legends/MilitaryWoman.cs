@@ -4,6 +4,7 @@ namespace ProjectLegend.CharacterClasses.Legends
 {
     public sealed class MilitaryWoman : Player
     {
+        public static string Name = "MilitaryWoman";
         public MilitaryWoman()
         {
             Health.Max = 70;

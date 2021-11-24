@@ -4,6 +4,7 @@ namespace ProjectLegend.CharacterClasses.Legends
 {
     public sealed class BigBrotha : Player
     {
+        public static string Name = "BigBrotha";
         private int PassiveHealthIncrease { get; set; }
 
         public BigBrotha()

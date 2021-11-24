@@ -7,6 +7,7 @@ using ProjectLegend.CharacterClasses.Enemies;
 using ProjectLegend.CharacterClasses.Legends;
 using ProjectLegend.ItemClasses;
 using ProjectLegend.ItemClasses.GearClasses;
+using ProjectLegend.World;
 
 namespace ProjectLegend.GameUtilities.FuncUtils
 {
@@ -20,6 +21,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
 
         public GameFuncs()
         {
+            //The command info is not being used right now
             _commandInfo.Add("fight", "Engage in a fight with an enemy");
             _commandInfo.Add("help", "Prints a list of all available commands");
             _commandInfo.Add("exit", "Exits the game");
@@ -56,11 +58,19 @@ namespace ProjectLegend.GameUtilities.FuncUtils
              }
          }
 
-         public void FillCluster(EnemyCluster cluster, int numEnemies)
+         public void ChooseMap(Dictionary<string, Map> mapDict, string[] mapChoices)
          {
-             
+             bool chosen = false;
+             while (chosen is false)
+             {
+                 
+                 //somehow get out of the loop
+                 string choice = Utils.ReadInput(mapChoices)[0];
+             }
          }
 
+         //TODO: Refactor
+         //Refactor to choose map and then fight enemy clusters
          public void FightEnemy(Player player)
          {
              var enemy = new Enemy();

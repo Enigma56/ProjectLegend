@@ -4,6 +4,7 @@ namespace ProjectLegend.CharacterClasses.Legends
 {
     public sealed class HappyRobot : Player
     {
+        public static string Name = "HappyRobot";
         public HappyRobot()
         {
             Health.Max = 100;

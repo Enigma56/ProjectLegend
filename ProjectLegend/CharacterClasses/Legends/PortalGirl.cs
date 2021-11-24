@@ -7,6 +7,7 @@ namespace ProjectLegend.CharacterClasses.Legends
 {
     public sealed class PortalGirl : Player
     {
+        public static string Name = "PortalGirl";
         //Passive
         private double _passiveEvasionBonus = .05;
         private double _passiveAttackMultiplier = .05; //in percent

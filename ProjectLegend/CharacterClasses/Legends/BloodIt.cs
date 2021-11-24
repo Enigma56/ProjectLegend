@@ -4,6 +4,7 @@ namespace ProjectLegend.CharacterClasses.Legends
 {
     public sealed class BloodIt : Player
     {
+        public static string Name = "BloodIt";
         private int DamageReduction { get; set; }
         public BloodIt()
         {

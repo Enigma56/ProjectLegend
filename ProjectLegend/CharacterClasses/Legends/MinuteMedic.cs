@@ -7,6 +7,7 @@ namespace ProjectLegend.CharacterClasses.Legends
 {
     public sealed class MinuteMedic : Player
     {
+        public static string Name = "MinuteMedic";
         public MinuteMedic()
         {
             Health.Max = 40;

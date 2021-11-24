@@ -14,7 +14,8 @@ namespace ProjectLegend.GameUtilities
     public static class Utils
     {
 
-        public static string[] ReadInput(params string[] options)
+        //returns user input as a sliced up lower-case string array
+        public static string[] ReadInput(params string[] options) //Can add an override method to return one input instead of an array
         {
             string input;
             string[] args;
@@ -23,11 +24,11 @@ namespace ProjectLegend.GameUtilities
                 Console.WriteLine("Your current options are: " + ToString(options));
                 input = Console.ReadLine();
             } while (Equals(input, "") | input == null);
+            //lowercase methods
             args = input.Split(' ', '\t').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
             args = (from str in args select str.ToLower()).ToArray();
             return args;
        }
-        //TODO: Add choice method when asking for yes/no input
 
         public static bool YesOrNo()
         { 

@@ -14,7 +14,7 @@ namespace ProjectLegend.CharacterClasses
         public Gear[] GearInventory { get; }
         public Item[] Inventory { get; }
         public Item Hand { get; set; }
-        
+
         public int Level { get; set; }
         public int Exp { get; set; }
         public int ExpThresh { get; set; }

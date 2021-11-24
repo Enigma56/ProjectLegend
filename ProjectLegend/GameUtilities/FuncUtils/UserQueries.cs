@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Security.Cryptography.X509Certificates;
 using ProjectLegend.CharacterClasses;
 using ProjectLegend.CharacterClasses.Legends;
 using ProjectLegend.ItemClasses;
@@ -12,32 +12,44 @@ namespace ProjectLegend.GameUtilities.FuncUtils
         public static readonly string[] PlayerLegends = {"MilitaryWoman", "BloodIt", "BigBrotha", "MinuteMedic", "HappyRobot", "PortalGirl"};
         
         public static Player CharacterSelection(string input)
-        {
-            switch (input)
+        { 
+            //Offensive
+            if (input.Equals(MilitaryWoman.Name.ToLower()))
             {
-                //Offensive
-                case "bangalore":
-                    return new MilitaryWoman();
-                case "wraith":
-                    return new PortalGirl();
-                //Defensive
-                case "gibraltar":
-                    return new BigBrotha();
-                //Support
-                case "lifeline":
-                    return new MinuteMedic();
-                //Recon
-                case "bloodhound":
-                    return new BloodIt();
-                case "pathfinder":
-                    return new HappyRobot();
-                default:
-                    Console.WriteLine("Not a valid character!");
-                    break;
+                return new MilitaryWoman();
             }
+            else if (input.Equals(PortalGirl.Name.ToLower()))
+            {
+                return new PortalGirl();
+            }
+            else if (input.Equals(BigBrotha.Name.ToLower()))
+            {
+                return new BigBrotha();
+            }
+            else if (input.Equals(MinuteMedic.Name.ToLower()))
+            {
+                return new MinuteMedic();
+            }
+            else if (input.Equals(BloodIt.Name.ToLower()))
+            {
+                return new BloodIt();
+            }
+            else if (input.Equals(HappyRobot.Name.ToLower()))
+            {
+                return new HappyRobot();
+            }
+            else
+            {
+                Console.WriteLine("Not a valid character!");
+            }
+            
             return null;
         }
 
+        public static void ShowMapChoices()
+        {
+            
+        }
         public static void GenGommandParse(Game game,Player player, string[] commands, string input, bool flags)
         {
             string flag = "";
@@ -145,5 +157,6 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                     break;
             }
         }
+        
     }
 }
