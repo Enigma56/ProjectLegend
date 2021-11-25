@@ -45,11 +45,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             
             return null;
         }
-
-        public static void ShowMapChoices()
-        {
-            
-        }
+        
         public static void GenGommandParse(Game game,Player player, string[] commands, string input, bool flags)
         {
             string flag = "";
@@ -59,7 +55,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             switch(input)
             {
                 case "fight":
-                    game.GameFuncs.FightEnemy(player);
+                    game.GameFuncs.FightEnemy(player); //TODO: change to "select a map"
                     break;
                 case "inventory":
                     //Do you want to use a consumable from the inventory?
@@ -81,29 +77,28 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             }
         }
 
-        public static bool CombatCommandParse(GameFuncs gameFuncs, Player player, Enemy enemy,string[] commands, string input, bool flags)
+        public static bool CombatCommandParse(GameFuncs gameFuncs, Player player, Enemy enemy, string[] commands, string input, bool flags)
         {
             string flag = "";
             if (flags && commands.Length > 1)
                 flag = commands[1];
             
-            bool parsed = false;
             switch (input)
             {
                 case "attack":
                     ParseAttackFlags(player, enemy, flag);
                     gameFuncs.BattlePhase(player, enemy); //Check if attack lands
                     Utils.Separator('-');
-                    parsed = true;
-                    break;
+                    return true;
+                    
                 case "stats":
                     Console.WriteLine(player.ToString());
-                    parsed = true;
-                    break;
+                    return true;
+                    
                 case "buffs":
                     player.DisplayBuffs();
-                    parsed = true;
-                    break;
+                    return true;
+                    
                 case "inventory":
                     if(flags) //parse flags from user
                         ParseInventoryFlags(player, commands, flag);
@@ -111,14 +106,38 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                     {
                         player.DisplayInventory();
                     }
-                    parsed = true;
-                    break;
-                    
+                    return true;
+                
                 default:
                     Console.WriteLine("Not a valid command!");
-                    break;
+                    return false;
             }
-            return parsed;
+        }
+        
+        public static bool ParseMapChoices(string input)
+        {
+
+            switch (input)
+            {
+                case "rm":
+                    //display locations to choose from and their status
+                    return true;
+                default:
+                    Console.WriteLine("Not a valid map!");
+                    return false;
+            }
+            
+        }
+
+        public static bool ParseLocationChoices(string input)
+        {
+            switch (input)
+            {
+                case "caves":
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         private static void ParseInventoryFlags(Player player, string[] commands, string flag)

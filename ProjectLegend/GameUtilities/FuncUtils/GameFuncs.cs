@@ -15,18 +15,9 @@ namespace ProjectLegend.GameUtilities.FuncUtils
     {
         private readonly string[] _genCommands = {"fight", "inventory", "help", "exit"};
         private readonly string[] _combatCommands = {"attack", "buffs", "stats", "inventory"};
-        private readonly Dictionary<string, string> _commandInfo = new ();
-        
+
         private bool Fighting { get; set; }
 
-        public GameFuncs()
-        {
-            //The command info is not being used right now
-            _commandInfo.Add("fight", "Engage in a fight with an enemy");
-            _commandInfo.Add("help", "Prints a list of all available commands");
-            _commandInfo.Add("exit", "Exits the game");
-        }
-        
         public Player ChooseCharacter()
         {
             Console.WriteLine("Choose your character! Type out full name to select");
@@ -48,7 +39,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
 
          private void ParseCombatCommand(Player player, Enemy enemy)
          {
-             bool validInput = false;
+             bool validInput = false; // value is changed inside CombatCommandParse
              while (validInput is false)
              {
                  string[] commands = Utils.ReadInput(_combatCommands);
