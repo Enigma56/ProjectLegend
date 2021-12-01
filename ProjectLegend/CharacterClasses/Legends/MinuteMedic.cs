@@ -21,11 +21,13 @@ namespace ProjectLegend.CharacterClasses.Legends
             CanUpdatePassive = false;
         }
         
-        public override void Passive()
+        public override void Passive() //Has an alternate passive; maybe this can be used instead
         {
-            throw new NotImplementedException();
         }
-
+        public override void UpdatePassive()
+        {
+        }
+        
         public void PassiveHeal()
         {
             //Heal 5% health every turn - rounded up
@@ -37,11 +39,6 @@ namespace ProjectLegend.CharacterClasses.Legends
             {
                 Health.Current += heal;
             }
-        }
-
-        public override void UpdatePassive()
-        {
-            //throw new NotImplementedException();
         }
 
         public override void Active(Enemy enemy) //heals 20% of current max health over 5 turns

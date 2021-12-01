@@ -11,8 +11,6 @@ namespace ProjectLegend.World
         public bool Complete { get; set; }
 
         //TODO: Add all locations into the map
-        public void Initialize()
-        {
-        }
+        protected abstract void Initialize();
     }
 }

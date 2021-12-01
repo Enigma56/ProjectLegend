@@ -4,7 +4,6 @@ using ProjectLegend.ItemClasses.GearClasses.GearTypes.CommonGear;
 
 namespace ProjectLegend.ItemClasses.GearClasses
 {
-    //TODO: Reduce redundancy in creating LootLists
     public class GearPool
     {
         public HashSet<Gear> LootPool { get; protected set; } //Cannot represent item categories

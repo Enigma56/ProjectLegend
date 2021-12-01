@@ -4,9 +4,6 @@ using ProjectLegend.GameUtilities;
 
 namespace ProjectLegend.ItemClasses.GearClasses.GearTypes
 {
-
-    //TODO: Add the stat pools to each type of gear according to type of gear
-    
     public abstract class Head : Gear //Omnifensive
     {
         protected Head()

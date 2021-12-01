@@ -23,6 +23,11 @@ namespace ProjectLegend.World.RoyalMarsh.Locations.Encampments
             }
         }
 
+        public override void Close() //todo: determine what else to put inside this function
+        {
+            Completed = true;
+        }
+
         public override string ToString()
         {
             return Name;

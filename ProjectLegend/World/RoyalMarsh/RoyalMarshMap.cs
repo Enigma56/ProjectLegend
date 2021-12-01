@@ -3,7 +3,7 @@ using ProjectLegend.World.RoyalMarsh.Locations.Encampments;
 
 namespace ProjectLegend.World.RoyalMarsh
 {
-    public class RoyalMarshMap : Map
+    public sealed class RoyalMarshMap : Map
     {
         public static string ID { get; }
 
@@ -15,11 +15,11 @@ namespace ProjectLegend.World.RoyalMarsh
         public RoyalMarshMap()
         {
             LocationDict = new Dictionary<string, Location>();
-            CompileMap();
+            Initialize();
         }
  
-        //TODO: dinish the creation of the method
-        private void CompileMap()
+        //TODO: finish the creation of the method
+        protected override void Initialize()
         { 
             // Add locations
             WorldUtils.AddRMLocations(LocationDict);

@@ -13,9 +13,8 @@ namespace ProjectLegend.World
         {
             MapDict = new Dictionary<string, Map>();
         }
-
-        //TODO: Add all maps into the world
-        public void Initialize()
+        
+        public void Initialize() //Boots up the world
         {
             WorldUtils.AddMaps(MapDict);
         }

@@ -16,6 +16,7 @@ namespace ProjectLegend.World
         
         //public GearPool LocationLoot { get; protected set; }
         public abstract void Instantiate(int enemyWaves);
+        public abstract void Close();
 
     }
 }

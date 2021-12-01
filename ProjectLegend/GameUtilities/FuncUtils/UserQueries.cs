@@ -122,6 +122,9 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                 case "rm":
                     //display locations to choose from and their status
                     return true;
+                case "back":
+                    //Take them back to main choice option
+                    return true;
                 default:
                     Console.WriteLine("Not a valid map!");
                     return false;
@@ -134,6 +137,10 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             switch (input)
             {
                 case "caves":
+                    //Begin a caves instance and run!
+                    return true;
+                case "back":
+                    
                     return true;
                 default:
                     return false;

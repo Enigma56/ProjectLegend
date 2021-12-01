@@ -60,7 +60,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
              }
          }
 
-         //TODO: Refactor
+         //TODO: Refactor and move to cluster
          //Refactor to choose map and then fight enemy clusters
          public void FightEnemy(Player player)
          {

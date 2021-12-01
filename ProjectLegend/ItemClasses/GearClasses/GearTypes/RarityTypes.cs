@@ -1,9 +1,7 @@
 ﻿using System;
 
 namespace ProjectLegend.ItemClasses.GearClasses.GearTypes
-{ 
-    //TODO: Shift from Attributes to Classes
-
+{
     public abstract class RarityType
     {
         public string Rarity { get; protected set; }

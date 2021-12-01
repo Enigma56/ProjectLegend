@@ -24,9 +24,8 @@ namespace ProjectLegend.CharacterClasses.Legends
             Evasion.Total += .05;
         }
         
-        public override void UpdatePassive()
+        public override void UpdatePassive() //Not being used
         {
-            throw new System.NotImplementedException();
         }
 
         //Active ability - activated by player
