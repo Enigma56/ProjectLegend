@@ -5,12 +5,9 @@ namespace ProjectLegend.World.RoyalMarsh.Locations.Encampments
 {
     public class Caves : Location
     {
-        public static string ID { get; }
-        static Caves()
-        {
-            ID = "caves";
-        }
-        public Caves()
+        public static string ID = "caves";
+        
+        public Caves() //Instances are automatically reset upon selection
         {
             Name = "Caves";
             Enemies = new Queue<EnemyCluster>();

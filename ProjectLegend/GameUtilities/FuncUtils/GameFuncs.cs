@@ -13,8 +13,9 @@ namespace ProjectLegend.GameUtilities.FuncUtils
 {
     public class GameFuncs
     {
-        private readonly string[] _genCommands = {"fight", "inventory", "help", "exit"};
+        private readonly string[] _genCommands = {"select", "inventory", "help", "exit"};
         private readonly string[] _combatCommands = {"attack", "buffs", "stats", "inventory"};
+        private readonly string[] _mapChoices = { "rm" };
 
         private bool Fighting { get; set; }
 
@@ -30,14 +31,14 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             return player;
         }
         
-        public void ParseGeneralCommand(Game game, string[] commands, Player player)
+        public void ParseGeneralChoice(Game game, string[] commands, Player player)
          {
              string cmd = commands[0];
              bool flags = commands.Length > 1 && commands[1].StartsWith("-");
              UserQueries.GenGommandParse(game, player, commands, cmd, flags);
          }
 
-         private void ParseCombatCommand(Player player, Enemy enemy)
+         private void ParseCombatChoice(Player player, Enemy enemy)
          {
              bool validInput = false; // value is changed inside CombatCommandParse
              while (validInput is false)
@@ -49,14 +50,46 @@ namespace ProjectLegend.GameUtilities.FuncUtils
              }
          }
 
-         public void ChooseMap(Dictionary<string, Map> mapDict, string[] mapChoices)
+         public void PlayMapChoice(Dictionary<string, Map> mapDict)
          {
-             bool chosen = false;
-             while (chosen is false)
+             string ChooseMap()
              {
+                 bool chosen = false;
+                 string choice = "";
+                 while (chosen is false) 
+                     //Have a bunch of while loops that onyl exit when the command is correct
+                     //Have a bunch of switch statements that loop
+                 {
                  
-                 //somehow get out of the loop
-                 string choice = Utils.ReadInput(mapChoices)[0];
+                     //somehow get out of the loop
+                     choice = Utils.ReadInput(_mapChoices)[0];
+                     chosen = UserQueries.ParseMapChoices(choice).Chosen;
+                 }
+
+                 return choice; //need to return the map choice
+             }
+             //Play the map then select the respective location and return in
+             string choice = ChooseMap();
+             //mapDict["rm"].LocationDict["caves"].Instantiate(3);
+         }
+
+         private void PlayLocation(Dictionary<Location, string> locationDict, Map chosenMap)
+         {
+             string ChooseLocation()
+             {
+                 bool chosen = false;
+                 string choice = "";
+                 while (chosen is false) 
+                     //Have a bunch of while loops that onyl exit when the command is correct
+                     //Have a bunch of switch statements that loop
+                 {
+                 
+                     //somehow get out of the loop
+                     choice = Utils.ReadInput(chosenMap.Locations)[0];
+                     chosen = UserQueries.ParseMapChoices(choice).Chosen;
+                 }
+
+                 return choice; //need to return the map choice
              }
          }
 
@@ -79,7 +112,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                          Fighting = false;
                          break;
                      }
-                     ParseCombatCommand(player, enemy);
+                     ParseCombatChoice(player, enemy);
                      
                      if (player is MinuteMedic medic) // Convert this to per-turn 
                          medic.PassiveHeal();

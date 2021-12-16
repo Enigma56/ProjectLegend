@@ -9,7 +9,7 @@ namespace ProjectLegend.World
 
         public string[] MapChoices = {RoyalMarshMap.ID, "TestCase1", "TestCase2"};
 
-        public World()
+        public World()//where in the fuck did this word come from
         {
             MapDict = new Dictionary<string, Map>();
         }

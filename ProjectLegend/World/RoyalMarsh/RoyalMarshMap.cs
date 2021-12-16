@@ -15,11 +15,12 @@ namespace ProjectLegend.World.RoyalMarsh
         public RoyalMarshMap()
         {
             LocationDict = new Dictionary<string, Location>();
+            Locations = new[] { "caves" };
             Initialize();
         }
  
         //TODO: finish the creation of the method
-        protected override void Initialize()
+        public override void Initialize()
         { 
             // Add locations
             WorldUtils.AddRMLocations(LocationDict);

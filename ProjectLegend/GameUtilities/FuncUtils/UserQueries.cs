@@ -4,6 +4,8 @@ using ProjectLegend.CharacterClasses;
 using ProjectLegend.CharacterClasses.Legends;
 using ProjectLegend.ItemClasses;
 using ProjectLegend.GameUtilities.FaceUtils;
+using ProjectLegend.World;
+using ProjectLegend.World.RoyalMarsh;
 
 namespace ProjectLegend.GameUtilities.FuncUtils
 {
@@ -54,8 +56,8 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             
             switch(input)
             {
-                case "fight":
-                    game.GameFuncs.FightEnemy(player); //TODO: change to "select a map"
+                case "select": //"select"
+                    game.GameFuncs.FightEnemy(player); //TODO: change to "maps"
                     break;
                 case "inventory":
                     //Do you want to use a consumable from the inventory?
@@ -114,20 +116,21 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             }
         }
         
-        public static bool ParseMapChoices(string input)
+        public static (Map Choice, bool Chosen) ParseMapChoices(string input)
         {
 
             switch (input)
             {
                 case "rm":
                     //display locations to choose from and their status
-                    return true;
+                    var royalMarsh = new RoyalMarshMap();
+                    return (royalMarsh, true); //TODO: This instantiates a map
                 case "back":
                     //Take them back to main choice option
-                    return true;
+                    return (null, true); //take the player back one step; Make sure null does not conflict
                 default:
                     Console.WriteLine("Not a valid map!");
-                    return false;
+                    return (null, false);
             }
             
         }

@@ -11,6 +11,7 @@ namespace ProjectLegend.World
         public static void AddMaps(Dictionary<string, Map> mapDict)
         {
             mapDict[RoyalMarshMap.ID] = new RoyalMarshMap();
+            
         }
         public static void AddRMLocations(Dictionary<string, Location> locationDict)
         {

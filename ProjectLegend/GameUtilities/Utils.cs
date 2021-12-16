@@ -27,8 +27,9 @@ namespace ProjectLegend.GameUtilities
             //lowercase methods
             args = input.Split(' ', '\t').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
             args = (from str in args select str.ToLower()).ToArray();
+            Console.WriteLine(args);
             return args;
-       }
+        }
 
         public static bool YesOrNo()
         { 
