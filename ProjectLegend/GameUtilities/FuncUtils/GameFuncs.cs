@@ -63,7 +63,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                  
                      //somehow get out of the loop
                      choice = Utils.ReadInput(_mapChoices)[0];
-                     chosen = UserQueries.ParseMapChoices(choice).Chosen;
+                     chosen = UserQueries.ParseMapChoices(choice);
                  }
 
                  return choice; //need to return the map choice
@@ -86,7 +86,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                  
                      //somehow get out of the loop
                      choice = Utils.ReadInput(chosenMap.Locations)[0];
-                     chosen = UserQueries.ParseMapChoices(choice).Chosen;
+                     chosen = UserQueries.ParseMapChoices(choice);
                  }
 
                  return choice; //need to return the map choice

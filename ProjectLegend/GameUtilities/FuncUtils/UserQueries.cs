@@ -48,7 +48,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             return null;
         }
         
-        public static void GenGommandParse(Game game,Player player, string[] commands, string input, bool flags)
+        public static void GenGommandParse(Game game, Player player, string[] commands, string input, bool flags)
         {
             string flag = "";
             if (flags && commands.Length > 1)
@@ -58,6 +58,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             {
                 case "select": //"select"
                     game.GameFuncs.FightEnemy(player); //TODO: change to "maps"
+                    //
                     break;
                 case "inventory":
                     //Do you want to use a consumable from the inventory?
@@ -116,21 +117,20 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             }
         }
         
-        public static (Map Choice, bool Chosen) ParseMapChoices(string input)
+        public static bool ParseMapChoices(string input)
         {
 
             switch (input)
             {
                 case "rm":
                     //display locations to choose from and their status
-                    var royalMarsh = new RoyalMarshMap();
-                    return (royalMarsh, true); //TODO: This instantiates a map
+                    return true; //TODO: This instantiates a map
                 case "back":
                     //Take them back to main choice option
-                    return (null, true); //take the player back one step; Make sure null does not conflict
+                    return true; //take the player back one step; Make sure null does not conflict
                 default:
                     Console.WriteLine("Not a valid map!");
-                    return (null, false);
+                    return false;
             }
             
         }
