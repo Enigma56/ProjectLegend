@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using ProjectLegend.World.RoyalMarsh.Locations.Encampments;
+using ProjectLegend.GameWorld.RoyalMarsh.Locations.Encampments;
 
-namespace ProjectLegend.World.RoyalMarsh
+namespace ProjectLegend.GameWorld.RoyalMarsh
 {
     public sealed class RoyalMarshMap : Map
     {
@@ -18,12 +18,12 @@ namespace ProjectLegend.World.RoyalMarsh
             Locations = new[] { "caves" };
             Initialize();
         }
- 
-        //TODO: finish the creation of the method
+        
         public override void Initialize()
         { 
             // Add locations
             WorldUtils.AddRMLocations(LocationDict);
+            
             //Add enemies to each location
             foreach (string loc in LocationDict.Keys)
             {

@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using ProjectLegend.CharacterClasses;
 using ProjectLegend.CharacterClasses.Enemies;
 using ProjectLegend.CharacterClasses.Legends;
+using ProjectLegend.GameWorld;
 using ProjectLegend.ItemClasses;
 using ProjectLegend.ItemClasses.GearClasses;
-using ProjectLegend.World;
 
 namespace ProjectLegend.GameUtilities.FuncUtils
 {
+    //Responsible for All of the Game Functions that are needed to run the game
     public class GameFuncs
     {
         private readonly string[] _genCommands = {"select", "inventory", "help", "exit"};
         private readonly string[] _combatCommands = {"attack", "buffs", "stats", "inventory"};
-        private readonly string[] _mapChoices = { "rm" };
+        
+        private readonly string[] _mapChoices = { "royalmarsh", "back" };
+        private readonly string[] _locationChoices = { "caves"};
 
         private bool Fighting { get; set; }
 
@@ -31,11 +33,11 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             return player;
         }
         
-        public void ParseGeneralChoice(Game game, string[] commands, Player player)
+        public void ParseGeneralChoice(string[] commands, Player player)
          {
              string cmd = commands[0];
              bool flags = commands.Length > 1 && commands[1].StartsWith("-");
-             UserQueries.GenGommandParse(game, player, commands, cmd, flags);
+             UserQueries.GenGommandParse(player, commands, cmd, flags);
          }
 
          private void ParseCombatChoice(Player player, Enemy enemy)
@@ -50,46 +52,78 @@ namespace ProjectLegend.GameUtilities.FuncUtils
              }
          }
 
-         public void PlayMapChoice(Dictionary<string, Map> mapDict)
+         public void PlaySelection(World world, string map, string location)
          {
-             string ChooseMap()
-             {
-                 bool chosen = false;
-                 string choice = "";
-                 while (chosen is false) 
-                     //Have a bunch of while loops that onyl exit when the command is correct
-                     //Have a bunch of switch statements that loop
-                 {
-                 
-                     //somehow get out of the loop
-                     choice = Utils.ReadInput(_mapChoices)[0];
-                     chosen = UserQueries.ParseMapChoices(choice);
-                 }
-
-                 return choice; //need to return the map choice
-             }
-             //Play the map then select the respective location and return in
-             string choice = ChooseMap();
-             //mapDict["rm"].LocationDict["caves"].Instantiate(3);
+             var instance = world.MapDict[map].LocationDict[location];
+             instance.Instantiate(1);
+             
          }
 
-         private void PlayLocation(Dictionary<Location, string> locationDict, Map chosenMap)
+         public void ChooseMap(Player player) //Parameters dont needs to be used
          {
-             string ChooseLocation()
+             void ChooseLocation(Player player1) //Parameters dont need to be used
              {
-                 bool chosen = false;
-                 string choice = "";
-                 while (chosen is false) 
-                     //Have a bunch of while loops that onyl exit when the command is correct
-                     //Have a bunch of switch statements that loop
+                 var locationChosen = (false, "");
+                 while (locationChosen.Item1 == false)
                  {
-                 
-                     //somehow get out of the loop
-                     choice = Utils.ReadInput(chosenMap.Locations)[0];
-                     chosen = UserQueries.ParseMapChoices(choice);
+                     string locationChoice = Utils.ReadInput(_locationChoices)[0]; //stores decision
+                     locationChosen = UserQueries.ParseLocationChoices(locationChoice); //checks for a parsed decision
+                
                  }
 
-                 return choice; //need to return the map choice
+                 GameManager.CurrentLocation = locationChosen.Item2;
+             
+                 Action<Player> locationSelection = ChooseLocation;
+                 var locationSelectionNode = new LinkedListNode<Action<Player>>(locationSelection);
+                 GameManager.BackPointers.AddAfter(GameManager.BackPointers.First.Next, locationSelectionNode);
+
+                 if (locationChosen.Item2.Equals("back"))
+                 {
+                     Action<Player> stepBack = GameManager.BackPointers.First.Next.Value; //gets "2nd" value in linkedlist
+                     GameManager.BackPointers.RemoveLast(); //removes locationSelection from linked list
+                     stepBack(player);
+                 }
+             }
+             
+             var mapChosen = (false, "");
+             while (mapChosen.Item1 == false)
+             {
+                 string mapChoice = Utils.ReadInput(WorldUtils.MapChoices)[0]; //stores decision
+                 mapChosen = UserQueries.ParseMapChoices(mapChoice); //checks for a parsed decision
+             }
+
+             GameManager.CurrentMap = mapChosen.Item2;
+             
+             //Adds MapSelection to the LinkedList
+             Action<Player> mapSelection = ChooseMap;
+             var mapSelectionNode = new LinkedListNode<Action<Player>>(mapSelection);
+             GameManager.BackPointers.AddAfter(GameManager.BackPointers.First, mapSelectionNode); 
+             //will never be null bc this method wont get called until the game starts and the first node is added
+
+             if (mapChosen.Item2.Equals("back"))
+             {
+                 Action<Player> stepBack = GameManager.BackPointers.First.Value;
+                 GameManager.BackPointers.RemoveLast(); //removes map selection from linked list
+                 stepBack(player); //executes general selection
+             }
+             
+             ChooseLocation(player);
+
+             Console.WriteLine("Your current map selection is {0}" + Environment.NewLine + 
+                                "Your current location selection is {1}", GameManager.CurrentMap, 
+                                                                          GameManager.CurrentLocation);
+         }
+
+
+         public void EnemyClusterFight(Queue<EnemyCluster> locationEnemies)
+         {
+             while (locationEnemies.Count > 0)
+             {
+                 var enemies = locationEnemies.Dequeue();
+                 while (enemies.Cluster.Count > 0)
+                 {
+                     
+                 }
              }
          }
 
@@ -97,6 +131,12 @@ namespace ProjectLegend.GameUtilities.FuncUtils
          //Refactor to choose map and then fight enemy clusters
          public void FightEnemy(Player player)
          {
+             //loop to control fighting each enemy
+             //condition to check if the enemy queue is empty 
+                //complete the map if queue is empty 
+                //Mark location as completed
+             //Exit back to main loop by means of linked list
+             
              var enemy = new Enemy();
 
              Utils.Separator('-');

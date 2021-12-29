@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using ProjectLegend.CharacterClasses.Enemies;
+using ProjectLegend.GameUtilities;
 
-namespace ProjectLegend.World.RoyalMarsh.Locations.Encampments
+namespace ProjectLegend.GameWorld.RoyalMarsh.Locations.Encampments
 {
     public class Caves : Location
     {
@@ -18,6 +19,10 @@ namespace ProjectLegend.World.RoyalMarsh.Locations.Encampments
             for (int wave = 0; wave < enemyWaves; wave++) {
                 Enemies.Enqueue(new EnemyCluster(3));
             }
+        }
+
+        public override void Play()
+        {
         }
 
         public override void Close() //todo: determine what else to put inside this function

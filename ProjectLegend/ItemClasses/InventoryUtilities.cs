@@ -11,7 +11,7 @@ using ProjectLegend.GameUtilities.FaceUtils;
 
 namespace ProjectLegend.ItemClasses
 {
-    public static class InventoryUtilities
+    public static class InventoryUtilities //TODO: Check all possible Inventory bugs 
     {
         public static void AddOrDiscard(this Item droppedItem, Player player)
         {
@@ -21,7 +21,7 @@ namespace ProjectLegend.ItemClasses
             string choice;
             do
             {
-                choice = Utils.ReadInput("Add", "Discard")[0];
+                choice = Utils.ReadInput(new[] { "Add", "Discard" })[0];
             } while (!(Equals(choice, "add") | Equals(choice, "discard")));
 
             switch (choice)
@@ -72,7 +72,7 @@ namespace ProjectLegend.ItemClasses
                     bool slotParsed = false;
                     do
                     {
-                        string replaceItemSlot = Utils.ReadInput()[0]; //only accepts first integer provided by user 
+                        string replaceItemSlot = Utils.ReadInput(new[] {""})[0]; //only accepts first integer provided by user 
                         if (int.TryParse(replaceItemSlot, Utils.IntegerCultureAndFormat().numberStyles,
                             Utils.IntegerCultureAndFormat().culture, out int replaceItemIndex))
                         {

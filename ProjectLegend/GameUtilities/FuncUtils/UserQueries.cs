@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using ProjectLegend.CharacterClasses;
 using ProjectLegend.CharacterClasses.Legends;
@@ -48,7 +49,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             return null;
         }
         
-        public static void GenGommandParse(Game game, Player player, string[] commands, string input, bool flags)
+        public static void GenGommandParse(Player player, string[] commands, string input, bool flags)
         {
             string flag = "";
             if (flags && commands.Length > 1)
@@ -56,9 +57,8 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             
             switch(input)
             {
-                case "select": //"select"
-                    game.GameFuncs.FightEnemy(player); //TODO: change to "maps"
-                    //
+                case "select":
+                    GameManager.GameFuncs.ChooseMap(player); //encapsulates ChooseLocation as well
                     break;
                 case "inventory":
                     //Do you want to use a consumable from the inventory?
@@ -71,12 +71,46 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                     break;
                 case "exit":
                     //Exit out of the game
-                    game.Running = false;
+                    //TODO: Is there a better way to exit the game?
                     Utils.ExitSequence(player, "finish");
                     break;
                 default:
                     Console.WriteLine("Command not found!");
                     break;
+            }
+        }
+        
+        public static (bool Parsed, string Choice) ParseMapChoices(string input)
+        {
+            switch (input)
+            {
+                case "royalmarsh":
+                    //display locations to choose from and their status
+                    //Adds map selection to linked list
+                    return (true, "royalmarsh"); //TODO: This instantiates a map
+                case "back":
+                    //Take them back to main choice option
+                    //Exit this layer of a loop to go back to main game loop
+                    return (true, "back"); //take the player back one step; Make sure null does not conflict
+                default:
+                    Console.WriteLine("Not a valid map!");
+                    return (false, "");
+            }
+            
+        }
+
+        public static (bool Parsed, string Response) ParseLocationChoices(string input)
+        {
+            switch (input)
+            {
+                case "caves":
+                    //Begin a caves instance and run!
+                    return (true, "caves");
+                case "back":
+                    //close this lop and return to map choice loop
+                    return (true, "back");
+                default:
+                    return (false, "nil");
             }
         }
 
@@ -113,39 +147,6 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                 
                 default:
                     Console.WriteLine("Not a valid command!");
-                    return false;
-            }
-        }
-        
-        public static bool ParseMapChoices(string input)
-        {
-
-            switch (input)
-            {
-                case "rm":
-                    //display locations to choose from and their status
-                    return true; //TODO: This instantiates a map
-                case "back":
-                    //Take them back to main choice option
-                    return true; //take the player back one step; Make sure null does not conflict
-                default:
-                    Console.WriteLine("Not a valid map!");
-                    return false;
-            }
-            
-        }
-
-        public static bool ParseLocationChoices(string input)
-        {
-            switch (input)
-            {
-                case "caves":
-                    //Begin a caves instance and run!
-                    return true;
-                case "back":
-                    
-                    return true;
-                default:
                     return false;
             }
         }

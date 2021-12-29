@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using ProjectLegend.CharacterClasses.Enemies;
 
-namespace ProjectLegend.World
+namespace ProjectLegend.GameWorld
 {
     public abstract class Location
     {
@@ -16,6 +16,7 @@ namespace ProjectLegend.World
         
         //public GearPool LocationLoot { get; protected set; }
         public abstract void Instantiate(int enemyWaves);
+        public abstract void Play();
         public abstract void Close();
 
     }

@@ -3,19 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
+
 using ProjectLegend.CharacterClasses;
 using ProjectLegend.GameUtilities.BuffUtilities;
 using ProjectLegend.ItemClasses;
 using ProjectLegend.ItemClasses.GearClasses;
 
+//Responsible for handling all of the non-game related utilities
 namespace ProjectLegend.GameUtilities
 {
     public static class Utils
     {
 
         //returns user input as a sliced up lower-case string array
-        public static string[] ReadInput(params string[] options) //Can add an override method to return one input instead of an array
+        public static string[] ReadInput(string[] options) //Can add an override method to return one input instead of an array
         {
             string input;
             string[] args;
@@ -27,14 +28,13 @@ namespace ProjectLegend.GameUtilities
             //lowercase methods
             args = input.Split(' ', '\t').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
             args = (from str in args select str.ToLower()).ToArray();
-            Console.WriteLine(args);
             return args;
         }
 
         public static bool YesOrNo()
         { 
             Response:
-                string query = ReadInput("yes", "no")[0];
+                string query = ReadInput(new[] {"yes", "no"})[0];
                 if (query.Equals("yes"))
                 {
                     return true;
@@ -63,6 +63,7 @@ namespace ProjectLegend.GameUtilities
                Console.WriteLine($"You exited at level {p.Level}");
            }
            Separator('-');
+           Environment.Exit(0);
        }
 
         public static void Separator(char sep)

@@ -36,13 +36,13 @@ namespace ProjectLegend.CharacterClasses.Enemies
 
     public class EnemyCluster
     {
-        public List<Enemy> Cluster;
+        public Queue<Enemy> Cluster { get; }
 
         public bool Defeated { get; set; }
         
         public EnemyCluster(int maxEnemies)
         {
-            Cluster = new List<Enemy>();
+            Cluster = new Queue<Enemy>();
             FillCluster(maxEnemies);
         }
 
@@ -50,8 +50,8 @@ namespace ProjectLegend.CharacterClasses.Enemies
         {
             for(int i = 0; i < numEnemies; i++)
             {
-                int setIndex = RandomGenerators.IntGenerator.Next(EnemySets.WeakPool.Count);
-                Cluster.Add(EnemySets.WeakPool.ElementAt(setIndex));
+                int enemyIndex = RandomGenerators.IntGenerator.Next(EnemySets.WeakPool.Count);
+                Cluster.Enqueue(EnemySets.WeakPool.ElementAt(enemyIndex));
             }
         }
 

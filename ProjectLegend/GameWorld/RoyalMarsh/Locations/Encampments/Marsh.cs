@@ -1,4 +1,4 @@
-﻿namespace ProjectLegend.World.RoyalMarsh.Locations.Encampments
+﻿namespace ProjectLegend.GameWorld.RoyalMarsh.Locations.Encampments
 {
     public class Marsh : Location
     {
@@ -11,6 +11,9 @@
         public override void Instantiate(int enemyWaves)
         {
             throw new System.NotImplementedException();
+        }
+        public override void Play()
+        {
         }
 
         public override void Close()

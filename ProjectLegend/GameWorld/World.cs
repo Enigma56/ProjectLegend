@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
-using ProjectLegend.World.RoyalMarsh;
 
-namespace ProjectLegend.World
+namespace ProjectLegend.GameWorld
 {
     public class World
     {
         public Dictionary<string, Map> MapDict { get; }
-
-        public string[] MapChoices = {RoyalMarshMap.ID, "TestCase1", "TestCase2"};
 
         public World()//where in the fuck did this word come from
         {
