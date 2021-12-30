@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using ProjectLegend.GameUtilities.FuncUtils;
 
@@ -8,7 +7,6 @@ namespace ProjectLegend.CharacterClasses.Enemies
     public static class EnemySets
     {
         public static HashSet<Enemy> AllPool { get; }
-
         public static HashSet<Enemy> WeakPool { get; }
         public static HashSet<Enemy> StrongPool { get; }
         public static HashSet<Enemy> PowerfulPool { get; }
@@ -30,7 +28,17 @@ namespace ProjectLegend.CharacterClasses.Enemies
             AllPool.UnionWith(WeakPool);
             AllPool.UnionWith(StrongPool);
             AllPool.UnionWith(PowerfulPool);
-            
+        }
+
+        public static Enemy GetEnemy()
+        {
+            int enemyIndex = RandomGenerators.IntGenerator.Next(WeakPool.Count);
+            if(enemyIndex == 1)
+                return new BinSpider();
+            else
+            {
+                return new CarthageSpider();
+            }
         }
     }
 
@@ -50,13 +58,8 @@ namespace ProjectLegend.CharacterClasses.Enemies
         {
             for(int i = 0; i < numEnemies; i++)
             {
-                int enemyIndex = RandomGenerators.IntGenerator.Next(EnemySets.WeakPool.Count);
-                Cluster.Enqueue(EnemySets.WeakPool.ElementAt(enemyIndex));
+                Cluster.Enqueue(EnemySets.GetEnemy()); //does not return a new object, just the reference
             }
-        }
-
-        public void Fight() //Handle all the fighting of a Cluster
-        {
         }
 
         private void Finish()

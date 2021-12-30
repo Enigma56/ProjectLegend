@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ProjectLegend.CharacterClasses;
 using ProjectLegend.CharacterClasses.Enemies;
 using ProjectLegend.GameUtilities;
 
@@ -23,11 +24,6 @@ namespace ProjectLegend.GameWorld.RoyalMarsh.Locations.Encampments
 
         public override void Play()
         {
-        }
-
-        public override void Close() //todo: determine what else to put inside this function
-        {
-            Completed = true;
         }
 
         public override string ToString()

@@ -13,12 +13,12 @@ namespace ProjectLegend
     public class Game 
     {
         private GameManager Manager { get; }
-        private GameWorld.World World { get; }
+        private World World { get; }
 
         private Game()
         {
             Manager = new GameManager();
-            World = new GameWorld.World(); //TODO: fix the reason that this needs "World.World"
+            World = new World(); //TODO: fix the reason that this needs "World.World"
         }
         
 
@@ -44,9 +44,10 @@ namespace ProjectLegend
             }
         }
 
-        private void GameLoop(Player p) //currently just parses commands in the infinite loop
+        private void GameLoop(Player player) //currently just parses commands in the infinite loop
         {
             void Intro(){
+                Console.WriteLine();
                 Utils.Separator('#');
                 Console.WriteLine("Welcome to ProjectLegend!");
                 Utils.Separator('#');
@@ -55,12 +56,12 @@ namespace ProjectLegend
                 Utils.Separator('-');
             }
 
-            void MainLoop(Player player) //TODO: Experiment on if this needs a player or not
+            void MainLoop(Player player) //This loop only handles general command choices
             {
-                while (Manager.GameRunning) //This loop only handles general command choices
+                while (Manager.GameRunning)
                 {
                     string[] args = Utils.ReadInput(GameManager.GameFuncs.GenCommands());
-                    GameManager.GameFuncs.ParseGeneralChoice(args, player);
+                    GameManager.GameFuncs.ParseGeneralChoice(World, args, player);
                 }
             }
 
@@ -68,11 +69,9 @@ namespace ProjectLegend
             Action<Player> PrimaryGameLoop = MainLoop;
             var Header = new LinkedListNode<Action<Player>>(PrimaryGameLoop);
             GameManager.BackPointers.AddFirst(Header);
-
-            Console.WriteLine();
             
             Intro();
-            MainLoop(p);
+            MainLoop(player);
         }
     }
 }

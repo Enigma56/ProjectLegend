@@ -27,7 +27,7 @@ namespace ProjectLegend.GameWorld.RoyalMarsh
             //Add enemies to each location
             foreach (string loc in LocationDict.Keys)
             {
-                LocationDict[loc].Instantiate(3);
+                LocationDict[loc].Instantiate(3); //Here is where the number of waves is added to the location
             }
             //Initialize all other location-specific activity
         }

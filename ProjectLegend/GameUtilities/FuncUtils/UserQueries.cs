@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
+
 using ProjectLegend.CharacterClasses;
 using ProjectLegend.CharacterClasses.Legends;
 using ProjectLegend.ItemClasses;
 using ProjectLegend.GameUtilities.FaceUtils;
-using ProjectLegend.World;
-using ProjectLegend.World.RoyalMarsh;
+using ProjectLegend.GameWorld;
 
 namespace ProjectLegend.GameUtilities.FuncUtils
 {
@@ -49,7 +47,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             return null;
         }
         
-        public static void GenGommandParse(Player player, string[] commands, string input, bool flags)
+        public static void GenGommandParse(World world, Player player, string[] commands, string input, bool flags)
         {
             string flag = "";
             if (flags && commands.Length > 1)
@@ -59,6 +57,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             {
                 case "select":
                     GameManager.GameFuncs.ChooseMap(player); //encapsulates ChooseLocation as well
+                    GameManager.GameFuncs.PlaySelection(world, GameManager.CurrentMap, GameManager.CurrentLocation, player);
                     break;
                 case "inventory":
                     //Do you want to use a consumable from the inventory?
@@ -114,7 +113,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             }
         }
 
-        public static bool CombatCommandParse(GameFuncs gameFuncs, Player player, Enemy enemy, string[] commands, string input, bool flags)
+        public static bool CombatCommandParse(Player player, Enemy enemy, string[] commands, string input, bool flags)
         {
             string flag = "";
             if (flags && commands.Length > 1)
@@ -123,8 +122,9 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             switch (input)
             {
                 case "attack":
-                    ParseAttackFlags(player, enemy, flag);
-                    gameFuncs.BattlePhase(player, enemy); //Check if attack lands
+                    if(!flag.Equals(""))
+                        ParseAttackFlags(player, enemy, flag);
+                    GameManager.GameFuncs.BattlePhase(player, enemy); //Check if attack lands
                     Utils.Separator('-');
                     return true;
                     

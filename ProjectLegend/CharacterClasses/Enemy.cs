@@ -46,7 +46,7 @@ namespace ProjectLegend.CharacterClasses
         
         public override string ToString()
         {
-            return $"Enemy Stats" + Environment.NewLine + $"Health = {Health.Max}, Attack = {Attack.Current}";
+            return "Enemy Stats" + Environment.NewLine + $"Health = {Health.Max}, Attack = {Attack.Current}";
         }
     }
     

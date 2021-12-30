@@ -16,6 +16,7 @@ namespace ProjectLegend.ItemClasses
         public static void AddOrDiscard(this Item droppedItem, Player player)
         {
             player.Hand = droppedItem;
+            Utils.Separator('-');
             Console.WriteLine("Would you like to add or discard the item in hand?"+ Environment.NewLine + 
                               $"Item in hand: {player.Hand}");
             string choice;
@@ -101,7 +102,6 @@ namespace ProjectLegend.ItemClasses
             target.InventorySlot = -1;
 
             player.Hand = target;
-
             player.Hand.AddOrDiscard(player);
         }
 

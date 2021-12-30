@@ -1,4 +1,6 @@
-﻿namespace ProjectLegend.GameWorld.RoyalMarsh.Locations.Encampments
+﻿using ProjectLegend.CharacterClasses;
+
+namespace ProjectLegend.GameWorld.RoyalMarsh.Locations.Encampments
 {
     public class Marsh : Location
     {
@@ -14,11 +16,6 @@
         }
         public override void Play()
         {
-        }
-
-        public override void Close()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

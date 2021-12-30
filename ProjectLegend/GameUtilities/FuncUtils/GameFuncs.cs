@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using ProjectLegend.CharacterClasses;
-using ProjectLegend.CharacterClasses.Enemies;
 using ProjectLegend.CharacterClasses.Legends;
 using ProjectLegend.GameWorld;
 using ProjectLegend.ItemClasses;
@@ -33,11 +32,11 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             return player;
         }
         
-        public void ParseGeneralChoice(string[] commands, Player player)
+        public void ParseGeneralChoice(World world, string[] commands, Player player)
          {
              string cmd = commands[0];
              bool flags = commands.Length > 1 && commands[1].StartsWith("-");
-             UserQueries.GenGommandParse(player, commands, cmd, flags);
+             UserQueries.GenGommandParse(world, player, commands, cmd, flags);
          }
 
          private void ParseCombatChoice(Player player, Enemy enemy)
@@ -48,15 +47,14 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                  string[] commands = Utils.ReadInput(_combatCommands);
                  string cmd = commands[0];
                  bool flags = commands.Length > 1 && commands[1].StartsWith("-");
-                 validInput = UserQueries.CombatCommandParse(this, player, enemy, commands, cmd, flags);
+                 validInput = UserQueries.CombatCommandParse(player, enemy, commands, cmd, flags);
              }
          }
 
-         public void PlaySelection(World world, string map, string location)
+         public void PlaySelection(World world, string map, string location, Player player)
          {
              var instance = world.MapDict[map].LocationDict[location];
-             instance.Instantiate(1);
-             
+             EnemyClusterFight(instance, player);
          }
 
          public void ChooseMap(Player player) //Parameters dont needs to be used
@@ -68,7 +66,6 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                  {
                      string locationChoice = Utils.ReadInput(_locationChoices)[0]; //stores decision
                      locationChosen = UserQueries.ParseLocationChoices(locationChoice); //checks for a parsed decision
-                
                  }
 
                  GameManager.CurrentLocation = locationChosen.Item2;
@@ -106,81 +103,56 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                  GameManager.BackPointers.RemoveLast(); //removes map selection from linked list
                  stepBack(player); //executes general selection
              }
-             
              ChooseLocation(player);
-
-             Console.WriteLine("Your current map selection is {0}" + Environment.NewLine + 
-                                "Your current location selection is {1}", GameManager.CurrentMap, 
-                                                                          GameManager.CurrentLocation);
          }
 
 
-         public void EnemyClusterFight(Queue<EnemyCluster> locationEnemies)
-         {
-             while (locationEnemies.Count > 0)
-             {
-                 var enemies = locationEnemies.Dequeue();
-                 while (enemies.Cluster.Count > 0)
-                 {
-                     
-                 }
-             }
-         }
-
-         //TODO: Refactor and move to cluster
-         //Refactor to choose map and then fight enemy clusters
-         public void FightEnemy(Player player)
+         private void EnemyClusterFight(Location location, Player player)
          {
              //loop to control fighting each enemy
-             //condition to check if the enemy queue is empty 
+                //condition to check if the enemy queue is empty 
                 //complete the map if queue is empty 
-                //Mark location as completed
+             //Mark location as completed
              //Exit back to main loop by means of linked list
+             var locationClusters = location.Enemies;
              
-             var enemy = new Enemy();
-
+             while (locationClusters.Count > 0)
+             {
+                 var enemies = locationClusters.Dequeue();
+                 while (enemies.Cluster.Count > 0)
+                 {
+                     var currEnemy = enemies.Cluster.Dequeue();
+                     FightEnemy(player, currEnemy);
+                     
+                     Console.WriteLine("You have {0} enemies remaining in this wave", enemies.Cluster.Count);
+                 }
+                 Console.WriteLine("You have {0} waves remaining", locationClusters.Count);
+             }
+             location.Close(player);
+         }
+         
+         private void FightEnemy(Player player, Enemy enemy)
+         {
+             Console.WriteLine("Enemy type: {0}", enemy);
              Utils.Separator('-');
              Console.WriteLine("Starting Stats:");
              ViewStats(player, enemy);
              Utils.Separator('-');
              Fighting = true;
-             Fight:
-                 while (Fighting)
+             while (Fighting)
+             {
+                 if (enemy.Dead)
                  {
-                     if (enemy.Dead)
-                     {
-                         Fighting = false;
-                         break;
-                     }
-                     ParseCombatChoice(player, enemy);
-                     
-                     if (player is MinuteMedic medic) // Convert this to per-turn 
-                         medic.PassiveHeal();
-                     if (player.Energy.Current >= player.ActiveCost)
-                         Console.WriteLine("You have enough energy for your active ability!");
+                     Fighting = false;
+                     break;
                  }
+                 ParseCombatChoice(player, enemy);
                  
-            if (player.Dead == false)
-            {
-                 Console.WriteLine("Would you like to fight another enemy?");
-                 Utils.Separator('-');
-                 bool continueToFight = Utils.YesOrNo();
-                 if (continueToFight)
-                 {
-                     Utils.Separator('-');
-                     Console.WriteLine("Starting Stats:");
-                     enemy = RespawnEnemy();
-                     ViewStats(player, enemy);
-                     Utils.Separator('-');
-                     Fighting = true;
-                     goto Fight;
-                 }
-                 else
-                 {
-                     Utils.Separator('-');
-                     Console.WriteLine("Exiting back to main loop!");
-                 }
-            }
+                 if (player is MinuteMedic medic) // Convert this to per-turn 
+                     medic.PassiveHeal();
+                 if (player.Energy.Current >= player.ActiveCost)
+                     Console.WriteLine("You have enough energy for your active ability!");
+             }
          }
 
          public void BattlePhase(Player player, Enemy enemy) //Processes attack and defense
