@@ -11,7 +11,7 @@ using ProjectLegend.GameUtilities.FaceUtils;
 
 namespace ProjectLegend.ItemClasses
 {
-    public static class InventoryUtilities //TODO: Check all possible Inventory bugs 
+    public static class InventoryUtilities
     {
         public static void AddOrDiscard(this Item droppedItem, Player player)
         {
@@ -95,7 +95,7 @@ namespace ProjectLegend.ItemClasses
             }
         }
 
-        public static void Swap(this Item hand, Item target, Player player)
+        private static void Swap(this Item hand, Item target, Player player)
         {
             player.Inventory[target.InventorySlot] = hand;
             hand.InventorySlot = target.InventorySlot;
@@ -123,10 +123,15 @@ namespace ProjectLegend.ItemClasses
 
                         player.DisplayInventory();
                     }
+
+                    else
+                    {
+                        Console.WriteLine("Item trying to be used is not a consumable!");
+                    }
                 }
             }
         }
-
+        
         public static void Equip(this Player player, Gear newGear)
         {
             int gearSlot = newGear.Slot;
@@ -141,6 +146,7 @@ namespace ProjectLegend.ItemClasses
 
             player.GearInventory[gearSlot] = newGear;
             player.UpdatePlayerStats(newGear, oldGear, "new/replace");
+            Console.WriteLine("{0} has been equipped!", newGear);
         }
 
         public static void UnEquip(this Player player, Gear gear) //When asking if the user wants to unequip the piece of gear

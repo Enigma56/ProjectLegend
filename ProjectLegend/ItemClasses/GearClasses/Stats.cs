@@ -30,7 +30,7 @@ namespace ProjectLegend.ItemClasses.GearClasses
                 ["php"] = new HealthPercentIncrease(),
             };
         }
-        public Stat this[string key]
+        public Stat this[string key] //index into the dictionary; this may be redundant
         {
             get => Stats[key];
         }
@@ -117,17 +117,9 @@ namespace ProjectLegend.ItemClasses.GearClasses
     //Core Stats
     public sealed class HealthPoints 
     {
+        public int Max { get; set; } //Refactor to be the maximum value, not current max
         public int Current { get; set; }
-        public int Max { get; set; }
         public int Bonus { get; set; }
-
-        public HealthPoints()
-        {
-            Current = 0;
-            Max = 0;
-
-            Bonus = 0;
-        }
     }
 
     public sealed class AttackPoints
@@ -198,11 +190,10 @@ namespace ProjectLegend.ItemClasses.GearClasses
          
          public Vitality() : base("Vitality","vit", "add")
          {
-             Range = new(5, 15);
+             Range = new NumRange(5, 15);
              Base = 0;
              Max = 500;
          }
-         
      }
      
      public sealed class FlatAttIncrease : Stat
@@ -227,7 +218,6 @@ namespace ProjectLegend.ItemClasses.GearClasses
          {
              Range = new NumRange(.01, .05);
          }
-         
      }
 
      public sealed class HealthPercentIncrease : Stat

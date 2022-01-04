@@ -22,10 +22,6 @@ namespace ProjectLegend.GameWorld.RoyalMarsh.Locations.Encampments
             }
         }
 
-        public override void Play()
-        {
-        }
-
         public override string ToString()
         {
             return Name;

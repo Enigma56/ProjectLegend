@@ -15,7 +15,7 @@ namespace ProjectLegend.GameWorld.RoyalMarsh
         public RoyalMarshMap()
         {
             LocationDict = new Dictionary<string, Location>();
-            Locations = new[] { "caves" };
+            Locations = new[] { "caves", "marsh" };
             Initialize();
         }
         

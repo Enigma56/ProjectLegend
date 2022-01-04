@@ -47,6 +47,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             return null;
         }
         
+        
         public static void GenGommandParse(World world, Player player, string[] commands, string input, bool flags)
         {
             string flag = "";
@@ -59,7 +60,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                     GameManager.GameFuncs.ChooseMap(player); //encapsulates ChooseLocation as well
                     GameManager.GameFuncs.PlaySelection(world, GameManager.CurrentMap, GameManager.CurrentLocation, player);
                     break;
-                case "inventory":
+                case "inventory": //TODO: include equipment equip/un-equip
                     //Do you want to use a consumable from the inventory?
                     if(flags) //parse flags from user
                         ParseInventoryFlags(player, commands, flag);
@@ -70,7 +71,6 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                     break;
                 case "exit":
                     //Exit out of the game
-                    //TODO: Is there a better way to exit the game?
                     Utils.ExitSequence(player, "finish");
                     break;
                 default:
@@ -86,7 +86,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                 case "royalmarsh":
                     //display locations to choose from and their status
                     //Adds map selection to linked list
-                    return (true, "royalmarsh"); //TODO: This instantiates a map
+                    return (true, "royalmarsh");
                 case "back":
                     //Take them back to main choice option
                     //Exit this layer of a loop to go back to main game loop

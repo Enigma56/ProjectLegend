@@ -147,12 +147,10 @@ namespace ProjectLegend.GameUtilities
         {
             return Math.Round(random.NextDouble() * (max - min) + min, 2);
         }
-
-        public static List<Item> DropItem(GearPool pool) //TODO: Generalize to drop items from any source
+        
+        public static Gear DropItem(GearPool pool)
         {
-            var droppedItems = new List<Item>();
-            /*Random gearGenerator = new();
-            //iterate through loot pool
+            Random gearGenerator = new();
             Gear droppedItem = null;
             
             bool itemChosen = false;
@@ -161,15 +159,17 @@ namespace ProjectLegend.GameUtilities
                 double itemChance = gearGenerator.NextDouble();
                 int itemIndex = gearGenerator.Next(pool.LootPool.Count);
                 
-                if (itemChance <= pool.LootPool[itemIndex].DropRate) //Sets have an element but is not accessed like this
+                if (itemChance <= pool.LootPool.ElementAt(itemIndex).DropRate) //Sets have an element but is not accessed like this
                 {
-                    droppedItem = pool.LootPool[itemIndex]; //.ElementAt for hashset indexing
+                    Type gearType = pool.LootPool.ElementAt(itemIndex).GetType(); //.ElementAt for hashset indexing
+                    droppedItem = (Gear) Activator.CreateInstance(gearType);
                     itemChosen = true;
                 }
             }
-            return droppedItem;*/
 
-            return droppedItems;
+            Console.WriteLine("A ~{0}~ has dropped!", droppedItem.Name);
+            return droppedItem;
+            
         }
 
         public static bool IsEmpty(this ICollection collection)

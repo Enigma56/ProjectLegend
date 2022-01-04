@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ProjectLegend.CharacterClasses;
 
 using ProjectLegend.GameUtilities.FuncUtils;
+using ProjectLegend.ItemClasses.GearClasses;
 
 namespace ProjectLegend.GameUtilities
 {
@@ -12,10 +13,19 @@ namespace ProjectLegend.GameUtilities
 
         public static string CurrentMap { get; set; }
         public static string CurrentLocation { get; set; }
+        public static GameFuncs GameFuncs { get; }
+        public static LinkedList<Action<Player>> BackPointers { get; }
 
-        public static GameFuncs GameFuncs = new();
-        public static LinkedList<Action<Player>> BackPointers = new();
-        
+        public static GearPool CommonGear { get; set; }
+
+        static GameManager()
+        {
+            GameFuncs = new GameFuncs();
+            BackPointers = new LinkedList<Action<Player>>();
+
+            CommonGear = new CommonGear();
+        }
+
         public GameManager()
         {
             GameRunning = true;

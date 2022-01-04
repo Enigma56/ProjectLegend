@@ -17,7 +17,6 @@ namespace ProjectLegend.GameWorld
         
         //public GearPool LocationLoot { get; protected set; }
         public abstract void Instantiate(int enemyWaves);
-        public abstract void Play();
 
         public void Close(Player player) //The same closing process for the completion of every single map 
         {

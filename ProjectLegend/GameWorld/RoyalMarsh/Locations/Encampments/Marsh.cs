@@ -1,4 +1,5 @@
-﻿using ProjectLegend.CharacterClasses;
+﻿using System.Collections.Generic;
+using ProjectLegend.CharacterClasses.Enemies;
 
 namespace ProjectLegend.GameWorld.RoyalMarsh.Locations.Encampments
 {
@@ -9,13 +10,13 @@ namespace ProjectLegend.GameWorld.RoyalMarsh.Locations.Encampments
         public Marsh()
         {
             Name = "Marsh";
+            Enemies = new Queue<EnemyCluster>();
         }
         public override void Instantiate(int enemyWaves)
         {
-            throw new System.NotImplementedException();
-        }
-        public override void Play()
-        {
+            for (int wave = 0; wave < enemyWaves; wave++) {
+                Enemies.Enqueue(new EnemyCluster(3));
+            }
         }
     }
 }

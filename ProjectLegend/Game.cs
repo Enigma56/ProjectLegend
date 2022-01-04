@@ -18,7 +18,7 @@ namespace ProjectLegend
         private Game()
         {
             Manager = new GameManager();
-            World = new World(); //TODO: fix the reason that this needs "World.World"
+            World = new World();
         }
         
 

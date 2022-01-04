@@ -14,9 +14,6 @@ namespace ProjectLegend.GameUtilities.FuncUtils
     {
         private readonly string[] _genCommands = {"select", "inventory", "help", "exit"};
         private readonly string[] _combatCommands = {"attack", "buffs", "stats", "inventory"};
-        
-        private readonly string[] _mapChoices = { "royalmarsh", "back" };
-        private readonly string[] _locationChoices = { "caves"};
 
         private bool Fighting { get; set; }
 
@@ -64,7 +61,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                  var locationChosen = (false, "");
                  while (locationChosen.Item1 == false)
                  {
-                     string locationChoice = Utils.ReadInput(_locationChoices)[0]; //stores decision
+                     string locationChoice = Utils.ReadInput(WorldUtils.LocationChoices)[0]; //stores decision
                      locationChosen = UserQueries.ParseLocationChoices(locationChoice); //checks for a parsed decision
                  }
 
@@ -109,11 +106,6 @@ namespace ProjectLegend.GameUtilities.FuncUtils
 
          private void EnemyClusterFight(Location location, Player player)
          {
-             //loop to control fighting each enemy
-                //condition to check if the enemy queue is empty 
-                //complete the map if queue is empty 
-             //Mark location as completed
-             //Exit back to main loop by means of linked list
              var locationClusters = location.Enemies;
              
              while (locationClusters.Count > 0)
@@ -238,15 +230,6 @@ namespace ProjectLegend.GameUtilities.FuncUtils
              }
          }
 
-         /**
-          * Respawns an enemy
-          */
-         private Enemy RespawnEnemy() //Fight an enemy and spawn another when alive one dies
-         {
-             var e = new Enemy();
-             return e;
-         }
-
          private void PlayerDrops(Player player, Enemy enemy)
          {
              void ExpDrop()
@@ -264,13 +247,14 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                  var rollGenerator = new Random();
                  double itemRoll = Math.Round(rollGenerator.NextDouble(), 2);
                  Item enemyDrop = enemy.GetDrop();
-                 if (itemRoll < enemyDrop.DropRate)
+                 if (itemRoll < enemyDrop.DropRate) //TODO: convert to potion drop
                  {
                      enemyDrop.AddOrDiscard(player);
                  }
              }
              ExpDrop();
              ItemDrop();
+             Utils.DropItem(GameManager.CommonGear).AddOrDiscard(player); //Must take in GearPool type as parameter
          }
 
          private void ViewStats(Player player, Enemy enemy)

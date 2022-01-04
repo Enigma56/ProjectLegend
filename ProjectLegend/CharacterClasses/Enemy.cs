@@ -14,7 +14,7 @@ namespace ProjectLegend.CharacterClasses
             {2, new EnergyPotion()}
         };
 
-        protected Random StatGenerator = new();
+        protected readonly Random StatGenerator = new();
         public int ExpDrop { get; set; }
 
         public Enemy()

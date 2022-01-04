@@ -16,6 +16,8 @@ namespace ProjectLegend.ItemClasses.GearClasses
         public static List<Legs> CommonLegs { get; }
         public static List<Weapon> CommonWeapon { get; }
 
+        public static HashSet<Gear> AllCommon { get; set; }
+
         static CommonGear()
         {
             CommonHead = new List<Head>()
@@ -57,13 +59,13 @@ namespace ProjectLegend.ItemClasses.GearClasses
 
         public CommonGear()
         {
-            List<Gear> lootList = new List<Gear>();
+            var lootList = new List<Gear>();
             lootList.AddRange(CommonHead);
             lootList.AddRange(CommonChest);
             lootList.AddRange(CommonLegs);
             lootList.AddRange(CommonWeapon);
 
-            LootPool = new HashSet<Gear>(lootList); 
+            LootPool = new HashSet<Gear>(lootList);
         }
     }
 }

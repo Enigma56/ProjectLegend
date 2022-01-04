@@ -126,7 +126,7 @@ namespace ProjectLegend.CharacterClasses
         public void UpdatePlayerStats(Gear newGear, Gear oldGear, string action)
         {
             //Removes old bonus(if set)
-            Attack.Max -= Attack.Bonus;
+            Attack.Max -= Attack.Bonus; //Where does the Bonus stat come from?
             Attack.Current -= Attack.Bonus;
             Health.Max -= Health.Bonus;
             Health.Current -= Health.Bonus;
@@ -170,19 +170,17 @@ namespace ProjectLegend.CharacterClasses
 
         private void CalculateBonuses()
         {
-            double percentIncrease(double value)
-            {
-                return 1 + value;
-            }
-
             int playerStrTotal = BaseStrength + PlayerStats["str"].StatTotal;
-            var factoredStr = playerStrTotal / 12; //equation: Math.Pow(2, (Level + 100)/ 25.0) - 16
-            int calculatedBonusAtk = (int) Math.Floor((factoredStr + PlayerStats["fatk"].StatTotal) * percentIncrease(PlayerStats["patk"].StatTotal));
+            int factoredStr =playerStrTotal / 12; //equation: Math.Pow(2, (Level + 100)/ 25.0) - 16
+            int bonusFromAtkPercent = (int) (Attack.Max * PlayerStats["patk"].StatTotal);
+            int flatAtkBonus = (int) PlayerStats["fatk"].StatTotal;
+            int calculatedBonusAtk = factoredStr + flatAtkBonus + bonusFromAtkPercent;
             Attack.Bonus = calculatedBonusAtk;
 
-            int playerVitTotal = BaseVitality + PlayerStats["vit"].StatTotal;
-            var factoredVit = playerVitTotal / 4;
-            int calculatedBonusHp = (int) Math.Floor((factoredVit + PlayerStats["fhp"].StatTotal) * percentIncrease(PlayerStats["php"].StatTotal));
+            int playerVitTotal = BaseVitality + PlayerStats["vit"].StatTotal; 
+            int factoredVit = playerVitTotal / 4;
+            int bonusFromHpPercent = (int) (Health.Max * PlayerStats["php"].StatTotal);
+            int calculatedBonusHp = factoredVit + PlayerStats["fhp"].StatTotal + bonusFromHpPercent;
             Health.Bonus = calculatedBonusHp;
         }
 
