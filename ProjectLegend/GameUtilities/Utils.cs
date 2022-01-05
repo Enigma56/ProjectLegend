@@ -94,6 +94,10 @@ namespace ProjectLegend.GameUtilities
            }
        }
 
+        /// <summary>
+        /// Responsible for parsing integers in the command line
+        /// </summary>
+        /// <returns></returns>
         public static (NumberFormatInfo culture, NumberStyles numberStyles) IntegerCultureAndFormat()
         { 
             var culture = CultureInfo.CreateSpecificCulture("en-US").NumberFormat;

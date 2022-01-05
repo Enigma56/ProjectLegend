@@ -247,7 +247,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                  var rollGenerator = new Random();
                  double itemRoll = Math.Round(rollGenerator.NextDouble(), 2);
                  Item enemyDrop = enemy.GetDrop();
-                 if (itemRoll < enemyDrop.DropRate) //TODO: convert to potion drop
+                 if (itemRoll < enemyDrop.DropRate)
                  {
                      enemyDrop.AddOrDiscard(player);
                  }

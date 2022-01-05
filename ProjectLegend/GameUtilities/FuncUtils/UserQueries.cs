@@ -60,8 +60,10 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                     GameManager.GameFuncs.ChooseMap(player); //encapsulates ChooseLocation as well
                     GameManager.GameFuncs.PlaySelection(world, GameManager.CurrentMap, GameManager.CurrentLocation, player);
                     break;
-                case "inventory": //TODO: include equipment equip/un-equip
+                case "inventory":
                     //Do you want to use a consumable from the inventory?
+                    Utils.Separator('-');
+                    Console.WriteLine("Inventory flags: " + Utils.ToString(new[] {"-e", "-u", "-eg", "-ueg"}));
                     if(flags) //parse flags from user
                         ParseInventoryFlags(player, commands, flag);
                     else
@@ -122,7 +124,8 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             switch (input)
             {
                 case "attack":
-                    if(!flag.Equals(""))
+                    Console.WriteLine("Inventory flags: " + Utils.ToString(new[] {"-a", "-u"}));
+                    if(flag.Length > 0)
                         ParseAttackFlags(player, enemy, flag);
                     GameManager.GameFuncs.BattlePhase(player, enemy); //Check if attack lands
                     Utils.Separator('-');
@@ -159,6 +162,12 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                     Utils.Separator('-');
                     player.DisplayEquipment();
                     Utils.Separator('-');
+                    break;
+                case "-eg":
+                    player.TryEquipGear(commands);
+                    break;
+                case "-ueg":
+                    player.TryUnEquipGear(commands);
                     break;
                 case "-u":
                     player.TryUseConsumable(commands);

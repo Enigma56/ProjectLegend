@@ -21,7 +21,7 @@ namespace ProjectLegend.GameUtilities.FaceUtils
         public static void DisplayInventory(this Player player)
         {
             string stringArray = "[";
-            for (int i = 0; i < player.Inventory.Length; i++)
+            for (int i = 0; i < player.Inventory.Length - 1; i++)
             {
                 if (i % 2 == 0)
                     stringArray += Environment.NewLine;

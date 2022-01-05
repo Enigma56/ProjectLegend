@@ -113,25 +113,82 @@ namespace ProjectLegend.ItemClasses
                     Utils.IntegerCultureAndFormat().culture, out int slot))
                 {
                     slot = slot - 1;
-                    if (player.Inventory[slot] is Consumable consumable)
+                    if (slot is > 0 and < 10)
                     {
-                        consumable.Use(player);
-                        if (consumable.StackSize == 0)
+                        if (player.Inventory[slot] is Consumable consumable)
                         {
-                            player.Inventory[slot] = null;
+                            consumable.Use(player);
+                            if (consumable.StackSize == 0) //Removes potion from inventory if applicable
+                            {
+                                player.Inventory[slot] = null;
+                            }
+
+                            player.DisplayInventory();
                         }
 
-                        player.DisplayInventory();
+                        else
+                        {
+                            Console.WriteLine("Item trying to be used is not a consumable!");
+                        }
                     }
-
                     else
                     {
-                        Console.WriteLine("Item trying to be used is not a consumable!");
+                        Console.WriteLine("Slot number not valid!");
+                    }
+                }
+            }
+        }
+
+        public static void TryEquipGear(this Player player, string[] commands)
+        {
+            if (commands.Length > 2)
+            {
+                if (int.TryParse(commands[2], Utils.IntegerCultureAndFormat().numberStyles,
+                    Utils.IntegerCultureAndFormat().culture, out int slot)) //Parses the ingeteger
+                {
+                    slot = slot - 1; //reduction for indexing
+                    if (slot is >= 0 and < 10)
+                    {
+                        if (player.Inventory[slot] is Gear gear)
+                        {
+                            player.Equip(gear);
+                            player.Inventory[slot] = null;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Slot number not valid!");
                     }
                 }
             }
         }
         
+        public static void TryUnEquipGear(this Player player, string[] commands)
+        {
+            if (commands.Length > 2)
+            {
+                if (int.TryParse(commands[2], Utils.IntegerCultureAndFormat().numberStyles,
+                    Utils.IntegerCultureAndFormat().culture, out int slot)) //Parses the integer
+                {
+                    slot = slot - 1;
+                    if (slot is >= 0 and < 4 & player.GearInventory[slot] != null)
+                    {
+                        player.UnEquip(player.GearInventory[slot]);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Slot is empty!");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Responsible for equipping a new piece of gear on the player. If applicable, will swap pieces of gear in
+        /// a conflicting circumstance.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="newGear"></param>
         public static void Equip(this Player player, Gear newGear)
         {
             int gearSlot = newGear.Slot;
@@ -152,14 +209,14 @@ namespace ProjectLegend.ItemClasses
         public static void UnEquip(this Player player, Gear gear) //When asking if the user wants to unequip the piece of gear
         {
             int gearSlot = gear.Slot;
-            if (player.GearInventory[gearSlot] == null)
+            if (player.GearInventory[gearSlot] == null) //cannot un-equip when slot is empty
             {
                 Console.WriteLine("Current slot is empty!");
             }
             else
             {
                 player.GearInventory[gearSlot] = null;
-                player.AddToInventory(gear);
+                player.AddToInventory(gear); //Adds it into the next available slot
                 Console.WriteLine($"{gear.Name} has been removed and added to inventory!");
                 player.UpdatePlayerStats(gear, null, "replace");
             }
