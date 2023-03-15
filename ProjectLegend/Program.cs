@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// See https://aka.ms/new-console-template for more information
+
 
 using ProjectLegend.GameUtilities;
 using ProjectLegend.CharacterClasses;
@@ -68,7 +68,7 @@ namespace ProjectLegend
             //Set head of LinkedList BackPointers - will never be removed as head of the linked list
             Action<Player> PrimaryGameLoop = MainLoop;
             var Header = new LinkedListNode<Action<Player>>(PrimaryGameLoop);
-            GameManager.BackPointers.AddFirst(Header);
+            //GameManager.BackPointers.AddFirst(Header);
             
             Intro();
             MainLoop(player);
