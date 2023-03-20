@@ -2,10 +2,10 @@
 
 namespace ProjectLegend.CharacterClasses.Legends
 {
-    public sealed class HappyRobot : Player
+    public sealed class Pathfinder : Player
     {
-        public static string Name = "HappyRobot";
-        public HappyRobot()
+        public static string Name = "Pathfinder";
+        public Pathfinder()
         {
             Health.Max = 100;
             Attack.Max = 10;

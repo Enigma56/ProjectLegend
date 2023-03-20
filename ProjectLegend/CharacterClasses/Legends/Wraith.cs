@@ -5,11 +5,11 @@ using ProjectLegend.GameUtilities.BuffUtilities;
 
 namespace ProjectLegend.CharacterClasses.Legends
 {
-    public sealed class PortalGirl : Player
+    public sealed class Wraith : Player
     {
-        public static string Name = "PortalGirl";
+        public static string Name = "Wraith";
         //Passive
-        private double _passiveEvasionBonus = .05;
+        private readonly double _passiveEvasionBonus = .05;
         private double _passiveAttackMultiplier = .05; //in percent
         private int PassiveAttackIncrease { get; set; }
 
@@ -21,7 +21,7 @@ namespace ProjectLegend.CharacterClasses.Legends
         private double EvasionDifference { get; set; }
         private int AttackDifference { get; set; }
 
-        public PortalGirl()
+        public Wraith()
         {
             Health.Max = 50;
             Attack.Max = 20;

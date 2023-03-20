@@ -4,10 +4,10 @@ using ProjectLegend.GameUtilities.BuffUtilities;
 
 namespace ProjectLegend.CharacterClasses.Legends
 {
-    public sealed class MinuteMedic : Player
+    public sealed class Lifeline : Player
     {
-        public static string Name = "MinuteMedic";
-        public MinuteMedic()
+        public static string Name = "Lifeline";
+        public Lifeline()
         {
             Health.Max = 40;
             Attack.Max = 20;

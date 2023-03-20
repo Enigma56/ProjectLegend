@@ -2,10 +2,10 @@
 
 namespace ProjectLegend.CharacterClasses.Legends
 {
-    public sealed class MilitaryWoman : Player
+    public class Bangalore : Player
     {
-        public static string Name = "MilitaryWoman";
-        public MilitaryWoman()
+        public static string Name = "Bangalore";
+        public Bangalore()
         {
             Health.Max = 70;
             Attack.Max = 15;

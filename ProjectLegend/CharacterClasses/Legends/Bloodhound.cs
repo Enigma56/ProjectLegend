@@ -2,11 +2,11 @@
 
 namespace ProjectLegend.CharacterClasses.Legends
 {
-    public sealed class BloodIt : Player
+    public sealed class Bloodhound : Player
     {
-        public static string Name = "BloodIt";
+        public static string Name = "Bloodhound";
         private int DamageReduction { get; set; }
-        public BloodIt()
+        public Bloodhound()
         {
             Health.Max = 100;
             Attack.Max = 10;
