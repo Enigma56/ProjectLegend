@@ -69,6 +69,8 @@ namespace ProjectLegend.GameUtilities.FuncUtils
              
                  Action<Player> locationSelection = ChooseLocation;
                  var locationSelectionNode = new LinkedListNode<Action<Player>>(locationSelection);
+                 
+                 //TODO: Issues with null pointers here
                  GameManager.BackPointers.AddAfter(GameManager.BackPointers.First.Next, locationSelectionNode);
 
                  if (locationChosen.Item2.Equals("back"))
@@ -91,15 +93,19 @@ namespace ProjectLegend.GameUtilities.FuncUtils
              //Adds MapSelection to the LinkedList
              Action<Player> mapSelection = ChooseMap;
              var mapSelectionNode = new LinkedListNode<Action<Player>>(mapSelection);
-             GameManager.BackPointers.AddAfter(GameManager.BackPointers.First, mapSelectionNode); 
-             //will never be null bc this method wont get called until the game starts and the first node is added
+             //TODO: error gets thrown here
+             var firstPointer = GameManager.BackPointers.First;
+             GameManager.BackPointers.AddAfter(GameManager.BackPointers.First, mapSelectionNode);
+                 //will never be null bc this method wont get called until the game starts and the first node is added
 
-             if (mapChosen.Item2.Equals("back"))
-             {
-                 Action<Player> stepBack = GameManager.BackPointers.First.Value;
-                 GameManager.BackPointers.RemoveLast(); //removes map selection from linked list
-                 stepBack(player); //executes general selection
-             }
+                 if (mapChosen.Item2.Equals("back"))
+                 {
+                     Action<Player> stepBack = GameManager.BackPointers.First.Value;
+                     GameManager.BackPointers.RemoveLast(); //removes map selection from linked list
+                     stepBack(player); //executes general selection
+                 }
+             
+
              ChooseLocation(player);
          }
 
@@ -140,7 +146,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                  }
                  ParseCombatChoice(player, enemy);
                  
-                 if (player is MinuteMedic medic) // Convert this to per-turn 
+                 if (player is Lifeline medic) // Convert this to per-turn 
                      medic.PassiveHeal();
                  if (player.Energy.Current >= player.ActiveCost)
                      Console.WriteLine("You have enough energy for your active ability!");

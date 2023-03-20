@@ -10,43 +10,40 @@ namespace ProjectLegend.GameUtilities.FuncUtils
 {
     public static class UserQueries
     {
-        public static readonly string[] PlayerLegends = {"MilitaryWoman", "BloodIt", "BigBrotha", "MinuteMedic", "HappyRobot", "PortalGirl"};
+        public static readonly string[] PlayerLegends = {"Bangalore", "Bloodhound", "Gibraltar", "Lifeline", "Pathfinder", "Wraith"};
         
         public static Player CharacterSelection(string input)
-        { 
+        {
+            //No difference between this and switch for if-else branching
             //Offensive
-            if (input.Equals(MilitaryWoman.Name.ToLower()))
+            if (input.Equals(Bangalore.Name.ToLower()))
             {
-                return new MilitaryWoman();
+                return new Bangalore();
             }
-            else if (input.Equals(PortalGirl.Name.ToLower()))
+            if (input.Equals(Wraith.Name.ToLower()))
             {
-                return new PortalGirl();
+                return new Wraith();
             }
-            else if (input.Equals(BigBrotha.Name.ToLower()))
+            if (input.Equals(Gibraltar.Name.ToLower()))
             {
-                return new BigBrotha();
+                return new Gibraltar();
             }
-            else if (input.Equals(MinuteMedic.Name.ToLower()))
+            if (input.Equals(Lifeline.Name.ToLower()))
             {
-                return new MinuteMedic();
+                return new Lifeline();
             }
-            else if (input.Equals(BloodIt.Name.ToLower()))
+            if (input.Equals(Bloodhound.Name.ToLower()))
             {
-                return new BloodIt();
+                return new Bloodhound();
             }
-            else if (input.Equals(HappyRobot.Name.ToLower()))
+            if (input.Equals(Pathfinder.Name.ToLower()))
             {
-                return new HappyRobot();
+                return new Pathfinder();
             }
-            else
-            {
-                Console.WriteLine("Not a valid character!");
-            }
+            Console.WriteLine("Not a valid character!");
             
             return null;
         }
-        
         
         public static void GenGommandParse(World world, Player player, string[] commands, string input, bool flags)
         {

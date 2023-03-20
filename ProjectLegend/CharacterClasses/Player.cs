@@ -6,6 +6,7 @@ using ProjectLegend.GameUtilities.BuffUtilities;
 using ProjectLegend.ItemClasses.GearClasses;
 
 
+//TODO: Should player information stay local or have a global variable?
 namespace ProjectLegend.CharacterClasses
 {
     public abstract class Player : Character
@@ -125,6 +126,7 @@ namespace ProjectLegend.CharacterClasses
 
         public void UpdatePlayerStats(Gear newGear, Gear oldGear, string action)
         {
+            //TODO: There has to be a better way of doing this
             //Removes old bonus(if set)
             Attack.Max -= Attack.Bonus; //Where does the Bonus stat come from?
             Attack.Current -= Attack.Bonus;

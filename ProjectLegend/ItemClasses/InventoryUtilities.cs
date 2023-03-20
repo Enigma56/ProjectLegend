@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-using ProjectLegend.CharacterClasses;
+﻿using ProjectLegend.CharacterClasses;
 
 using ProjectLegend.ItemClasses.Consumables;
 using ProjectLegend.ItemClasses.GearClasses;
@@ -30,7 +27,7 @@ namespace ProjectLegend.ItemClasses
                 case "add":
                     player.AddToInventory(player.Hand);
                     break;
-                case"discard":
+                case "discard":
                     player.Hand = null;
                     break;
                 default:
@@ -39,6 +36,12 @@ namespace ProjectLegend.ItemClasses
             }
         }
         
+        /// <summary>
+        /// Takes a dropped item and adds it to the players hand, inventory. Otherwise, it gets
+        /// discarded
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="droppedItem"></param>
         private static void AddToInventory(this Player player, Item droppedItem)
         {
             int nextAvailableSlot =

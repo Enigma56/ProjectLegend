@@ -6,9 +6,15 @@ namespace ProjectLegend.GameUtilities.FaceUtils
 {
     public static class MenuDisplays
     {
+        
+        /// <summary>
+        /// Formats player equipment to increase readability in a CLI
+        /// </summary>
+        /// <param name="player"></param>
         public static void DisplayEquipment(this Player player)
         {
             string gearDisplay = "";
+            
             for(int slot = 0; slot < player.GearInventory.Length; slot++)
             {
                 string gearName = player.GearInventory[slot] != null ? player.GearInventory[slot].Name : "None"; 
