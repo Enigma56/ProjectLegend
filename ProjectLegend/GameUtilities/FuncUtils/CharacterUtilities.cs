@@ -7,27 +7,27 @@ namespace ProjectLegend.GameUtilities.FuncUtils
 {
     public static class CharacterUtilities
     {
-        public static void ProcessBuffs(Player player, Enemy enemy)
+        public static void ProcessBuffs(Enemy enemy)
         {
             //Process player buffs
-            if (player.Buffs.Count > 0)
+            if (Player.Instance.Buffs.Count > 0)
             {
-                for(int i = player.Buffs.Count - 1; i >=0; i--) //process buffs directly rather than making copy
+                for(int i = Player.Instance.Buffs.Count - 1; i >=0; i--) //process buffs directly rather than making copy
                 {
-                    if(player.Buffs[i] is TurnBuff playerBuff)
-                        playerBuff.ProcessTurnEffect(player);
+                    if(Player.Instance.Buffs[i] is TurnBuff playerBuff)
+                        playerBuff.ProcessTurnEffect(Player.Instance);
                     else
                     {
-                        player.Buffs[i].MinusOneTurn();
+                        Player.Instance.Buffs[i].MinusOneTurn();
                     }
                     
-                    if (player.Buffs[i].TurnsRemaining == 0) //Duration Check
+                    if (Player.Instance.Buffs[i].TurnsRemaining == 0) //Duration Check
                     {
-                        player.Buffs[i].Applied = false;
+                        Player.Instance.Buffs[i].Applied = false;
                         Utils.Separator('-');
-                        Console.WriteLine($"{player.Buffs[i].Name} has expired!");
+                        Console.WriteLine($"{Player.Instance.Buffs[i].Name} has expired!");
                         
-                        player.Buffs[i].Remove(player);
+                        Player.Instance.Buffs[i].Remove(Player.Instance);
                     }
                 }
             }

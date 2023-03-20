@@ -1,42 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-
-using ProjectLegend.ItemClasses;
+﻿using ProjectLegend.ItemClasses;
 using ProjectLegend.GameUtilities.BuffUtilities;
 using ProjectLegend.ItemClasses.GearClasses;
 
+// REQUIRES INHERENT SEPARATION OF ENEMIES & LEGENDS
 
+//Process to convert to Singleton
+// 1. Player has to be static which creates errors that need to be addressed
+// 2. Turn field variables to static
+//      a. code base will now contain references to this now-static variable
+//      b. Go through and change code to refer to these field varaibles statically
+// 3. Create delegate field variables for character functions
+//      a. allow a specific player to be chosen, assigning their abilities to these delegates
+//      b. account for legend-specific abilities - i.e. lifeline
 //TODO: Should player information stay local or have a global variable?
 namespace ProjectLegend.CharacterClasses
 {
-    public abstract class Player : Character
+    public sealed class Player : Character
     {
-        public CharacterStats PlayerStats { get; }
-        public Gear[] GearInventory { get; }
-        public Item[] Inventory { get; }
-        public Item Hand { get; set; }
-
-        public int Level { get; set; }
-        public int Exp { get; set; }
-        public int ExpThresh { get; set; }
-        
-        public int ActiveCost { get; protected set; }
-        public int UltimateCost { get; protected set; }
-        
-        public Energy Energy { get; set; }
-        public Evasion Evasion { get; set; }
-        
-        private int BaseVitality { get; set; }
-        private int MaxVitality { get; set; }
-        private int BaseStrength { get; set; }
-        private int MaxStrength { get; set; }
-
-        protected bool CanUpdatePassive { get; init; }
-        
-        public int DeathCount { get; set; }
-        
-
-        protected Player()
+        private Player()
         {
             GearInventory = new Gear[4];
             Inventory = new Item[10];
@@ -44,11 +25,16 @@ namespace ProjectLegend.CharacterClasses
             PlayerStats = new CharacterStats();
             Buffs = new List<Buff>();
 
-            Energy = new Energy();
-            Energy.Current = 0;
+            Energy = new Energy { Current = 0 };
             Evasion = new Evasion();
 
             Accuracy = 1;
+            
+            //Health and such are inherited from Character
+            Health.Max = 50;
+            Attack.Max = 20;
+            Health.Current = Health.Max;
+            Attack.Current = Attack.Max;
             
             BaseStrength = 0;
             BaseVitality = 0;
@@ -58,14 +44,57 @@ namespace ProjectLegend.CharacterClasses
             Level = 1;
             Exp = 0;
             ExpThresh = 10;
+        }  
+        private static Player _instance = null;  
+        public static Player Instance {  
+            get {  
+                if (_instance == null) {  
+                    _instance = new Player();  
+                }  
+                return _instance;  
+            }  
         }
         
-       //If the ability is a buff, energy checking is done when applying the buff 
-        public abstract void Passive(); //No flag; always active
-        public abstract void UpdatePassive();
-        public abstract void Active(Enemy enemy); //Flag -a
-        public abstract void Ultimate(Enemy enemy); //Flag: -u
+        //Encapsulate Legend such that it is a sub-class of player
+        
 
+        //Would store the chosen legend's abilities to be used
+        public Character Legend;
+        
+        //These are accessed via Instance.
+        //If the ability is a buff, energy checking is done when applying the buff 
+        public Action Passive; //No flag; always active
+        public Action UpdatePassive;
+        public Action<Enemy> Active; //Flag -a
+        public Action<Enemy> Ultimate; //Flag: -u
+
+        
+        public CharacterStats PlayerStats { get; }
+        public Gear[] GearInventory { get; }
+        public Item[] Inventory { get; }
+        public Item Hand { get; set; }
+
+        public int Level { get; private set; }
+        public int Exp { get; set; }
+        public int ExpThresh { get; set; }
+        
+        public int ActiveCost { get; set; }
+        public int UltimateCost { get; set; }
+        
+        public Energy Energy { get; set; }
+        public Evasion Evasion { get; set; }
+        
+        private int BaseVitality { get; set; }
+        private int BaseStrength { get; set; }
+        
+        //TODO: Max Vit/Str are not checked for when calculating stats
+        private int MaxVitality { get; set; }
+        private int MaxStrength { get; set; }
+
+        public bool CanUpdatePassive { get; set; }
+        
+        public int DeathCount { get; set; }
+        
         public void AddLevel()
         {
             LevelUpdate();
@@ -112,10 +141,9 @@ namespace ProjectLegend.CharacterClasses
 
             if (CanUpdatePassive)
             {
-                UpdatePassive();
+                Instance.UpdatePassive();
             }
-                
-
+            
             Console.WriteLine(Environment.NewLine + $"Max Health Up! {oldMaxHealthVal} --> {Health.Current}"
                                                   + Environment.NewLine + $"Attack Up! {oldAttackVal} --> {Attack.Max}");
                 

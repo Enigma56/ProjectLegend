@@ -50,17 +50,17 @@ namespace ProjectLegend.GameUtilities
                 }
         }
 
-        public static void ExitSequence(Player p, string reason)
+        public static void ExitSequence(string reason)
        {
            Separator('-');
            if (reason.Equals("death"))
            {
-               Console.WriteLine($"You died at level {p.Level}");
-               p.Health.Current = p.Health.Max;
+               Console.WriteLine($"You died at level {Player.Instance.Level}");
+               Player.Instance.Health.Current = Player.Instance.Health.Max;
            }
            else if (reason.Equals("finish"))
            {
-               Console.WriteLine($"You exited at level {p.Level}");
+               Console.WriteLine($"You exited at level {Player.Instance.Level}");
            }
            Separator('-');
            Environment.Exit(0);

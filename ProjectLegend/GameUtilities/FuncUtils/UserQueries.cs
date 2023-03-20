@@ -12,17 +12,29 @@ namespace ProjectLegend.GameUtilities.FuncUtils
     {
         public static readonly string[] PlayerLegends = {"Bangalore", "Bloodhound", "Gibraltar", "Lifeline", "Pathfinder", "Wraith"};
         
-        public static Player CharacterSelection(string input)
+        /// <summary>
+        /// Sets Player actions as the chosen legend
+        /// </summary>
+        /// <param name="input"></param>
+        public static bool CharacterSelection(string input)
         {
             //No difference between this and switch for if-else branching
             //Offensive
+            if (input.Equals(Wraith.Name.ToLower()))
+            {
+                Wraith wraithShell = new Wraith();
+                //Set player abilities here from Wraith Class
+                //I want to set the variables of player to wraith
+                wraithShell.SetPlayerAsWraith();
+
+                return true;
+            }
+
+            //TODO: IMPLEMENT ONE AT A TIME AFTER WRAITH IS FINISHED
+            /*
             if (input.Equals(Bangalore.Name.ToLower()))
             {
                 return new Bangalore();
-            }
-            if (input.Equals(Wraith.Name.ToLower()))
-            {
-                return new Wraith();
             }
             if (input.Equals(Gibraltar.Name.ToLower()))
             {
@@ -39,13 +51,13 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             if (input.Equals(Pathfinder.Name.ToLower()))
             {
                 return new Pathfinder();
-            }
+            }*/
             Console.WriteLine("Not a valid character!");
-            
-            return null;
+
+            return false;
         }
         
-        public static void GenGommandParse(World world, Player player, string[] commands, string input, bool flags)
+        public static void GenGommandParse(World world, string[] commands, string input, bool flags)
         {
             string flag = "";
             if (flags && commands.Length > 1)
@@ -54,23 +66,23 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             switch(input)
             {
                 case "select":
-                    GameManager.GameFuncs.ChooseMap(player); //encapsulates ChooseLocation as well
-                    GameManager.GameFuncs.PlaySelection(world, GameManager.CurrentMap, GameManager.CurrentLocation, player);
+                    GameManager.GameFuncs.ChooseMap(); //encapsulates ChooseLocation as well
+                    GameManager.GameFuncs.PlaySelection(world, GameManager.CurrentMap, GameManager.CurrentLocation);
                     break;
                 case "inventory":
                     //Do you want to use a consumable from the inventory?
                     Utils.Separator('-');
                     Console.WriteLine("Inventory flags: " + Utils.ToString(new[] {"-e", "-u", "-eg", "-ueg"}));
                     if(flags) //parse flags from user
-                        ParseInventoryFlags(player, commands, flag);
+                        ParseInventoryFlags(commands, flag);
                     else
                     {
-                        player.DisplayInventory();
+                        Player.Instance.DisplayInventory();
                     }
                     break;
                 case "exit":
                     //Exit out of the game
-                    Utils.ExitSequence(player, "finish");
+                    Utils.ExitSequence("finish");
                     break;
                 default:
                     Console.WriteLine("Command not found!");
@@ -112,7 +124,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             }
         }
 
-        public static bool CombatCommandParse(Player player, Enemy enemy, string[] commands, string input, bool flags)
+        public static bool CombatCommandParse(Enemy enemy, string[] commands, string input, bool flags)
         {
             string flag = "";
             if (flags && commands.Length > 1)
@@ -123,25 +135,25 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                 case "attack":
                     Console.WriteLine("Inventory flags: " + Utils.ToString(new[] {"-a", "-u"}));
                     if(flag.Length > 0)
-                        ParseAttackFlags(player, enemy, flag);
-                    GameManager.GameFuncs.BattlePhase(player, enemy); //Check if attack lands
+                        ParseAttackFlags(enemy, flag);
+                    GameManager.GameFuncs.BattlePhase(enemy); //Check if attack lands
                     Utils.Separator('-');
                     return true;
                     
                 case "stats":
-                    Console.WriteLine(player.ToString());
+                    Console.WriteLine(Player.Instance.ToString());
                     return true;
                     
                 case "buffs":
-                    player.DisplayBuffs();
+                    Player.Instance.DisplayBuffs();
                     return true;
                     
                 case "inventory":
                     if(flags) //parse flags from user
-                        ParseInventoryFlags(player, commands, flag);
+                        ParseInventoryFlags(commands, flag);
                     else
                     {
-                        player.DisplayInventory();
+                        Player.Instance.DisplayInventory();
                     }
                     return true;
                 
@@ -151,23 +163,23 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             }
         }
 
-        private static void ParseInventoryFlags(Player player, string[] commands, string flag)
+        private static void ParseInventoryFlags(string[] commands, string flag)
         {
             switch (flag)
             {
                 case "-e":
                     Utils.Separator('-');
-                    player.DisplayEquipment();
+                    Player.Instance.DisplayEquipment();
                     Utils.Separator('-');
                     break;
                 case "-eg":
-                    player.TryEquipGear(commands);
+                    Player.Instance.TryEquipGear(commands);
                     break;
                 case "-ueg":
-                    player.TryUnEquipGear(commands);
+                    Player.Instance.TryUnEquipGear(commands);
                     break;
                 case "-u":
-                    player.TryUseConsumable(commands);
+                    Player.Instance.TryUseConsumable(commands);
                     break;
                 default:
                     Console.WriteLine("Not a valid flag!");
@@ -175,18 +187,18 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             }
         }
 
-        private static void ParseAttackFlags(Player player, Enemy enemy, string flag)
+        private static void ParseAttackFlags(Enemy enemy, string flag)
         {
             switch (flag)
             {
                 case "-a":
                     Utils.Separator('*');
                     Console.WriteLine("You attempted to activate your Active ability!");
-                    player.Active(enemy);
+                    Player.Instance.Active(enemy);
                     break;
                 case "-u":
                     Console.WriteLine("You attempted to activate your ultimate ability!");
-                    player.Ultimate(enemy);
+                    Player.Instance.Ultimate(enemy);
                     break;
                 default:
                     Console.WriteLine("Not a valid flag!");

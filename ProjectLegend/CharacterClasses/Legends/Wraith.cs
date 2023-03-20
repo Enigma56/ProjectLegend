@@ -1,11 +1,11 @@
 ﻿using System;
-
+using System.Runtime.CompilerServices;
 using ProjectLegend.GameUtilities.FuncUtils;
 using ProjectLegend.GameUtilities.BuffUtilities;
 
 namespace ProjectLegend.CharacterClasses.Legends
 {
-    public sealed class Wraith : Player
+    public sealed class Wraith : Character
     {
         public static string Name = "Wraith";
         //Passive
@@ -21,30 +21,34 @@ namespace ProjectLegend.CharacterClasses.Legends
         private double EvasionDifference { get; set; }
         private int AttackDifference { get; set; }
 
-        public Wraith()
+        
+        public Wraith() { }
+
+        public void SetPlayerAsWraith()
         {
-            Health.Max = 50;
-            Attack.Max = 20;
-            Health.Current = Health.Max;
-            Attack.Current = Attack.Max;
-            
-            ActiveCost = 300;
-            UltimateCost = 600;
+            Player.Instance.Health.Max = 50;
+            Player.Instance.Health.Current = Player.Instance.Health.Max;
+            Player.Instance.ActiveCost = 300;
+            Player.Instance.UltimateCost = 600;
+
+            Player.Instance.Passive = Passive;
+            Player.Instance.UpdatePassive = UpdatePassive;
+            Player.Instance.Active = Active;
+            Player.Instance.Ultimate = Ultimate;
 
             Passive();
-            CanUpdatePassive = true;
+            Player.Instance.CanUpdatePassive = true;
         }
-        
-        
-        public override void Passive() //Increased evasion and attack
+
+        private void Passive() //Increased evasion and attack
         {
-            Evasion.Total += _passiveEvasionBonus;
+            Player.Instance.Evasion.Total += _passiveEvasionBonus;
             
             PassiveAttackIncrease = (int) (Attack.Max * _passiveAttackMultiplier);
             Attack.Max += PassiveAttackIncrease;
         }
 
-        public override void UpdatePassive() //updates the passive stats per level 
+        private void UpdatePassive() //updates the passive stats per level 
         {
             int oldPassiveIncrease = PassiveAttackIncrease;
             PassiveAttackIncrease = (int) ((Attack.Max - oldPassiveIncrease) * _passiveAttackMultiplier);
@@ -55,35 +59,35 @@ namespace ProjectLegend.CharacterClasses.Legends
         }
         
         //Active ability - activated by player
-        public override void Active(Enemy enemy) //Raise evasion by 40% for 1 turn
+        private void Active(Enemy enemy) //Raise evasion by 40% for 1 turn
         {
             void AddEvasive(Character player)
             {
-            Evasion.Total += _activeEvasionBonus;
+            Player.Instance.Evasion.Total += _activeEvasionBonus;
             }
             void RemoveEvasive(Character player)
             {
-                Evasion.Total -= _activeEvasionBonus;
+                Player.Instance.Evasion.Total -= _activeEvasionBonus;
             }
             
             Buff evasive = new Buff("Evasive", 1);
             evasive.ApplyEffect = AddEvasive;
             evasive.RemoveEffect = RemoveEvasive;
 
-            evasive.Apply(this, ActiveCost);
+            evasive.Apply(this, Player.Instance.ActiveCost);
         }
 
         //Ultimate - activated by player
-        public override void Ultimate(Enemy enemy) //Go invulnerable for one attack stage and raise attack by 25%
+        private void Ultimate(Enemy enemy) //Go invulnerable for one attack stage and raise attack by 25%
         {
             void Invulnerability(Character player)
             {
-                EvasionDifference = 1 - Evasion.Total;
-                Evasion.Total += EvasionDifference; //caps evasion at 1.0
+                EvasionDifference = 1 - Player.Instance.Evasion.Total;
+                Player.Instance.Evasion.Total += EvasionDifference; //caps evasion at 1.0
             }
             void RemoveInvulnerability(Character player)
             {
-                Evasion.Total -= EvasionDifference;
+                Player.Instance.Evasion.Total -= EvasionDifference;
                 EvasionDifference = 0;
             }
             void RaiseAttack(Character character)
@@ -107,7 +111,7 @@ namespace ProjectLegend.CharacterClasses.Legends
             
             Buff[] buffs = { invulnerability, raiseAttack };
 
-            this.ApplyMultipleBuffs(buffs, UltimateCost);
+            this.ApplyMultipleBuffs(buffs, Player.Instance.UltimateCost);
         }
     }
 }

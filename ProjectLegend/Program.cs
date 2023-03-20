@@ -17,6 +17,7 @@ namespace ProjectLegend
 
         private Game()
         {
+            //TODO: Fix Gamemanager
             Manager = new GameManager();
             World = new World();
         }
@@ -31,8 +32,8 @@ namespace ProjectLegend
         private void Run() //responsible for running the game
         {
             WorldInitialization();
-            var player = GameManager.GameFuncs.ChooseCharacter();
-            GameLoop(player);
+            GameManager.GameFuncs.ChooseCharacter();
+            GameLoop();
         }
 
         private void WorldInitialization()
@@ -44,7 +45,7 @@ namespace ProjectLegend
             }
         }
 
-        private void GameLoop(Player player) //currently just parses commands in the infinite loop
+        private void GameLoop() //currently just parses commands in the infinite loop
         {
             void Intro(){
                 Console.WriteLine();
@@ -56,22 +57,22 @@ namespace ProjectLegend
                 Utils.Separator('-');
             }
 
-            void MainLoop(Player player) //This loop only handles general command choices
+            void MainLoop() //This loop only handles general command choices
             {
                 while (Manager.GameRunning)
                 {
                     string[] args = Utils.ReadInput(GameManager.GameFuncs.GenCommands());
-                    GameManager.GameFuncs.ParseGeneralChoice(World, args, player);
+                    GameManager.GameFuncs.ParseGeneralChoice(World, args);
                 }
             }
 
             //Set head of LinkedList BackPointers - will never be removed as head of the linked list
-            Action<Player> PrimaryGameLoop = MainLoop;
-            var Header = new LinkedListNode<Action<Player>>(PrimaryGameLoop);
+            Action PrimaryGameLoop = MainLoop;
+            var Header = new LinkedListNode<Action>(PrimaryGameLoop);
             GameManager.BackPointers.AddFirst(Header);
             
             Intro();
-            MainLoop(player);
+            MainLoop();
         }
     }
 }

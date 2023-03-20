@@ -5,6 +5,9 @@ using ProjectLegend.ItemClasses.GearClasses;
 
 namespace ProjectLegend.CharacterClasses
 {
+    /// <summary>
+    /// Contains field variables that can belong to either an enemy or a player
+    /// </summary>
     public class Character
     {
         public List<Buff> Buffs { get; init; }

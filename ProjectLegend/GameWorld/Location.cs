@@ -18,7 +18,7 @@ namespace ProjectLegend.GameWorld
         //public GearPool LocationLoot { get; protected set; }
         public abstract void Instantiate(int enemyWaves);
 
-        public void Close(Player player) //The same closing process for the completion of every single map 
+        public void Close() //The same closing process for the completion of every single map 
         {
             Completed = true;
             //Resets linked list
@@ -28,7 +28,7 @@ namespace ProjectLegend.GameWorld
             //executes main game loop
             GameManager.BackPointers.AddFirst(header);
             var gameLoop = GameManager.BackPointers.First.Value;
-            gameLoop(player);
+            gameLoop();
         }
 
     }

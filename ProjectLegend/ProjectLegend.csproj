@@ -7,4 +7,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Compile Remove="CharacterClasses\Legends\Pathfinder.cs" />
+      <Compile Remove="CharacterClasses\Legends\Lifeline.cs" />
+      <Compile Remove="CharacterClasses\Legends\Gibraltar.cs" />
+      <Compile Remove="CharacterClasses\Legends\Bloodhound.cs" />
+      <Compile Remove="CharacterClasses\Legends\Bangalore.cs" />
+    </ItemGroup>
+
 </Project>

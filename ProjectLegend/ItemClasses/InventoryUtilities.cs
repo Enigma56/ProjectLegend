@@ -10,12 +10,12 @@ namespace ProjectLegend.ItemClasses
 {
     public static class InventoryUtilities
     {
-        public static void AddOrDiscard(this Item droppedItem, Player player)
+        public static void AddOrDiscard(this Item droppedItem)
         {
-            player.Hand = droppedItem;
+            Player.Instance.Hand = droppedItem;
             Utils.Separator('-');
             Console.WriteLine("Would you like to add or discard the item in hand?"+ Environment.NewLine + 
-                              $"Item in hand: {player.Hand}");
+                              $"Item in hand: {Player.Instance.Hand}");
             string choice;
             do
             {
@@ -25,10 +25,10 @@ namespace ProjectLegend.ItemClasses
             switch (choice)
             {
                 case "add":
-                    player.AddToInventory(player.Hand);
+                    Player.Instance.AddToInventory(Player.Instance.Hand);
                     break;
                 case "discard":
-                    player.Hand = null;
+                    Player.Instance.Hand = null;
                     break;
                 default:
                     Console.WriteLine("not a valid choice");
@@ -105,7 +105,7 @@ namespace ProjectLegend.ItemClasses
             target.InventorySlot = -1;
 
             player.Hand = target;
-            player.Hand.AddOrDiscard(player);
+            player.Hand.AddOrDiscard();
         }
 
         public static void TryUseConsumable(this Player player, string[] commands)

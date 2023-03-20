@@ -17,7 +17,7 @@ namespace ProjectLegend.GameUtilities
         public static GameFuncs GameFuncs { get; }
         
         //TODO: Turn this into a Stack to better manage user actions
-        public static LinkedList<Action<Player>> BackPointers { get; set; }
+        public static LinkedList<Action> BackPointers { get; set; }
 
         //TODO: Move Gear drops into a common location
         public static GearPool CommonGear { get; set; }
@@ -25,7 +25,7 @@ namespace ProjectLegend.GameUtilities
         static GameManager()
         {
             GameFuncs = new GameFuncs();
-            BackPointers = new LinkedList<Action<Player>>();
+            BackPointers = new LinkedList<Action>();
 
             CommonGear = new CommonGear();
         }

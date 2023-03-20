@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using ProjectLegend.GameUtilities;
+﻿using ProjectLegend.GameUtilities;
 
 
 namespace ProjectLegend.ItemClasses.GearClasses
@@ -183,6 +180,10 @@ namespace ProjectLegend.ItemClasses.GearClasses
          }
      }
 
+     /// <summary>
+     /// Stat for gear. NOT FOR PLAYER
+     /// </summary>
+     //TODO: Consider renaming this to better reflect its use case, unless it can be used for player too
      public sealed class Vitality : Stat
      {
          public int Base { get; set; }

@@ -12,16 +12,10 @@ namespace ProjectLegend.GameUtilities.BuffUtilities
 
         public void ProcessTurnEffect(Character character)
         {
-            //if (MaintainEffect)
-            //{
+           
             TurnEffect(character); 
             MinusOneTurn();
-            // }
-            // else
-            // {
-            //     TurnsRemaining = 0;
-            //     Console.WriteLine("The effect has been exhausted!");
-            // }
+          
         }
     }
 }
