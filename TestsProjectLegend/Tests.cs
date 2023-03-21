@@ -1,6 +1,7 @@
 ﻿using System;
 using Xunit;
 
+
 namespace TestsProjectLegend
 {
 	public class Tests
@@ -9,6 +10,15 @@ namespace TestsProjectLegend
 		public void Test1()
 		{
 			Assert.True(true);
+		}
+	}
+
+	public class TestPlayerStats
+	{
+		[Fact]
+		public void TestPlayerHealth()
+		{
+			
 		}
 	}
 }

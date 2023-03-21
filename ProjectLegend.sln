@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectLegend", "ProjectLegend\ProjectLegend.csproj", "{1FA95765-77ED-4EDC-AB1B-73E64C7EDC1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsProjectLegend", "TestsProjectLegend\TestsProjectLegend.csproj", "{B4985203-74A6-41C6-A03F-0F9BF2542776}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProjectLegend", "TestProjectLegend\TestProjectLegend.csproj", "{530D675C-EA20-46CC-8FC0-39F563C7DB81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,9 +14,9 @@ Global
 		{1FA95765-77ED-4EDC-AB1B-73E64C7EDC1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FA95765-77ED-4EDC-AB1B-73E64C7EDC1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FA95765-77ED-4EDC-AB1B-73E64C7EDC1E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B4985203-74A6-41C6-A03F-0F9BF2542776}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4985203-74A6-41C6-A03F-0F9BF2542776}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4985203-74A6-41C6-A03F-0F9BF2542776}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4985203-74A6-41C6-A03F-0F9BF2542776}.Release|Any CPU.Build.0 = Release|Any CPU
+		{530D675C-EA20-46CC-8FC0-39F563C7DB81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{530D675C-EA20-46CC-8FC0-39F563C7DB81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{530D675C-EA20-46CC-8FC0-39F563C7DB81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{530D675C-EA20-46CC-8FC0-39F563C7DB81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
