@@ -31,7 +31,7 @@ namespace ProjectLegend.ItemClasses.Consumables
             {
                 Decrement();
                 player.Health.Current = player.Health.Max;
-                Console.WriteLine("You are now at max health!");
+                Console.WriteLine("Your heal put you to max health!");
             }
             else
             {

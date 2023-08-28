@@ -32,7 +32,7 @@ namespace ProjectLegend.CharacterClasses.Enemies
 
         public static Enemy GetEnemy()
         {
-            int enemyIndex = RandomGenerators.IntGenerator.Next(WeakPool.Count);
+            int enemyIndex = Generators.RandomNumber.Next(WeakPool.Count);
             if(enemyIndex == 1)
                 return new BinSpider();
             else

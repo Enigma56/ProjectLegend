@@ -1,5 +1,4 @@
-﻿using System;
-using ProjectLegend.CharacterClasses;
+﻿using ProjectLegend.CharacterClasses;
 using ProjectLegend.ItemClasses.GearClasses;
 
 namespace ProjectLegend.GameUtilities.FaceUtils

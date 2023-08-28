@@ -84,10 +84,7 @@ namespace ProjectLegend.GameUtilities.BuffUtilities
 
         public bool HasBuff(Character player)
         {
-            if (player.Buffs.Contains(this) && Applied)
-                return true;
-            else
-                return false;
+            return player.Buffs.Contains(this) && Applied;
         }
         
         public void MinusOneTurn()

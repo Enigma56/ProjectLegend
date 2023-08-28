@@ -12,7 +12,7 @@ using ProjectLegend.ItemClasses.GearClasses;
 // 3. Create delegate field variables for character functions
 //      a. allow a specific player to be chosen, assigning their abilities to these delegates
 //      b. account for legend-specific abilities - i.e. lifeline
-//TODO: Should player information stay local or have a global variable?
+
 namespace ProjectLegend.CharacterClasses
 {
     public sealed class Player : Character
@@ -45,14 +45,9 @@ namespace ProjectLegend.CharacterClasses
             Exp = 0;
             ExpThresh = 10;
         }  
-        private static Player _instance = null;  
+        private static Player? _instance;  
         public static Player Instance {  
-            get {  
-                if (_instance == null) {  
-                    _instance = new Player();  
-                }  
-                return _instance;  
-            }  
+            get { return _instance ??= new Player(); }  
         }
         
         //Encapsulate Legend such that it is a sub-class of player

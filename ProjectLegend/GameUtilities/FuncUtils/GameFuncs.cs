@@ -65,13 +65,10 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                  }
 
                  GameManager.CurrentLocation = locationChosen.Item2;
-             
-                 //TODO: Uncomment when wraith is implemented properly -- MapLocation
+                 
                  Action locationSelection = ChooseLocation;
                  var locationSelectionNode = new LinkedListNode<Action>(locationSelection);
-                
                  GameManager.BackPointers.AddAfter(GameManager.BackPointers.First.Next, locationSelectionNode);
-
                  if (locationChosen.Item2.Equals("back"))
                  {
                      Action stepBack = GameManager.BackPointers.First.Next.Value; //gets "2nd" value in linkedlist
@@ -89,12 +86,9 @@ namespace ProjectLegend.GameUtilities.FuncUtils
 
              GameManager.CurrentMap = mapChosen.Item2;
              
-             //TODO: Uncomment when wraith is implemented properly -- MapLocation
              //Adds MapSelection to the LinkedList
              Action mapSelection = ChooseMap;
              var mapSelectionNode = new LinkedListNode<Action>(mapSelection);
-             //TODO: error gets thrown here
-             var firstPointer = GameManager.BackPointers.First;
              GameManager.BackPointers.AddAfter(GameManager.BackPointers.First, mapSelectionNode);
                  //will never be null bc this method wont get called until the game starts and the first node is added
 
@@ -158,7 +152,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
              void AttackPhase() //Player attack
              {
                  bool attackEnemy = Player.Instance.AttackChance(enemy);
-                 if (attackEnemy is true)
+                 if (attackEnemy)
                  {
                      enemy.Health.Current -= Player.Instance.Attack.Current;
                  }
@@ -167,7 +161,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
              bool CheckEnemyDeath()
              {
                  bool enemyIsDead = enemy.Health.Current <= 0 || enemy.Dead; //check left then right
-                 if (enemyIsDead) enemy.Dead = true;
+                 if (enemyIsDead) enemy.Dead = true; //redundancy in setting Dead state of enemy
                  return enemyIsDead;
              }
 
@@ -205,12 +199,15 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                      Console.WriteLine("Your energy is full! Use abilities your abilities!");
                  }
              }
-             bool enemyDeath = CheckEnemyDeath();
-             if (enemyDeath) { } //a basic way to do nothing if the enemy is already dead from an ability
-             else{ AttackPhase(); } 
              
-             enemyDeath = CheckEnemyDeath(); //I want a fix for this redundancy
-             if ( enemyDeath )
+             bool enemyDeath = CheckEnemyDeath();
+             if (enemyDeath is false)
+             {
+                 AttackPhase(); 
+             } 
+             
+             enemyDeath = CheckEnemyDeath(); //Checks enemy death again after attack phase to see if they died or not
+             if (enemyDeath)
              {
                  EndPhase();
                  Utils.Separator('-');
@@ -218,7 +215,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                  Utils.Separator('-');
                  PlayerDrops(enemy);
              }
-             else
+             else //Player defends
              {
                  DefensePhase();
                  
@@ -258,6 +255,7 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                      enemyDrop.AddOrDiscard();
                  }
              }
+             
              ExpDrop();
              ItemDrop();
              Utils.DropItem(GameManager.CommonGear).AddOrDiscard(); //Must take in GearPool type as parameter

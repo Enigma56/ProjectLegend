@@ -9,7 +9,7 @@ namespace ProjectLegend.ItemClasses.Consumables
         public int MaxStackSize { get; }
         public int StackSize { get; set; }
         protected int DropAmount { get; }
-        protected int UseAmount { get; }
+        //protected int UseAmount { get; }
         //How? -> check if consumable is present in inventory, if so, increment stack size, otherwise add it to next available slot
         //when using consumables, ensure stack size > 0, if using decrements below 1, remove the item from inventory
         
@@ -20,8 +20,8 @@ namespace ProjectLegend.ItemClasses.Consumables
             StackSize = 0;
             
             DropAmount = 1;
-            UseAmount = 1;
-        }
+            //UseAmount = 1;
+        } 
         public abstract void Use(Player player);
         
         //Methods
@@ -32,17 +32,12 @@ namespace ProjectLegend.ItemClasses.Consumables
 
         public void Decrement()
         {
-            StackSize -= UseAmount;
+            StackSize -= 1;
         }
 
         public override string ToString()
         {
-            if(StackSize == 0)
-                return $"{Name}: {DropAmount}";
-            else
-            {
-                return $"{Name}: {StackSize}";
-            }
+            return StackSize == 0 ? $"{Name}: {DropAmount}" : $"{Name}: {StackSize}";
         }
     }
 }

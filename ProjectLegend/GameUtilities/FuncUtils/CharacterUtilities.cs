@@ -32,21 +32,19 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                 }
             }
 
-            if (enemy.Buffs.Count > 0)
+            if (enemy.Buffs.Count <= 0) return;
+            
+            Buff[] currentEnemyBuffs = enemy.Buffs.ToArray();
+            foreach (var buff in currentEnemyBuffs)
             {
-                Buff[] currentEnemyBuffs = enemy.Buffs.ToArray();
-                foreach (var buff in currentEnemyBuffs)
-                {
-                    buff.MinusOneTurn();
-                    
-                    if (buff.TurnsRemaining == 0)
-                    {
-                        buff.Remove(enemy); //needs to be able to remove any buff, not just actives
-                        buff.Applied = false;
-                        Utils.Separator('-');
-                        Console.WriteLine($"{buff.Name} has expired!");
-                    }
-                }
+                buff.MinusOneTurn();
+
+                if (buff.TurnsRemaining != 0) continue;
+                
+                buff.Remove(enemy); //needs to be able to remove any buff, not just actives
+                buff.Applied = false;
+                Utils.Separator('-');
+                Console.WriteLine($"{buff.Name} has expired!");
             }
         }
         
@@ -62,21 +60,29 @@ namespace ProjectLegend.GameUtilities.FuncUtils
                     }
                 }
 
+         /// <summary>
+         /// Extension method for player. Takes in an enemy and calculates the chance to hit that enemy based on
+         /// random number generator.
+         /// </summary>
+         /// <param name="player"></param>
+         /// <param name="enemy"></param>
+         /// <returns></returns>
         public static bool AttackChance(this Player player, Enemy enemy) //player attacks enemy
         {
             var rand = new Random();
             double playerRoll = Math.Round(rand.NextDouble(), 2);
+            
+            //State checks
             if (player.Stunned)
                 return false;
-            else if (enemy.Invulnerable)
+            if (enemy.Invulnerable)
                 return false;
-            else if (playerRoll <= player.Accuracy) 
+            if (playerRoll <= player.Accuracy) 
                 return true;
-            else
-            {
-                Console.WriteLine("Your attack missed the enemy!");
-                return false;
-            }
+           
+            Console.WriteLine("Your attack missed the enemy!");
+            return false;
+            
         }
 
         public static bool DefenseChance(this Player player, Enemy enemy) //enemy attacks player
@@ -85,22 +91,22 @@ namespace ProjectLegend.GameUtilities.FuncUtils
             double evade = Math.Round(rand.NextDouble(), 2);
             double enemyRoll = Math.Round(rand.NextDouble(), 2);
 
+            //State checls
             if (player.Invulnerable) 
                 return false;
-            else if (enemy.Stunned)
+            if (enemy.Stunned)
                 return false;
-            else if (evade <= player.Evasion.Total)
+            if (evade <= player.Evasion.Total)
             {
                 Console.WriteLine("You evaded the enemies attack!");
                 return false;
             }
-            else if (enemyRoll <= enemy.Accuracy)
+            if (enemyRoll <= enemy.Accuracy)
                 return true;
-            else
-            {
-                Console.WriteLine("The enemy missed their attack!");
-                return false;
-            }
+
+            Console.WriteLine("The enemy missed their attack!");
+            return false;
+            
         }
         
         public static void DisplayXpInfo(this Player player)
